@@ -104,6 +104,10 @@ class Fall:
 
 	def state_logic(self, player):
 
+		if ACTIONS['left_click']:
+			ACTIONS['left_click'] = False
+			return AirDash(player)
+
 		if ACTIONS['up']:
 			player.jump_buffer_active = True
 			ACTIONS['up'] = False
@@ -137,8 +141,12 @@ class Jumping:
 
 	def state_logic(self, player):
 
-		if player.dir.y >= 0:
+		if player.dir.y > 0:
 			return Fall(player)
+
+		if ACTIONS['left_click']:
+			ACTIONS['left_click'] = False
+			return AirDash(player)
 
 		if ACTIONS['up'] and player.jump_counter > 0:
 			ACTIONS['up'] = False
@@ -162,8 +170,12 @@ class DoubleJumping:
 
 	def state_logic(self, player):
 
-		if player.dir.y >= 0:
+		if player.dir.y > 0:
 			return Fall(player)
+
+		if ACTIONS['left_click']:
+			ACTIONS['left_click'] = False
+			return AirDash(player)
 
 	def update(self, player, dt):
 		
@@ -207,3 +219,15 @@ class Roll:
 		player.physics_x(dt)
 
 		player.animate('double_jump', 0.2 * dt)
+
+class AirDash(Roll):
+
+	def update(self, player, dt):
+
+		player.acc.x = 0
+
+		player.dir.x = self.speed
+		self.speed -= dt * self.direction(player)
+		player.physics_x(dt)
+
+		player.animate('idle', 0.2 * dt)
