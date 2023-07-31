@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
 
 		# animation
 		self.char = 'player'
-		self.animations = {'idle':[], 'run':[], 'skid':[], 'land':[], 'jump':[], 'fall':[]}
+		self.animations = {'idle':[], 'run':[], 'skid':[], 'land':[], 'jump':[], 'double_jump':[], 'fall':[]}
 		self.animation_type = ''
 		self.import_images(self.animations)
 		self.state = Fall(self)
@@ -191,9 +191,9 @@ class Player(pygame.sprite.Sprite):
 		else: 
 			self.cyote_timer = 0
 
-		# if falling, this gives the player one jump if they have double jump
-		if self.jump_counter == 0 and self.cyote_timer < self.cyote_timer_threshold:
-			self.jump_counter = 1
+		# # if falling, this gives the player one jump if they have double jump
+		# if self.jump_counter == 0 and self.cyote_timer < self.cyote_timer_threshold:
+		# 	self.jump_counter = 1
 
 		# jump buffer activated if pressing jump in air
 		if self.jump_buffer_active:

@@ -12,6 +12,10 @@ class Idle:
 		if not player.on_ground:
 			return Fall(player)
 
+		if ACTIONS['left_click']:
+			ACTIONS['left_click'] = False
+			return Roll(player)
+
 		if ACTIONS['up']:
 			ACTIONS['up'] = False
 			return Jumping(player)
@@ -45,6 +49,10 @@ class Move:
 
 		if not player.on_ground:
 			return Fall(player)
+
+		if ACTIONS['left_click']:
+			ACTIONS['left_click'] = False
+			return Roll(player)
 
 		if ACTIONS['up']:
 			ACTIONS['up'] = False
@@ -100,7 +108,10 @@ class Fall:
 			player.jump_buffer_active = True
 			ACTIONS['up'] = False
 			if player.jump_counter > 0:
-				return DoubleJumping(player)
+				if player.cyote_timer < player.cyote_timer_threshold:
+					return Jumping(player)
+				else:
+					return DoubleJumping(player)
 
 		if player.on_ground:
 			if player.jump_buffer > 0:
@@ -116,7 +127,7 @@ class Fall:
 		player.physics_x(dt)
 		player.physics_y(dt)
 
-		player.animate('idle', 0.2 * dt)
+		player.animate('fall', 0.2 * dt)
 
 class Jumping:
 	def __init__(self, player):
@@ -140,7 +151,7 @@ class Jumping:
 		player.physics_x(dt)
 		player.physics_y(dt)
 
-		player.animate('idle', 0.2 * dt)
+		player.animate('fall', 0.2 * dt)
 
 class DoubleJumping:
 	def __init__(self, player):
@@ -161,5 +172,38 @@ class DoubleJumping:
 		player.physics_x(dt)
 		player.physics_y(dt)
 
-		player.animate('idle', 0.2 * dt)
+		player.animate('double_jump', 0.2 * dt)
 		
+
+class Roll:
+	def __init__(self, player):
+		
+		player.frame_index = 0
+
+		self.speed = 16 * self.direction(player)
+		player.dir.x = self.speed
+
+	def direction(self, player):
+		if player.facing == 0:
+			return 1
+		else:
+			return -1
+
+	def state_logic(self, player):
+
+		if abs(player.dir.x) <= 12 and (ACTIONS['left'] or ACTIONS['right']):
+			return Move(player)
+
+		if abs(player.dir.x) <= 0.5:
+			return Idle(player)
+
+
+	def update(self, player, dt):
+
+		player.acc.x = 0
+
+		player.dir.x = self.speed
+		self.speed -= dt * self.direction(player)
+		player.physics_x(dt)
+
+		player.animate('double_jump', 0.2 * dt)
