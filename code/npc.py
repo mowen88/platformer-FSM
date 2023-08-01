@@ -1,8 +1,7 @@
 import pygame
 from settings import *
-from player_fsm import Fall
 
-class Player(pygame.sprite.Sprite):
+class NPC(pygame.sprite.Sprite):
 	def __init__(self, game, zone, name, groups, pos, z, block_sprites):
 		super().__init__(groups)
 
@@ -12,11 +11,11 @@ class Player(pygame.sprite.Sprite):
 		self.block_sprites = block_sprites
 
 		# animation
-		self.name = 'player'
+		self.name = name
 		self.animations = {'idle':[], 'run':[], 'skid':[], 'land':[], 'jump':[], 'double_jump':[], 'fall':[]}
 		self.animation_type = ''
 		self.import_images(self.animations)
-		self.state = Fall(self)
+		#self.state = Fall(self)
 		self.frame_index = 0
 		self.original_image = self.animations['idle'][self.frame_index]
 		self.image = self.original_image
@@ -42,12 +41,6 @@ class Player(pygame.sprite.Sprite):
 		# jumping
 		self.jump_height = 7
 		self.max_fall_speed = 12
-		self.jump_counter = 0
-		self.cyote_timer = 0
-		self.cyote_timer_threshold = 6
-		self.jump_buffer_active = False
-		self.jump_buffer = 0
-		self.jump_buffer_threshold = 6
 
 		# player collide type
 		self.on_ground = False
@@ -76,14 +69,14 @@ class Player(pygame.sprite.Sprite):
 
 	def move(self):
 
-		if ACTIONS['right']:
+		if self.moving_right:
 			self.acc.x += 0.5
 			self.target_angle = 10
-		elif ACTIONS['left']:
+		elif self.moving_left:
 			self.acc.x -= 0.5
 			self.target_angle = -10
 		else:
-			ACTIONS['right'], ACTIONS['left'] = False, False
+			self.moving_right, self.moving_left = False, False
 			self.target_angle = 0
 
 		if self.dir.x > 0:
@@ -168,11 +161,7 @@ class Player(pygame.sprite.Sprite):
 
 	def physics_y(self, dt):
 
-		# Double the gravity if not holding jump key to allow variale jump height
-		if not (pygame.key.get_pressed()[pygame.K_UP]) and self.dir.y < 0: 
-			self.dir.y += (self.acc.y * 2.5) * dt
-		else:
-			self.dir.y += self.acc.y * dt
+		self.dir.y += self.acc.y * dt
 
 		self.pos.y += self.dir.y * dt + (0.5 * self.acc.y) * dt
 		self.hitbox.centery = round(self.pos.y)
@@ -187,33 +176,13 @@ class Player(pygame.sprite.Sprite):
 		if abs(self.dir.y) >= 0.5: 
 			self.on_ground = False
 
-	def handle_jumping(self, dt):
-		# incrememnt cyote timer when not on ground
-		if not self.on_ground: 
-			self.cyote_timer += dt
-		else: 
-			self.cyote_timer = 0
-
-		# # if falling, this gives the player one jump if they have double jump
-		# if self.jump_counter == 0 and self.cyote_timer < self.cyote_timer_threshold:
-		# 	self.jump_counter = 1
-
-		# jump buffer activated if pressing jump in air
-		if self.jump_buffer_active:
-			self.jump_buffer += dt
-			if self.jump_buffer >= self.jump_buffer_threshold:
-				self.jump_buffer = 0
-				self.jump_buffer_active = False
-
-	def state_logic(self):
-		new_state = self.state.state_logic(self)
-		if new_state: self.state = new_state
-		else: self.state
-
 	def update(self, dt):
-		self.state_logic()
-		self.state.update(self, dt)
-		self.handle_jumping(dt)
+
+		self.acc.x = 0
+	
+		self.animate('idle', 0.2 * dt)
+		self.physics_x(dt)
+		self.physics_y(dt)
 
 
 

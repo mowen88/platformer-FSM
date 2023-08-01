@@ -7,6 +7,7 @@ from state import State
 from dialogue import Dialogue
 from sprites import Tile, Platform, CircularPlatform, MovingPlatform
 from player import Player
+from npc import NPC
 
 class Zone(State):
 	def __init__(self, game):
@@ -41,8 +42,10 @@ class Zone(State):
 
 		# add the player
 		for obj in tmx_data.get_layer_by_name('entities'):
-			if obj.name == 'player': self.player = Player(self.game, self, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites)
+			if obj.name == 'player': self.player = Player(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites)
 			self.target = self.player
+
+			if obj.name == 'guard': self.npc = NPC(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites)
 
 		for x, y, surf in tmx_data.get_layer_by_name('blocks').tiles():
 			Tile(self.game, self, [self.block_sprites, self.updated_sprites, self.rendered_sprites], (x * TILESIZE, y * TILESIZE), surf)
@@ -64,5 +67,5 @@ class Zone(State):
 		screen.fill(LIGHT_GREY)
 		self.rendered_sprites.offset_draw(self.target)
 		self.game.render_text(str(round(self.game.clock.get_fps(), 2)), WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
-		self.game.render_text(self.player.jump_counter, WHITE, self.game.small_font, RES/2)
+		self.game.render_text(self.player.cyote_timer, WHITE, self.game.small_font, RES/2)
 

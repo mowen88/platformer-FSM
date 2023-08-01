@@ -81,6 +81,10 @@ class Landing:
 
 	def state_logic(self, player):
 
+		if ACTIONS['left_click']:
+			ACTIONS['left_click'] = False
+			return Roll(player)
+
 		if ACTIONS['up']:
 			ACTIONS['up'] = False
 			return Jumping(player)
@@ -131,7 +135,7 @@ class Fall:
 		player.physics_x(dt)
 		player.physics_y(dt)
 
-		player.animate('fall', 0.2 * dt)
+		player.animate('fall', 0.2 * dt, False)
 
 class Jumping:
 	def __init__(self, player):
@@ -186,7 +190,6 @@ class DoubleJumping:
 
 		player.animate('double_jump', 0.2 * dt)
 		
-
 class Roll:
 	def __init__(self, player):
 		
@@ -221,6 +224,14 @@ class Roll:
 		player.animate('double_jump', 0.2 * dt)
 
 class AirDash(Roll):
+
+	def state_logic(self, player):
+
+		if abs(player.dir.x) <= 12 and (ACTIONS['left'] or ACTIONS['right']):
+			return Fall(player)
+
+		if abs(player.dir.x) <= 0.5:
+			return Fall(player)
 
 	def update(self, player, dt):
 
