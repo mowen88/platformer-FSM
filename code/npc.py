@@ -1,5 +1,6 @@
 import pygame
 from settings import *
+from npc_fsm import Fall
 
 class NPC(pygame.sprite.Sprite):
 	def __init__(self, game, zone, name, groups, pos, z, block_sprites):
@@ -15,7 +16,7 @@ class NPC(pygame.sprite.Sprite):
 		self.animations = {'idle':[], 'run':[], 'skid':[], 'land':[], 'jump':[], 'double_jump':[], 'fall':[]}
 		self.animation_type = ''
 		self.import_images(self.animations)
-		#self.state = Fall(self)
+		self.state = Fall(self)
 		self.frame_index = 0
 		self.original_image = self.animations['idle'][self.frame_index]
 		self.image = self.original_image
@@ -44,7 +45,6 @@ class NPC(pygame.sprite.Sprite):
 
 		# player collide type
 		self.on_ground = False
-		self.on_ceiling = False
 
 	def import_images(self, animation_states):
 
@@ -68,7 +68,6 @@ class NPC(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect(center = self.rect.center)
 
 	def move(self):
-
 		if self.moving_right:
 			self.acc.x += 0.5
 			self.target_angle = 10
@@ -176,13 +175,14 @@ class NPC(pygame.sprite.Sprite):
 		if abs(self.dir.y) >= 0.5: 
 			self.on_ground = False
 
-	def update(self, dt):
+	def state_logic(self):
+		new_state = self.state.state_logic(self)
+		if new_state: self.state = new_state
+		else: self.state
 
-		self.acc.x = 0
-	
-		self.animate('idle', 0.2 * dt)
-		self.physics_x(dt)
-		self.physics_y(dt)
+	def update(self, dt):
+		self.state_logic()
+		self.state.update(self, dt)
 
 
 

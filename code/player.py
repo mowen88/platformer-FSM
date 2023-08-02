@@ -32,7 +32,7 @@ class Player(pygame.sprite.Sprite):
 		self.angle = 0
 		self.target_angle = 0
 		self.gravity = 0.3
-		self.fric = -0.16
+		self.fric = -0.2
 		self.acc = pygame.math.Vector2(0, self.gravity)
 		self.pos = pygame.math.Vector2(self.rect.center)
 		self.dir = pygame.math.Vector2()
