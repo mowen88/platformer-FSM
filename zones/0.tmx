@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="64" height="36" tilewidth="20" tileheight="20" infinite="0" nextlayerid="12" nextobjectid="19">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="64" height="36" tilewidth="20" tileheight="20" infinite="0" nextlayerid="12" nextobjectid="20">
  <editorsettings>
+  <chunksize width="20" height="20"/>
   <export target="0.csv" format="csv"/>
  </editorsettings>
  <tileset firstgid="1" source="0.tsx"/>
@@ -176,10 +177,10 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player" x="127.427" y="30.646">
+  <object id="1" name="player" x="169.413" y="48.4706">
    <point/>
   </object>
-  <object id="5" name="guard" x="366.974" y="151.642">
+  <object id="5" name="guard" x="347.092" y="165.406">
    <point/>
   </object>
  </objectgroup>

@@ -29,6 +29,8 @@ class NPC(pygame.sprite.Sprite):
 		self.old_hitbox = self.hitbox.copy()
 
 		# physics
+		self.moving_right = False
+		self.moving_left = False
 		self.angle = 0
 		self.target_angle = 0
 		self.gravity = 0.3

@@ -4,6 +4,7 @@ from settings import *
 from pytmx.util_pygame import load_pygame
 from camera import Camera
 from state import State
+from cutscene import Cutscene
 from dialogue import Dialogue
 from sprites import Tile, Platform, CircularPlatform, MovingPlatform
 from player import Player
@@ -24,6 +25,7 @@ class Zone(State):
 		self.create_map()
 
 		self.dialogue = Dialogue(self.game, self, self.target)
+		self.cutscene = Cutscene(self.game, self)
 
 	def create_map(self):
 		tmx_data = load_pygame(f'../zones/{self.game.current_zone}.tmx')
@@ -57,7 +59,7 @@ class Zone(State):
 
 	def update(self, dt):
 		if ACTIONS['return']: 
-			self.dialogue.enter_state()
+			self.cutscene.enter_state()
 			self.game.reset_keys()
 
 		self.updated_sprites.update(dt)
