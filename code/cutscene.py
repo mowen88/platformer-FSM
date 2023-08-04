@@ -45,7 +45,6 @@ class Cutscene0(State):
 		elif self.bar_height < self.target_height - 1:  
 		    self.bar_height += (self.target_height - self.bar_height) / 60
 
-
 		pygame.draw.rect(screen, BLACK, (0, 0, WIDTH, self.bar_height))
 		pygame.draw.rect(screen, BLACK, (0, HEIGHT - self.bar_height, WIDTH, self.target_height))
 

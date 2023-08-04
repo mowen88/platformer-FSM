@@ -24,7 +24,7 @@ LAYERS = {
 CUTSCENES = {0: True, 1: True}
 
 DIALOGUE = {
-			0: 'this is dialogue for cutscene 0', 
+			0: ['This is the first line','for cutscene 0 dialogue.'], 
 			1: 'this is dialogue for cutscene 1'
 			}
 
