@@ -58,17 +58,17 @@ class Move:
 			ACTIONS['up'] = False
 			return Jumping(player)
 
-		if not (ACTIONS['right'] or ACTIONS['left']) and abs(player.dir.x) <= 0.1:
+		if not (player.move['right'] or player.move['left']) and abs(player.dir.x) <= 0.1:
 			return Idle(player)
 
 	def update(self, player, dt):
 
 		player.acc.x = 0
-		player.move()
+		player.move_logic()
 		player.physics_x(dt)
 		player.physics_y(dt)
 
-		if (player.dir.x > 0 and not ACTIONS['right']) or (player.dir.x < 0 and not ACTIONS['left']):
+		if (player.dir.x > 0 and not player.move['right']) or (player.dir.x < 0 and not player.move['left']):
 			player.animate('skid', 0.2 * dt)
 		else:
 			player.animate('run', 0.2 * dt)
@@ -95,7 +95,7 @@ class Landing:
 	def update(self, player, dt):
 
 		player.acc.x = 0
-		player.move()
+		player.move_logic()
 		player.physics_x(dt)
 		player.physics_y(dt)
 
@@ -131,7 +131,7 @@ class Fall:
 	def update(self, player, dt):
 
 		player.acc.x = 0
-		player.move()
+		player.move_logic()
 		player.physics_x(dt)
 		player.physics_y(dt)
 
@@ -159,7 +159,7 @@ class Jumping:
 	def update(self, player, dt):
 
 		player.acc.x = 0
-		player.move()
+		player.move_logic()
 		player.physics_x(dt)
 		player.physics_y(dt)
 
@@ -184,7 +184,7 @@ class DoubleJumping:
 	def update(self, player, dt):
 		
 		player.acc.x = 0
-		player.move()
+		player.move_logic()
 		player.physics_x(dt)
 		player.physics_y(dt)
 

@@ -29,8 +29,7 @@ class NPC(pygame.sprite.Sprite):
 		self.old_hitbox = self.hitbox.copy()
 
 		# physics
-		self.moving_right = False
-		self.moving_left = False
+		self.move = {'right':False, 'left':False}
 		self.angle = 0
 		self.target_angle = 0
 		self.gravity = 0.3
@@ -69,15 +68,15 @@ class NPC(pygame.sprite.Sprite):
 		self.image = pygame.transform.rotate(right_image, self.angle)
 		self.rect = self.image.get_rect(center = self.rect.center)
 
-	def move(self):
-		if self.moving_right:
+	def move_logic(self):
+		if self.move['right']:
 			self.acc.x += 0.5
 			self.target_angle = 10
-		elif self.moving_left:
+		elif self.move['left']:
 			self.acc.x -= 0.5
 			self.target_angle = -10
 		else:
-			self.moving_right, self.moving_left = False, False
+			self.move['right'], self.move['left'] = False, False 
 			self.target_angle = 0
 
 		if self.dir.x > 0:

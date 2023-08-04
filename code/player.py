@@ -29,6 +29,7 @@ class Player(pygame.sprite.Sprite):
 		self.old_hitbox = self.hitbox.copy()
 
 		# physics
+		self.move = {'right':True, 'left':False}
 		self.angle = 0
 		self.target_angle = 0
 		self.gravity = 0.3
@@ -74,16 +75,19 @@ class Player(pygame.sprite.Sprite):
 		self.image = pygame.transform.rotate(right_image, self.angle)
 		self.rect = self.image.get_rect(center = self.rect.center)
 
-	def move(self):
+	def move_logic(self):
 
 		if ACTIONS['right']:
+			self.move['right'] = True
 			self.acc.x += 0.5
 			self.target_angle = 10
 		elif ACTIONS['left']:
+			self.move['left'] = True
 			self.acc.x -= 0.5
 			self.target_angle = -10
 		else:
-			ACTIONS['right'], ACTIONS['left'] = False, False
+			ACTIONS['right'], self.move['right'] = False, False 
+			ACTIONS['left'], self.move['left'] = False, False
 			self.target_angle = 0
 
 		if self.dir.x > 0:

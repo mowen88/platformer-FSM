@@ -21,6 +21,8 @@ LAYERS = {
 	'foreground': 10
 }
 
+CUTSCENES = {0: True, 1: True}
+
 # key events
 ACTIONS = {'escape': False, 'space': False, 'up': False, 'down': False, 'left': False,
 			'right': False, 'return': False, 'backspace': False, 'left_click': False, 

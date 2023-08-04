@@ -31,7 +31,7 @@ class Landing:
 	def update(self, player, dt):
 
 		player.acc.x = 0
-		player.move()
+		player.move_logic()
 		player.physics_x(dt)
 		player.physics_y(dt)
 
@@ -50,7 +50,7 @@ class Fall:
 	def update(self, player, dt):
 
 		player.acc.x = 0
-		player.move()
+		player.move_logic()
 		player.physics_x(dt)
 		player.physics_y(dt)
 

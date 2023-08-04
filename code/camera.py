@@ -38,10 +38,10 @@ class Camera(pygame.sprite.Group):
 
         self.backgrounds(self.game.screen)
 
-        mouse_dist = self.zone.get_distance(pygame.mouse.get_pos(), target.rect.center) / 10
+        #mouse_dist = self.zone.get_distance(pygame.mouse.get_pos(), target.rect.center) / 10
 
-        self.offset.x += (target.rect.centerx - HALF_WIDTH - self.offset.x)
-        self.offset.y += (target.rect.centery - HALF_HEIGHT - self.offset.y)
+        self.offset.x += (target[0] - HALF_WIDTH - self.offset.x)
+        self.offset.y += (target[1] - HALF_HEIGHT - self.offset.y)
 
         # Apply screenshake effect if needed
         self.screenshake()

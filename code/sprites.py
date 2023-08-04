@@ -1,6 +1,14 @@
 import pygame, math
 from settings import *
 
+class CutsceneCollider(pygame.sprite.Sprite):
+	def __init__(self, groups, rect, number):
+		super().__init__(groups)
+
+		self.number = int(number)
+		#self.image = pygame.Surface((size))
+		self.rect = pygame.Rect(rect)
+
 class Tile(pygame.sprite.Sprite):
 	def __init__(self, game, zone, groups, pos, surf, z = LAYERS['blocks']):
 		super().__init__(groups)
@@ -9,7 +17,6 @@ class Tile(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect(topleft = pos)	
 		self.z = z	
 		self.old_rect = self.rect.copy()
-
 
 class Platform(pygame.sprite.Sprite):
 	def __init__(self, game, zone, groups, pos, surf, direction, z = LAYERS['particles']):
