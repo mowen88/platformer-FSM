@@ -177,10 +177,10 @@
 </data>
  </layer>
  <objectgroup id="2" name="entities">
-  <object id="1" name="player" x="169.413" y="48.4706">
+  <object id="1" name="player" x="160" y="40">
    <point/>
   </object>
-  <object id="5" name="guard" x="347.092" y="165.406">
+  <object id="5" name="guard" x="360" y="160">
    <point/>
   </object>
  </objectgroup>

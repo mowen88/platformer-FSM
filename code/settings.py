@@ -23,6 +23,12 @@ LAYERS = {
 
 CUTSCENES = {0: True, 1: True}
 
+DIALOGUE = {
+			0: 'this is dialogue for cutscene 0', 
+			1: 'this is dialogue for cutscene 1'
+			}
+
+
 # key events
 ACTIONS = {'escape': False, 'space': False, 'up': False, 'down': False, 'left': False,
 			'right': False, 'return': False, 'backspace': False, 'left_click': False, 

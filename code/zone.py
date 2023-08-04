@@ -4,7 +4,6 @@ from settings import *
 from pytmx.util_pygame import load_pygame
 from camera import Camera
 from state import State
-from dialogue import Dialogue
 from cutscene import Cutscene0, Cutscene1
 from sprites import CutsceneCollider, Tile, Platform, CircularPlatform, MovingPlatform
 from player import Player
@@ -26,11 +25,10 @@ class Zone(State):
 
 		self.create_map()
 
-		self.dialogue = Dialogue(self.game, self, self.player)
 		self.cutscenes = self.get_cutscenes()
 
 	def get_cutscenes(self):
-		cutscenes = {Cutscene0(self.game, self):True, Cutscene1(self.game, self):True}
+		cutscenes = {Cutscene0(self.game, self, 0):True, Cutscene1(self.game, self, 1):True}
 		for key, value in CUTSCENES.items():
 			cutscenes.update({list(cutscenes.keys())[key]: value})
 		return cutscenes
