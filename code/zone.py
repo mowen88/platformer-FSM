@@ -73,10 +73,10 @@ class Zone(State):
 					list(self.cutscenes.keys())[sprite.number].enter_state()
 					self.cutscenes.update({list(self.cutscenes.keys())[sprite.number]: False})
 
+
 	def update(self, dt):
 		if ACTIONS['return']: 
 			pass
-
 			self.game.reset_keys()
 		
 		self.updated_sprites.update(dt)
@@ -89,4 +89,3 @@ class Zone(State):
 		self.rendered_sprites.offset_draw(self.target.rect.center)
 		self.game.render_text(str(round(self.game.clock.get_fps(), 2)), WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
 		self.game.render_text(self.player.pos, WHITE, self.game.small_font, RES/2)
-		print(self.cutscenes)

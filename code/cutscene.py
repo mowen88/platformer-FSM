@@ -61,13 +61,8 @@ class Cutscene0(State):
 
 
 	def update(self, dt):
-
-		self.timer += dt
-
-		if ACTIONS['return']: 
-			self.opening = False
 		self.game.reset_keys()
-
+		self.timer += dt
 		self.prev_state.update(dt)
 
 
@@ -104,13 +99,8 @@ class Cutscene1(Cutscene0):
 			self.opening = False
 
 	def update(self, dt):
-
-		self.timer += dt
-
-		if ACTIONS['return']: 
-			self.opening = False
 		self.game.reset_keys()
-
+		self.timer += dt
 		self.prev_state.update(dt)
 
 	def render(self, screen):
