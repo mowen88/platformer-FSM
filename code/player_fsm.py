@@ -20,13 +20,13 @@ class Idle:
 			ACTIONS['up'] = False
 			return Jumping(player)
 
-		if ACTIONS['right']:
+		if player.move['right']:
 			player.acc.x += 0.5
 			player.facing = 0
 			player.target_angle = -10
 			return Move(player)
 
-		elif ACTIONS['left']:
+		elif player.move['left']:
 			player.acc.x -= 0.5
 			player.facing = 1
 			player.target_angle = 10
@@ -35,6 +35,7 @@ class Idle:
 	def update(self, player, dt):
 	
 		player.acc.x = 0
+		player.move_logic()
 		player.physics_x(dt)
 		player.physics_y(dt)
 		player.animate('idle', 0.2 * dt)

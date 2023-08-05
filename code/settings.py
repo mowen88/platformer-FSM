@@ -24,9 +24,10 @@ LAYERS = {
 CUTSCENES = {0: True, 1: True}
 
 DIALOGUE = {
-			0: [['This is the first line','for cutscene 0 dialogue.','Can we have another line?'],
-				['This is the second dialogue','for cutscene 0.','Can we have a third?']], 
-			1: [['this is dialogue for cutscene 1']]
+			0: [['Dude, where the hell are','you going ?'],
+				['Sorry pal, gotta go!','Places to go....','People to see....']], 
+			1: [['This is more dialogue for','a second cutscene.','Tell me if it worked ?'], 
+				['How do you expect me to','hear you from up there ?']]
 			}
 
 

@@ -26,6 +26,7 @@ class Zone(State):
 		self.create_map()
 
 		self.cutscenes = self.get_cutscenes()
+		self.cutscene_running = False
 
 	def get_cutscenes(self):
 		cutscenes = {Cutscene0(self.game, self, 0):True, Cutscene1(self.game, self, 1):True}
@@ -68,6 +69,9 @@ class Zone(State):
 		for sprite in self.cutscene_sprites:
 			if self.player.hitbox.colliderect(sprite.rect):
 				if list(self.cutscenes.values())[sprite.number]:
+					self.cutscene_running = True
+					self.target.move['right'] = False
+					self.target.move['left'] = False
 					list(self.cutscenes.keys())[sprite.number].enter_state()
 					self.cutscenes.update({list(self.cutscenes.keys())[sprite.number]: False})
 
@@ -77,6 +81,9 @@ class Zone(State):
 			pass
 			self.game.reset_keys()
 		
+		if not self.cutscene_running:
+			self.target.input()
+
 		self.updated_sprites.update(dt)
 		self.rendered_sprites.screenshake_update(dt)
 
@@ -85,5 +92,6 @@ class Zone(State):
 	def render(self, screen):
 		screen.fill(LIGHT_GREY)
 		self.rendered_sprites.offset_draw(self.target.rect.center)
-		self.game.render_text(str(round(self.game.clock.get_fps(), 2)), WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
-		self.game.render_text(self.player.pos, WHITE, self.game.small_font, RES/2)
+		# self.game.render_text(str(round(self.game.clock.get_fps(), 2)), WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
+		self.game.render_text(self.player.state, WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
+		self.game.render_text(self.player.move, WHITE, self.game.small_font, RES/2)

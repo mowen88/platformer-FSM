@@ -76,24 +76,58 @@ class Player(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect(center = self.rect.center)
 
 	def move_logic(self):
-
-		if ACTIONS['right']:
-			self.move['right'] = True
+		if self.move['right']:
 			self.acc.x += 0.5
 			self.target_angle = 10
-		elif ACTIONS['left']:
-			self.move['left'] = True
+		elif self.move['left']:
 			self.acc.x -= 0.5
 			self.target_angle = -10
 		else:
-			ACTIONS['right'], self.move['right'] = False, False 
-			ACTIONS['left'], self.move['left'] = False, False
+			self.move['right'], self.move['left'] = False, False 
 			self.target_angle = 0
 
 		if self.dir.x > 0:
 			self.facing = 0
 		else:
 			self.facing = 1
+
+	def input(self):
+		keys = pygame.key.get_pressed()
+
+		if keys[pygame.K_RIGHT]:
+			self.move['right'] = True
+		elif keys[pygame.K_LEFT]:
+			self.move['left'] = True
+		else:
+			self.move['right'] = False
+			self.move['left'] = False
+	
+	# def move_logic(self):
+
+	# 	if ACTIONS['right']:
+	# 		self.move['right'] = True
+	# 		self.move['left'] = False
+	# 		self.acc.x += 0.5
+	# 		self.target_angle = 10
+	# 	else:
+	# 		self.move['right'] = False
+	# 		ACTIONS['right'] = False
+
+	# 	if ACTIONS['left']:
+	# 		self.move['left'] = True
+	# 		self.move['right'] = False
+	# 		self.acc.x -= 0.5
+	# 		self.target_angle = -10
+	# 	else:
+	# 		ACTIONS['left'] = False
+	# 		self.move['left'] = False
+	# 		self.target_angle = 0
+		
+
+	# 	if self.dir.x > 0:
+	# 		self.facing = 0
+	# 	else:
+	# 		self.facing = 1
 
 	def platforms(self, dt):
 		for platform in self.zone.platform_sprites:
@@ -173,7 +207,7 @@ class Player(pygame.sprite.Sprite):
 	def physics_y(self, dt):
 
 		# Double the gravity if not holding jump key to allow variale jump height
-		if not (pygame.key.get_pressed()[pygame.K_UP]) and self.dir.y < 0: 
+		if not (pygame.key.get_pressed()[pygame.K_UP]) and self.dir.y < 0 and not self.zone.cutscene_running: 
 			self.dir.y += (self.acc.y * 2.5) * dt
 		else:
 			self.dir.y += self.acc.y * dt
@@ -210,9 +244,11 @@ class Player(pygame.sprite.Sprite):
 				self.jump_buffer_active = False
 
 	def state_logic(self):
+
 		new_state = self.state.state_logic(self)
 		if new_state: self.state = new_state
 		else: self.state
+
 
 	def update(self, dt):
 		self.state_logic()

@@ -18,7 +18,7 @@ class Dialogue(State):
 
         self.box_width = 0
         self.center = (self.sprite.rect.centerx - self.offset.x, self.sprite.rect.top - 25 - self.offset.y)
-        self.target_width = WIDTH * 0.45
+        self.target_width = TILESIZE * 10
 
         self.lines = DIALOGUE[self.cutscene_number][self.dialog_number]
         self.char_indices = [0] * len(self.lines)
