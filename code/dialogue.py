@@ -3,22 +3,24 @@ from state import State
 from settings import *
 
 class Dialogue(State):
-    def __init__(self, game, zone, sprite, cutscene_number, duration):
+    def __init__(self, game, zone, cutscene_number, sprite, dialog_number, duration):
         super().__init__(game)
 
         self.game = game
-        self.sprite = sprite
         self.cutscene_number = cutscene_number
+        self.sprite = sprite
+        self.dialog_number = dialog_number
+        self.sprite = sprite
         self.duration = duration
         self.offset = self.sprite.zone.rendered_sprites.offset
 
-        self.lines = DIALOGUE[self.cutscene_number]
         self.opening = True
 
         self.box_width = 0
         self.center = (self.sprite.rect.centerx - self.offset.x, self.sprite.rect.top - 25 - self.offset.y)
-        self.target_width = WIDTH * 0.4
+        self.target_width = WIDTH * 0.45
 
+        self.lines = DIALOGUE[self.cutscene_number][self.dialog_number]
         self.char_indices = [0] * len(self.lines)
 
         self.timer = 0
@@ -33,7 +35,7 @@ class Dialogue(State):
                 self.exit_state()
 
         elif self.box_width < self.target_width - 1:
-            self.box_width += (self.target_width - self.box_width) / 60
+            self.box_width += (self.target_width - self.box_width) / 45
 
         if self.timer > self.duration:
             self.opening = False

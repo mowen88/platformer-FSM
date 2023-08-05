@@ -21,12 +21,9 @@ class Cutscene0(State):
 		self.timer = 0
 		self.int_time = 0
 
-		self.dialogue_active = False
 
-	def create_dialogue(self, target_sprite, number):
-		
-		self.dialogue = Dialogue(self.game, self.zone, target_sprite, number).enter_state()
-		self.dialogue_active = True
+	def create_dialogue(self, target_sprite, dialogue_index, duration):
+		Dialogue(self.game, self.zone, self.number, target_sprite, dialogue_index, duration).enter_state()
 
 	def move_camera(self):
 		self.target.x += (self.new_pos.x - self.target.x)/200
@@ -55,13 +52,13 @@ class Cutscene0(State):
 
 		# move the camera new position after short cooldown above
 		elif self.int_time == 90:
-			Dialogue(self.game, self.zone, self.zone.npc, self.number, 60).enter_state()
+			self.create_dialogue(self.zone.npc, 0, 60)
 		# elif 239 < self.timer < 241:
 		# 	self.dialogue_active = False
 		elif self.int_time < 300:
-			self.new_pos = pygame.math.Vector2(self.zone.npc.rect.center)
+			self.new_pos = pygame.math.Vector2(self.zone.npc.rect.midtop)
 		elif self.int_time == 420:
-		 	Dialogue(self.game, self.zone, self.zone.target, self.number, 60).enter_state()
+		 	self.create_dialogue(self.zone.target, 1, 60)
 		elif self.int_time < 540:
 			self.new_pos = pygame.math.Vector2(self.zone.target.rect.center)
 
@@ -83,8 +80,6 @@ class Cutscene0(State):
 
 
 class Cutscene1(Cutscene0):
-
-
 
 	def update(self, dt):
 		self.game.reset_keys()
