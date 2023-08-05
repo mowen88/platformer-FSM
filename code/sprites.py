@@ -96,14 +96,8 @@ class SawBlade(MovingPlatform):
 		self.move(dt)
 		self.rotate(dt)
 
-
-
-
-
-# moving platform vert xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-# moving platform hor xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 # disappearing platform
-# timed platform with activator 
+# timed platform with activator
 # moving crates
 # escalator platform xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 # bouncing thing

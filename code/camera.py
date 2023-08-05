@@ -18,7 +18,7 @@ class Camera(pygame.sprite.Group):
 
         # fog variables
         self.dark = True
-        self.main_fog = self.get_fog_image(MAGENTA, self.zone.size, self.zone.size)
+        self.main_fog = self.get_fog_image(MAGENTA, (300,300), RES)
 
     def get_fog_image(self, colour, circle_size, canvas_size):
         self.fog_colour = colour
@@ -74,7 +74,7 @@ class Camera(pygame.sprite.Group):
 
         # dark mode
         if self.dark:
-            self.render_fog(screen, (0 - self.offset[0] * 0.1, 0 - self.offset[1] * 0.1))
+            self.render_fog(screen, (target[0] - self.offset[0], target[1] - self.offset[1]))
 
         for layer in LAYERS.values():
             for sprite in self.zone.rendered_sprites:
