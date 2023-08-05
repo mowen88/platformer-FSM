@@ -24,8 +24,8 @@ LAYERS = {
 CUTSCENES = {0: True, 1: True}
 
 DIALOGUE = {
-			0: ['This is the first line','for cutscene 0 dialogue.'], 
-			1: 'this is dialogue for cutscene 1'
+			0: ['This is the first line','for cutscene 0 dialogue.','Can we have another line?'], 
+			1: ['this is dialogue for cutscene 1']
 			}
 
 
@@ -35,10 +35,10 @@ ACTIONS = {'escape': False, 'space': False, 'up': False, 'down': False, 'left': 
 			'right_click': False, 'scroll_up': False, 'scroll_down': False}
 
 # game colours
-BLACK = ((9, 9, 14))
+BLACK = ((39, 39, 39))
 GREY = ((91,83,145))
 LIGHT_GREY = ((146, 143, 184))
-WHITE = ((255, 255, 255)) 
+WHITE = ((229, 229, 229)) 
 BLUE = ((20, 68, 145))
 LIGHT_BLUE = ((113, 181, 219))
 RED = ((112, 21, 31))

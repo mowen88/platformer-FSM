@@ -54,18 +54,18 @@ class Cutscene0(State):
 			self.target = pygame.math.Vector2(self.zone.target.rect.center)
 
 		# move the camera new position after short cooldown above
-		elif self.int_time == 180:
+		elif self.int_time == 90:
 			Dialogue(self.game, self.zone, self.zone.npc, self.number, 60).enter_state()
 		# elif 239 < self.timer < 241:
 		# 	self.dialogue_active = False
 		elif self.int_time < 300:
 			self.new_pos = pygame.math.Vector2(self.zone.npc.rect.center)
 		elif self.int_time == 420:
-		 	Dialogue(self.game, self.zone, self.zone.target, self.number, 120).enter_state()
-		elif self.int_time < 480:
+		 	Dialogue(self.game, self.zone, self.zone.target, self.number, 60).enter_state()
+		elif self.int_time < 540:
 			self.new_pos = pygame.math.Vector2(self.zone.target.rect.center)
 
-		elif self.int_time > 540:
+		elif self.int_time > 600:
 			self.opening = False
 
 	def update(self, dt):
@@ -84,32 +84,12 @@ class Cutscene0(State):
 
 class Cutscene1(Cutscene0):
 
-	def sequence(self):
 
-		if self.timer < 90:
-			self.target = pygame.math.Vector2(self.zone.target.rect.center)
-
-		# move the camera new position after short cooldown above
-		elif self.timer < 180:
-			self.new_pos = pygame.math.Vector2(0,0)
-			self.create_dialogue(self.zone.target, self.number)
-		elif self.timer < 270:
-			self.new_pos = pygame.math.Vector2(self.zone.target.rect.center)
-		elif self.timer < 360:
-			self.new_pos = pygame.math.Vector2(self.zone.npc.rect.center)
-		elif self.timer < 450:
-			self.new_pos = pygame.math.Vector2(RES)
-
-		# set the camera back to player before exiting cutscene
-		elif self.timer < 540:
-			self.new_pos = pygame.math.Vector2(self.zone.target.rect.center)
-
-		elif self.timer > 630:
-			self.opening = False
 
 	def update(self, dt):
 		self.game.reset_keys()
 		self.timer += dt
+		self.int_time = int(self.timer)
 		self.prev_state.update(dt)
 
 	def render(self, screen):

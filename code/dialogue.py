@@ -1,9 +1,10 @@
+import pygame
 from state import State
 from settings import *
 
 class Dialogue(State):
     def __init__(self, game, zone, sprite, cutscene_number, duration):
-        State.__init__(self, game)
+        super().__init__(game)
 
         self.game = game
         self.sprite = sprite
@@ -11,16 +12,14 @@ class Dialogue(State):
         self.duration = duration
         self.offset = self.sprite.zone.rendered_sprites.offset
 
-        self.dialogue_dict = DIALOGUE[self.cutscene_number]
-
+        self.lines = DIALOGUE[self.cutscene_number]
         self.opening = True
 
         self.box_width = 0
+        self.center = (self.sprite.rect.centerx - self.offset.x, self.sprite.rect.top - 25 - self.offset.y)
         self.target_width = WIDTH * 0.4
-        self.box = pygame.Rect(0, 0, 0, 0)
 
-        self.lines = DIALOGUE[self.cutscene_number]
-        self.line_char_indices = [0] * len(self.lines)
+        self.char_indices = [0] * len(self.lines)
 
         self.timer = 0
 
@@ -34,21 +33,28 @@ class Dialogue(State):
                 self.exit_state()
 
         elif self.box_width < self.target_width - 1:
-            self.box_width += (self.target_width - self.box_width) / 30
+            self.box_width += (self.target_width - self.box_width) / 60
 
         if self.timer > self.duration:
             self.opening = False
 
-        total_lines_height = len(self.lines) * 10  # Assuming height is 10 per line
-        self.box = pygame.draw.rect(screen, BLACK, (self.center[0] - self.box_width / 2, self.center[1] - total_lines_height / 2, self.box_width, total_lines_height), border_radius=5)
+        else:
+            # draw arrow to sprite head
+            vertices = [(self.center[0] - 5, self.center[1] + 20), (self.center[0] + 5, self.center[1] + 20), (self.sprite.rect.midtop - self.offset)]
+            pygame.draw.polygon(self.game.screen, WHITE, vertices, 0)
+
+        pygame.draw.rect(screen, WHITE, (self.center[0] - self.box_width/2, self.center[1] - 25, self.box_width, 45), border_radius = 8)
+
 
     def draw_text(self):
-        line_height = 10
-        for i, line in enumerate(self.lines):
-            char_index = self.line_char_indices[i]
-            display_line = line[:char_index]
-            line_y = self.box.center[1] - (len(self.lines) * line_height) / 2 + i * line_height
-            self.game.render_text(display_line, WHITE, self.game.small_font, (self.box.center[0], line_y))
+        total_height = len(self.lines) * 10  # Assuming each line has a height of 10 units
+        start_y = self.center[1] - total_height // 2
+        
+        if self.opening:
+            for index, line in enumerate(self.lines):
+                rendered_line = self.lines[index][:self.char_indices[index]]
+                y_position = start_y + 10 * index
+                self.game.render_text(rendered_line, BLACK, self.game.small_font, (self.center[0], y_position))
 
     def update(self, dt):
         self.timer += dt
@@ -59,15 +65,21 @@ class Dialogue(State):
 
         self.prev_state.update(dt)
 
-        if self.timer > 4:
-            self.timer = 0
-            for i in range(len(self.lines)):
-                self.line_char_indices[i] += 1
-                if self.line_char_indices[i] > len(self.lines[i]):
-                    self.line_char_indices[i] = len(self.lines[i])
+        if not self.char_indices[-1] >= len(self.lines[-1]):
+            if self.timer > 1:
+                self.timer = 0
+
+                for i in range(len(self.lines)):
+                    self.char_indices[i] += 1
+                    if self.char_indices[i] > len(self.lines[i]):
+                        self.char_indices[i] = len(self.lines[i])
+                    else:
+                        break
+       
 
     def render(self, screen):
         self.prev_state.render(screen)
+
         self.center = (self.sprite.rect.centerx - self.offset.x, self.sprite.rect.top - 25 - self.offset.y)
         self.opening_box(screen)
         self.draw_text()
