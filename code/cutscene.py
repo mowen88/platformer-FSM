@@ -37,6 +37,7 @@ class Cutscene0(State):
 		    if self.bar_height <= 0:
 		        self.bar_height = 0
 		        self.opening = True
+		        self.zone.cutscene_running = False
 		        self.exit_state()
 
 		elif self.bar_height < self.target_height - 1:  
@@ -66,7 +67,7 @@ class Cutscene0(State):
 
 		elif self.int_time > 600:
 			self.opening = False
-			self.zone.cutscene_running = False
+			
 
 	def update(self, dt):
 		self.game.reset_keys()
@@ -78,7 +79,7 @@ class Cutscene0(State):
 	def render(self, screen):
 		self.move_camera()
 		self.sequence()
-		self.prev_state.rendered_sprites.offset_draw(self.target)
+		self.prev_state.rendered_sprites.offset_draw(screen, self.target)
 
 		self.blackbars(screen)
 
@@ -87,6 +88,24 @@ class Cutscene0(State):
 
 class Cutscene1(Cutscene0):
 
+	def sequence(self):
+
+		if self.int_time < 60:
+			self.target = pygame.math.Vector2(self.zone.target.rect.center)
+
+		# move the camera new position after short cooldown above
+		elif self.int_time == 105:
+			self.create_dialogue(self.zone.npc, 0, 60)
+		elif self.int_time < 300:
+			self.new_pos = pygame.math.Vector2(self.zone.npc.rect.midtop)
+		elif self.int_time == 420:
+			self.create_dialogue(self.zone.target, 1, 100)
+		elif self.int_time < 540:
+			self.new_pos = pygame.math.Vector2(self.zone.target.rect.center)
+
+		elif self.int_time > 600:
+			self.opening = False
+
 	def update(self, dt):
 		self.game.reset_keys()
 		self.timer += dt
@@ -97,5 +116,5 @@ class Cutscene1(Cutscene0):
 
 		self.move_camera()
 		self.sequence()
-		self.prev_state.rendered_sprites.offset_draw(self.target)
+		self.prev_state.rendered_sprites.offset_draw(screen, self.target)
 		self.blackbars(screen)

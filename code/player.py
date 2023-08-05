@@ -36,13 +36,13 @@ class Player(pygame.sprite.Sprite):
 		self.fric = -0.2
 		self.acc = pygame.math.Vector2(0, self.gravity)
 		self.pos = pygame.math.Vector2(self.rect.center)
-		self.dir = pygame.math.Vector2()
+		self.vel = pygame.math.Vector2()
 		self.on_platform = False
 		self.platform_speed = pygame.math.Vector2()
 
 		# jumping
 		self.jump_height = 7
-		self.max_fall_speed = 12
+		self.max_fall_speed = 7
 		self.jump_counter = 0
 		self.cyote_timer = 0
 		self.cyote_timer_threshold = 6
@@ -71,7 +71,7 @@ class Player(pygame.sprite.Sprite):
 			self.frame_index = self.frame_index % len(self.animations[state])	
 
 		right_image = pygame.transform.flip(self.animations[state][int(self.frame_index)], self.facing, False)
-		self.angle += (-(self.dir.x * 3) - self.angle)/10
+		self.angle += (-(self.vel.x * 3) - self.angle)/10
 		self.image = pygame.transform.rotate(right_image, self.angle)
 		self.rect = self.image.get_rect(center = self.rect.center)
 
@@ -86,7 +86,7 @@ class Player(pygame.sprite.Sprite):
 			self.move['right'], self.move['left'] = False, False 
 			self.target_angle = 0
 
-		if self.dir.x > 0:
+		if self.vel.x > 0:
 			self.facing = 0
 		else:
 			self.facing = 1
@@ -96,44 +96,19 @@ class Player(pygame.sprite.Sprite):
 
 		if keys[pygame.K_RIGHT]:
 			self.move['right'] = True
+			self.move['left'] = False
 		elif keys[pygame.K_LEFT]:
 			self.move['left'] = True
+			self.move['right'] = False
 		else:
 			self.move['right'] = False
 			self.move['left'] = False
-	
-	# def move_logic(self):
-
-	# 	if ACTIONS['right']:
-	# 		self.move['right'] = True
-	# 		self.move['left'] = False
-	# 		self.acc.x += 0.5
-	# 		self.target_angle = 10
-	# 	else:
-	# 		self.move['right'] = False
-	# 		ACTIONS['right'] = False
-
-	# 	if ACTIONS['left']:
-	# 		self.move['left'] = True
-	# 		self.move['right'] = False
-	# 		self.acc.x -= 0.5
-	# 		self.target_angle = -10
-	# 	else:
-	# 		ACTIONS['left'] = False
-	# 		self.move['left'] = False
-	# 		self.target_angle = 0
-		
-
-	# 	if self.dir.x > 0:
-	# 		self.facing = 0
-	# 	else:
-	# 		self.facing = 1
 
 	def platforms(self, dt):
 		for platform in self.zone.platform_sprites:
 			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - platform.rect.height * 0.2, platform.rect.width, platform.rect.height)
 			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
-				if self.hitbox.bottom <= platform.rect.top + 4 and self.dir.y >= 0:
+				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
 					self.on_platform = True	
 			else:
 				self.on_platform = False
@@ -141,12 +116,12 @@ class Player(pygame.sprite.Sprite):
 		for platform in self.zone.platform_sprites:
 			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - platform.rect.height * 0.2, platform.rect.width, platform.rect.height)
 			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
-				if self.hitbox.bottom <= platform.rect.top + 4 and self.dir.y >= 0:
+				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
 					self.on_platform = True
-					self.platform_speed.x = platform.dir.x
+					self.platform_speed.x = platform.pos.x - platform.old_pos.x
 					self.hitbox.bottom = platform.rect.top
 					self.on_ground = True
-					self.dir.y = 0
+					self.vel.y = 0
 
 					self.rect.centery = self.hitbox.centery
 					self.pos.y = self.hitbox.centery
@@ -170,30 +145,30 @@ class Player(pygame.sprite.Sprite):
 					if self.hitbox.bottom >= sprite.rect.top and self.old_hitbox.bottom <= sprite.old_rect.top:
 						self.hitbox.bottom = sprite.rect.top
 						self.on_ground = True
-						self.dir.y = 0
+						self.vel.y = 0
 			
 					elif self.hitbox.top <= sprite.rect.bottom and self.old_hitbox.top >= sprite.old_rect.bottom:
 						self.hitbox.top = sprite.rect.bottom
 						self.on_ceiling = True
-						self.dir.y = 0
+						self.vel.y = 0
 
 					self.rect.centery = self.hitbox.centery
 					self.pos.y = self.hitbox.centery
 
 	def jump(self, height):
-		self.dir.y = -height
+		self.vel.y = -height
 
 	def physics_x(self, dt):
 
 		self.old_hitbox = self.hitbox.copy()
 
-		self.acc.x += self.dir.x * self.fric
-		self.dir.x += self.acc.x * dt
+		self.acc.x += self.vel.x * self.fric
+		self.vel.x += self.acc.x * dt
 		
 		if self.on_platform:
-			self.pos.x += (self.dir.x + self.platform_speed.x) * dt + (0.5 * self.acc.x) * (dt**2)
-		else:
-			self.pos.x += self.dir.x * dt + (0.5 * self.acc.x) * (dt**2)
+			self.pos.x += self.platform_speed.x
+
+		self.pos.x += self.vel.x * dt + (0.5 * self.acc.x) * (dt**2)
 
 		self.hitbox.centerx = round(self.pos.x)
 		self.rect.centerx = self.hitbox.centerx
@@ -202,27 +177,27 @@ class Player(pygame.sprite.Sprite):
 		self.platforms(dt)
 
 		# if player is going slow enough, make the player stand still
-		#if abs(self.dir.x) < 0.1: self.dir.x = 0
+		#if abs(self.vel.x) < 0.1: self.vel.x = 0
 
 	def physics_y(self, dt):
 
 		# Double the gravity if not holding jump key to allow variale jump height
-		if not (pygame.key.get_pressed()[pygame.K_UP]) and self.dir.y < 0 and not self.zone.cutscene_running: 
-			self.dir.y += (self.acc.y * 2.5) * dt
+		if not (pygame.key.get_pressed()[pygame.K_UP]) and self.vel.y < 0 and not self.zone.cutscene_running: 
+			self.vel.y += (self.acc.y * 2.5) * dt
 		else:
-			self.dir.y += self.acc.y * dt
+			self.vel.y += self.acc.y * dt
 
-		self.pos.y += self.dir.y * dt + (0.5 * self.acc.y) * dt
+		self.pos.y += self.vel.y * dt + (0.5 * self.acc.y) * dt
 		self.hitbox.centery = round(self.pos.y)
 		self.collisions('y') 
 		self.rect.centery = self.hitbox.centery
 
 		# limit max fall speed
-		if self.dir.y >= self.max_fall_speed: 
-			self.dir.y = self.max_fall_speed
+		if self.vel.y >= self.max_fall_speed: 
+			self.vel.y = self.max_fall_speed
 
 		# Make the player off ground if moving in y direction
-		if abs(self.dir.y) >= 0.5: 
+		if abs(self.vel.y) >= 0.5: 
 			self.on_ground = False
 
 	def handle_jumping(self, dt):

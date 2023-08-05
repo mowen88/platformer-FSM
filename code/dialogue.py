@@ -19,6 +19,7 @@ class Dialogue(State):
         self.box_width = 0
         self.center = (self.sprite.rect.centerx - self.offset.x, self.sprite.rect.top - 25 - self.offset.y)
         self.target_width = TILESIZE * 10
+        self.line_spacing = 10
 
         self.lines = DIALOGUE[self.cutscene_number][self.dialog_number]
         self.char_indices = [0] * len(self.lines)
@@ -27,7 +28,7 @@ class Dialogue(State):
 
     def opening_box(self, screen):
         if not self.opening:
-            self.box_width -= (self.target_width - self.box_width) / 30
+            self.box_width -= (self.target_width - self.box_width) / 15
 
             if self.box_width <= 0:
                 self.box_width = 0
@@ -49,13 +50,13 @@ class Dialogue(State):
 
 
     def draw_text(self):
-        total_height = len(self.lines) * 10  # Assuming each line has a height of 10 units
+        total_height = len(self.lines) * self.line_spacing
         start_y = self.center[1] - total_height // 2
         
         if self.opening:
             for index, line in enumerate(self.lines):
                 rendered_line = self.lines[index][:self.char_indices[index]]
-                y_position = start_y + 10 * index
+                y_position = start_y + self.line_spacing * index
                 self.game.render_text(rendered_line, BLACK, self.game.small_font, (self.center[0], y_position))
 
     def update(self, dt):

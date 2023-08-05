@@ -59,7 +59,7 @@ class Move:
 			ACTIONS['up'] = False
 			return Jumping(player)
 
-		if not (player.move['right'] or player.move['left']) and abs(player.dir.x) <= 0.1:
+		if not (player.move['right'] or player.move['left']) and abs(player.vel.x) <= 0.1:
 			return Idle(player)
 
 	def update(self, player, dt):
@@ -69,7 +69,7 @@ class Move:
 		player.physics_x(dt)
 		player.physics_y(dt)
 
-		if (player.dir.x > 0 and not player.move['right']) or (player.dir.x < 0 and not player.move['left']):
+		if (player.vel.x > 0 and not player.move['right']) or (player.vel.x < 0 and not player.move['left']):
 			player.animate('skid', 0.2 * dt)
 		else:
 			player.animate('run', 0.2 * dt)
@@ -146,7 +146,7 @@ class Jumping:
 
 	def state_logic(self, player):
 
-		if player.dir.y > 0:
+		if player.vel.y > 0:
 			return Fall(player)
 
 		if ACTIONS['left_click']:
@@ -175,7 +175,7 @@ class DoubleJumping:
 
 	def state_logic(self, player):
 
-		if player.dir.y > 0:
+		if player.vel.y > 0:
 			return Fall(player)
 
 		if ACTIONS['left_click']:
@@ -197,7 +197,7 @@ class Roll:
 		player.frame_index = 0
 
 		self.speed = 16 * self.direction(player)
-		player.dir.x = self.speed
+		player.vel.x = self.speed
 
 	def direction(self, player):
 		if player.facing == 0:
@@ -207,10 +207,10 @@ class Roll:
 
 	def state_logic(self, player):
 
-		if abs(player.dir.x) <= 12 and (ACTIONS['left'] or ACTIONS['right']):
+		if abs(player.vel.x) <= 12 and (ACTIONS['left'] or ACTIONS['right']):
 			return Move(player)
 
-		if abs(player.dir.x) <= 0.5:
+		if abs(player.vel.x) <= 0.5:
 			return Idle(player)
 
 
@@ -218,7 +218,7 @@ class Roll:
 
 		player.acc.x = 0
 
-		player.dir.x = self.speed
+		player.vel.x = self.speed
 		self.speed -= dt * self.direction(player)
 		player.physics_x(dt)
 
@@ -228,17 +228,17 @@ class AirDash(Roll):
 
 	def state_logic(self, player):
 
-		if abs(player.dir.x) <= 12 and (ACTIONS['left'] or ACTIONS['right']):
+		if abs(player.vel.x) <= 12 and (ACTIONS['left'] or ACTIONS['right']):
 			return Fall(player)
 
-		if abs(player.dir.x) <= 0.5:
+		if abs(player.vel.x) <= 0.5:
 			return Fall(player)
 
 	def update(self, player, dt):
 
 		player.acc.x = 0
 
-		player.dir.x = self.speed
+		player.vel.x = self.speed
 		self.speed -= dt * self.direction(player)
 		player.physics_x(dt)
 
