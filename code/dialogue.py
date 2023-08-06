@@ -16,6 +16,9 @@ class Dialogue(State):
 
         self.opening = True
 
+        # text box variables
+        self.box_colour = BLACK
+        self.text_colour = YELLOW
         self.box_width = 0
         self.center = (self.sprite.rect.centerx - self.offset.x, self.sprite.rect.top - 25 - self.offset.y)
         self.target_width = TILESIZE * 10
@@ -44,10 +47,9 @@ class Dialogue(State):
         else:
             # draw arrow to sprite head
             vertices = [(self.center[0] - 5, self.center[1] + 20), (self.center[0] + 5, self.center[1] + 20), (self.sprite.rect.midtop - self.offset)]
-            pygame.draw.polygon(self.game.screen, WHITE, vertices, 0)
+            pygame.draw.polygon(self.game.screen, self.box_colour, vertices, 0)
 
-        pygame.draw.rect(screen, WHITE, (self.center[0] - self.box_width/2, self.center[1] - 25, self.box_width, 45), border_radius = 8)
-
+        pygame.draw.rect(screen, self.box_colour, (self.center[0] - self.box_width/2, self.center[1] - 25, self.box_width, 45), border_radius = 8)
 
     def draw_text(self):
         total_height = len(self.lines) * self.line_spacing
@@ -57,7 +59,7 @@ class Dialogue(State):
             for index, line in enumerate(self.lines):
                 rendered_line = self.lines[index][:self.char_indices[index]]
                 y_position = start_y + self.line_spacing * index
-                self.game.render_text(rendered_line, BLACK, self.game.small_font, (self.center[0], y_position))
+                self.game.render_text(rendered_line, self.text_colour, self.game.small_font, (self.center[0], y_position))
 
     def update(self, dt):
         self.timer += dt

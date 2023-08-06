@@ -2,10 +2,12 @@ import pygame
 
 FPS = 60
 TILESIZE = 20
-RES = WIDTH, HEIGHT = pygame.math.Vector2(400, 225)#(640, 360)#(960, 540)
+RES = WIDTH, HEIGHT = pygame.math.Vector2(480, 270)#(640, 360)#(960, 540)
 HALF_WIDTH, HALF_HEIGHT = RES/2
 
-FONT = '../fonts/Pokemon Classic.ttf'
+# FONT = '../fonts/Pokemon Classic.ttf'
+FONT = '../fonts/Typori-Regular.ttf'
+# FONT = '../fonts/square_block.ttf'
 
 LAYERS = {
 	'BG0': 0,
@@ -52,4 +54,4 @@ LIGHT_GREEN = ((106, 226, 145))
 PURPLE = ((66, 0, 78))
 CYAN = ((0, 255, 255))
 MAGENTA = ((153, 60, 139))
-YELLOW = ((224, 225, 146))
+YELLOW = ((254, 255, 123))

@@ -17,7 +17,7 @@ class Camera(pygame.sprite.Group):
         self.BG2 = pygame.image.load(f'../assets/bg_images/bg2.png').convert_alpha()
 
         # fog variables
-        self.dark = True
+        self.dark = False
         self.main_fog = self.get_fog_image(MAGENTA, (300,300), RES)
 
     def get_fog_image(self, colour, circle_size, canvas_size):
@@ -72,12 +72,14 @@ class Camera(pygame.sprite.Group):
         # Apply screenshake effect if needed
         self.screenshake()
 
-        # dark mode
-        if self.dark:
-            self.render_fog(screen, (target[0] - self.offset[0], target[1] - self.offset[1]))
+        
 
         for layer in LAYERS.values():
             for sprite in self.zone.rendered_sprites:
                 if sprite.z == layer:
                     offset = sprite.rect.topleft - self.offset
                     screen.blit(sprite.image, offset)
+
+        # dark mode
+        if self.dark:
+            self.render_fog(screen, (target[0] - self.offset[0], target[1] - self.offset[1]))

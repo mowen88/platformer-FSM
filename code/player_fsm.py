@@ -196,7 +196,7 @@ class Roll:
 		
 		player.frame_index = 0
 
-		self.speed = 16 * self.direction(player)
+		self.speed = 16 * self.velection(player)
 		player.vel.x = self.speed
 
 	def direction(self, player):

@@ -54,7 +54,10 @@ class Cutscene0(State):
 		# move the camera new position after short cooldown above
 		elif self.int_time == 65:
 			self.zone.target.jump(6)
+			self.zone.npc.move['left'] = True
 			self.zone.target.move['left'] = True
+		elif self.int_time == 75:
+			self.zone.npc.move['left'] = False
 		elif self.int_time == 105:
 			self.zone.target.move['left'] = False
 			self.create_dialogue(self.zone.npc, 0, 60)
@@ -83,7 +86,7 @@ class Cutscene0(State):
 
 		self.blackbars(screen)
 
-		self.game.render_text(self.zone.target.move, WHITE, self.game.small_font, RES/2)
+		self.game.render_text(self.zone.npc.move, WHITE, self.game.small_font, RES/2)
 
 
 class Cutscene1(Cutscene0):

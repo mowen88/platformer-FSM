@@ -3,13 +3,14 @@ from settings import *
 from player_fsm import Fall
 
 class Player(pygame.sprite.Sprite):
-	def __init__(self, game, zone, name, groups, pos, z, block_sprites):
+	def __init__(self, game, zone, name, groups, pos, z, block_sprites, pushable_sprites):
 		super().__init__(groups)
 
 		self.game = game
 		self.zone = zone
 		self.z = z
 		self.block_sprites = block_sprites
+		self.pushable_sprites = pushable_sprites
 
 		# animation
 		self.name = 'player'
@@ -52,7 +53,6 @@ class Player(pygame.sprite.Sprite):
 
 		# player collide type
 		self.on_ground = False
-		self.on_ceiling = False
 
 	def import_images(self, animation_states):
 
@@ -110,6 +110,7 @@ class Player(pygame.sprite.Sprite):
 			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
 				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
 					self.on_platform = True	
+					self.pos.x += self.platform_speed.x
 			else:
 				self.on_platform = False
 
@@ -129,31 +130,78 @@ class Player(pygame.sprite.Sprite):
 	def collisions(self, direction):
 
 		for sprite in self.block_sprites:
-			if sprite.rect.colliderect(self.hitbox):
+			if sprite.hitbox.colliderect(self.hitbox):
 
 				if direction == 'x':
-					if self.hitbox.right >= sprite.rect.left and self.old_hitbox.right <= sprite.old_rect.left:
-						self.hitbox.right = sprite.rect.left
+					if self.hitbox.right >= sprite.hitbox.left and self.old_hitbox.right <= sprite.old_hitbox.left:
+						self.hitbox.right = sprite.hitbox.left
 					
-					elif self.hitbox.left <= sprite.rect.right and self.old_hitbox.left >= sprite.old_rect.right:
-						self.hitbox.left = sprite.rect.right
+					elif self.hitbox.left <= sprite.hitbox.right and self.old_hitbox.left >= sprite.old_hitbox.right:
+						self.hitbox.left = sprite.hitbox.right
 
 					self.rect.centerx = self.hitbox.centerx
 					self.pos.x = self.hitbox.centerx
 
 				if direction == 'y':
-					if self.hitbox.bottom >= sprite.rect.top and self.old_hitbox.bottom <= sprite.old_rect.top:
-						self.hitbox.bottom = sprite.rect.top
+					if self.hitbox.bottom >= sprite.hitbox.top and self.old_hitbox.bottom <= sprite.old_hitbox.top:
+						self.hitbox.bottom = sprite.hitbox.top
 						self.on_ground = True
 						self.vel.y = 0
 			
-					elif self.hitbox.top <= sprite.rect.bottom and self.old_hitbox.top >= sprite.old_rect.bottom:
-						self.hitbox.top = sprite.rect.bottom
-						self.on_ceiling = True
+					elif self.hitbox.top <= sprite.hitbox.bottom and self.old_hitbox.top >= sprite.old_hitbox.bottom:
+						self.hitbox.top = sprite.hitbox.bottom
 						self.vel.y = 0
 
 					self.rect.centery = self.hitbox.centery
 					self.pos.y = self.hitbox.centery
+
+	def pushable_collisions(self, direction):
+
+		for sprite in self.pushable_sprites:
+			if sprite.hitbox.colliderect(self.hitbox):
+
+				if direction == 'x':
+					if self.hitbox.right >= sprite.hitbox.left and self.old_hitbox.right <= sprite.old_hitbox.left:
+						sprite.hitbox.left = self.hitbox.right
+						sprite.vel.x = self.vel.x * 2
+
+					elif self.hitbox.left <= sprite.hitbox.right and self.old_hitbox.left >= sprite.old_hitbox.right:
+						sprite.hitbox.right = self.hitbox.left
+						sprite.vel.x = self.vel.x * 2
+
+					self.rect.centerx = self.hitbox.centerx
+					self.pos.x = self.hitbox.centerx
+					# makes sure the pushable sprite does not go through the blocks
+					sprite.collisions('x')
+
+				if direction == 'y':
+					
+					if self.hitbox.bottom >= sprite.hitbox.top and self.old_hitbox.bottom <= sprite.old_hitbox.top:
+						self.hitbox.bottom = sprite.hitbox.top
+						self.on_ground = True
+						self.vel.y = 0
+			
+					elif self.hitbox.top <= sprite.hitbox.bottom and self.old_hitbox.top >= sprite.old_hitbox.bottom:
+						self.hitbox.top = sprite.hitbox.bottom
+						self.vel.y = 0
+
+					self.rect.centery = self.hitbox.centery
+					self.pos.y = self.hitbox.centery
+
+
+				# if direction == 'y':
+				# 	if self.hitbox.bottom >= sprite.rect.top and self.old_hitbox.bottom <= sprite.old_rect.top:
+				# 		self.hitbox.bottom = sprite.rect.top
+				# 		self.on_ground = True
+				# 		self.vel.y = 0
+			
+				# 	elif self.hitbox.top <= sprite.rect.bottom and self.old_hitbox.top >= sprite.old_rect.bottom:
+				# 		self.hitbox.top = sprite.rect.bottom
+				# 		self.on_ceiling = True
+				# 		self.vel.y = 0
+
+				# 	self.rect.centery = self.hitbox.centery
+				# 	self.pos.y = self.hitbox.centery
 
 	def jump(self, height):
 		self.vel.y = -height
@@ -165,15 +213,13 @@ class Player(pygame.sprite.Sprite):
 		self.acc.x += self.vel.x * self.fric
 		self.vel.x += self.acc.x * dt
 		
-		if self.on_platform:
-			self.pos.x += self.platform_speed.x
-
 		self.pos.x += self.vel.x * dt + (0.5 * self.acc.x) * (dt**2)
 
 		self.hitbox.centerx = round(self.pos.x)
 		self.rect.centerx = self.hitbox.centerx
 		
 		self.collisions('x')
+		self.pushable_collisions('x')
 		self.platforms(dt)
 
 		# if player is going slow enough, make the player stand still
@@ -190,6 +236,7 @@ class Player(pygame.sprite.Sprite):
 		self.pos.y += self.vel.y * dt + (0.5 * self.acc.y) * dt
 		self.hitbox.centery = round(self.pos.y)
 		self.collisions('y') 
+		self.pushable_collisions('y')
 		self.rect.centery = self.hitbox.centery
 
 		# limit max fall speed
@@ -219,11 +266,9 @@ class Player(pygame.sprite.Sprite):
 				self.jump_buffer_active = False
 
 	def state_logic(self):
-
 		new_state = self.state.state_logic(self)
 		if new_state: self.state = new_state
 		else: self.state
-
 
 	def update(self, dt):
 		self.state_logic()

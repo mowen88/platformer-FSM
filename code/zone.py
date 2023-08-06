@@ -5,9 +5,9 @@ from pytmx.util_pygame import load_pygame
 from camera import Camera
 from state import State
 from cutscene import Cutscene0, Cutscene1
-from sprites import CutsceneCollider, Tile, Platform, CircularPlatform, MovingPlatform, SawBlade
+from sprites import CutsceneCollider, Tile, AnimatedTile, DisappearingPlatform, EscalatorPlatform, MovingPlatform, SawBlade
 from player import Player
-from npc import NPC
+from npc import Entity, NPC
 
 class Zone(State):
 	def __init__(self, game):
@@ -23,11 +23,11 @@ class Zone(State):
 		self.updated_sprites = pygame.sprite.Group()
 		self.cutscene_sprites = pygame.sprite.Group()
 		self.block_sprites = pygame.sprite.Group()
+		self.pushable_sprites = pygame.sprite.Group()
 		self.platform_sprites = pygame.sprite.Group()
-		self.sawblade_sprites = pygame.sprite.Group()
+		self.hazard_sprites = pygame.sprite.Group()
 
 		self.create_map()
-		
 
 		self.cutscenes = self.get_cutscenes()
 		self.cutscene_running = False
@@ -49,17 +49,30 @@ class Zone(State):
 	def create_map(self):
 		tmx_data = load_pygame(f'../zones/{self.game.current_zone}.tmx')
 
+		# key is the platform name in tmx, value is a list, containing the direction and amplitude
+		platforms = {'horizontal':[(0.3,0.0), 75], 'horizontal_2':[(0.3,0.0), 75], 'vertical':[(0.0,-0.2), 120], 'vertical_2':[(0.0, 0.3), 75], 'vertical_3':[(0.0,0.2), 90], 'vertical_4':[(0.0,0.3), 90]}
+
 		for obj in tmx_data.get_layer_by_name('platforms'):
-			if obj.name == 'horizontal': MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.2,0.0), amplitude=75)
-			if obj.name == 'vertical': MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,0.2), amplitude=120)
-			if obj.name == 'vertical_2': MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,0.3), amplitude=75)
-			if obj.name == 'vertical_3': MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,0.3), amplitude=90)
-			if obj.name == 'vertical_4': MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,0.3), amplitude=90)
+			for key, value in platforms.items():
+				if obj.name == key: MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=value[0], amplitude=value[1])
+			# if obj.name == platforms: MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.3,0.0), amplitude=75)
+			# if obj.name == 'horizontal_2': MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.3,0.0), amplitude=75)
+			# if obj.name == 'vertical': MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,-0.2), amplitude=120)
+			# if obj.name == 'vertical_2': MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0, 0.3), amplitude=75)
+			# if obj.name == 'vertical_3': MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,0.2), amplitude=90)
+			# if obj.name == 'vertical_4': MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,0.3), amplitude=90)
 
 		for obj in tmx_data.get_layer_by_name('hazards'):
-			if obj.name == 'horizontal': SawBlade(self.game, self, [self.sawblade_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.5,0.0), amplitude=60)
-			if obj.name == 'horizontal_2': SawBlade(self.game, self, [self.sawblade_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(-0.5,0.0), amplitude=60)
-			if obj.name == 'vertical': SawBlade(self.game, self, [self.sawblade_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,0.5), amplitude=60)
+			if obj.name == 'horizontal': SawBlade(self.game, self, [self.hazard_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.5,0.0), amplitude=60)
+			if obj.name == 'horizontal_2': SawBlade(self.game, self, [self.hazard_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(-0.5,0.0), amplitude=60)
+			if obj.name == 'vertical': SawBlade(self.game, self, [self.hazard_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,0.5), amplitude=60)
+			# escalator platforms
+			if obj.name == 'escalator_right': EscalatorPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=f'../assets/hazards/escalator_platform/', direction=(1.0,0.0), amplitude=75)
+			if obj.name == 'escalator_left': EscalatorPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=f'../assets/hazards/escalator_platform/', direction=(-1.0,0.0), amplitude=75)
+			# spikes!!!
+			if obj.name == 'spikes': AnimatedTile(self.game, self, [self.hazard_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=f'../assets/hazards/{obj.name}/')
+			# disappearing platforms
+			if obj.name == 'disappearing_platform': DisappearingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=f'../assets/hazards/{obj.name}/')
 
 		for obj in tmx_data.get_layer_by_name('cutscenes'):
 			if obj.name == '0': CutsceneCollider([self.cutscene_sprites, self.updated_sprites], (obj.x, obj.y, obj.width, obj.height), obj.name)
@@ -73,10 +86,12 @@ class Zone(State):
 
 		# add the player
 		for obj in tmx_data.get_layer_by_name('entities'):
-			if obj.name == 'player': self.player = Player(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites)
+			if obj.name == 'player': self.player = Player(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites, self.pushable_sprites)
 			self.target = self.player
 
 			if obj.name == 'guard': self.npc = NPC(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites)
+			if obj.name == 'block': Entity(self.game, self, obj.name, [self.pushable_sprites, self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites)
+
 
 	def get_distance(self, point_1, point_2):
 		distance = (pygame.math.Vector2(point_2) - pygame.math.Vector2(point_1))
@@ -113,4 +128,4 @@ class Zone(State):
 		self.rendered_sprites.offset_draw(screen, self.target.rect.center)
 		self.game.render_text(str(round(self.game.clock.get_fps(), 2)), WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
 		#self.game.render_text(self.player.state, WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
-		#self.game.render_text(self.player.move, WHITE, self.game.small_font, RES/2)
+		self.game.render_text(self.player.on_platform, WHITE, self.game.small_font, RES/2)
