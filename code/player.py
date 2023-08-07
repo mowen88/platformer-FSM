@@ -33,7 +33,6 @@ class Player(pygame.sprite.Sprite):
 		self.old_hitbox = self.hitbox.copy()
 
 		# physics
-		self.gravity = 0.3
 		self.fric = -0.2
 		self.acc = pygame.math.Vector2(0, 0)
 		self.pos = pygame.math.Vector2(self.rect.center)
@@ -102,8 +101,10 @@ class Player(pygame.sprite.Sprite):
 
 		if ACTIONS['right']:
 			self.move['right'] = True
+			self.move['left'] = False
 		elif ACTIONS['left']:
 			self.move['left'] = True
+			self.move['right'] = False
 		else:
 			self.move['right'] = False
 			self.move['left'] = False
@@ -257,7 +258,7 @@ class Player(pygame.sprite.Sprite):
 	def physics_y(self, dt):
 		
 		# Double the gravity if not holding jump key to allow variale jump height
-		if not (pygame.key.get_pressed()[pygame.K_UP]) and self.vel.y < 0: 
+		if not (pygame.key.get_pressed()[pygame.K_UP]) and self.vel.y < 0 and not self.zone.cutscene_running: 
 			self.vel.y += (self.acc.y * 2.5) * dt
 		else:
 			self.vel.y += self.acc.y * dt
@@ -275,9 +276,9 @@ class Player(pygame.sprite.Sprite):
 		# Make the player off ground if moving in y direction
 		if abs(self.vel.y) >= 0.5: 
 			self.on_ground = False
-			
+
 		# apply gravity always
-		self.acc.y = self.gravity
+		self.acc.y = self.zone.gravity
 
 	def handle_jumping(self, dt):
 		# incrememnt cyote timer when not on ground

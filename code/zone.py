@@ -14,6 +14,7 @@ class Zone(State):
 		State.__init__(self, game)
 
 		self.game = game
+		self.gravity = 0.3
 		self.size = self.get_zone_size()
 
 		# sprite groups

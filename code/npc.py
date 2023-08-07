@@ -17,7 +17,6 @@ class Entity(pygame.sprite.Sprite):
 		self.hitbox = self.rect.copy().inflate(0, 0)
 		self.old_hitbox = self.hitbox.copy()
 
-		self.gravity = 0.3
 		self.fric = -0.2
 		self.acc = pygame.math.Vector2(0, 0)
 		self.pos = pygame.math.Vector2(self.rect.center)
@@ -117,7 +116,7 @@ class Entity(pygame.sprite.Sprite):
 			self.on_ground = False
 
 		# apply gravity always
-		self.acc.y = self.gravity
+		self.acc.y = self.zone.gravity
 
 	def update(self, dt):
 		
@@ -156,7 +155,6 @@ class NPC(pygame.sprite.Sprite):
 		self.move = {'right':False, 'left':False}
 		self.angle = 0
 		self.target_angle = 0
-		self.gravity = 0.3
 		self.fric = -0.2
 		self.acc = pygame.math.Vector2(0, 0)
 		self.pos = pygame.math.Vector2(self.rect.center)
@@ -302,7 +300,7 @@ class NPC(pygame.sprite.Sprite):
 			self.on_ground = False
 
 		# apply gravity always
-		self.acc.y = self.gravity
+		self.acc.y = self.zone.gravity
 
 	def state_logic(self):
 		new_state = self.state.state_logic(self)
