@@ -18,12 +18,12 @@ class Camera(pygame.sprite.Group):
 
         # fog variables
         self.dark = True
-        self.main_fog = self.get_fog_image(MAGENTA, (300,300), RES)
+        self.main_fog = self.get_fog_image(PINK, (self.zone.size), self.zone.size)
 
     def get_fog_image(self, colour, circle_size, canvas_size):
         self.fog_colour = colour
         self.fog_surf = pygame.Surface((canvas_size))
-        self.light_mask = pygame.image.load(f'../assets/bg_images/white.png').convert_alpha()
+        self.light_mask = pygame.image.load(f'../assets/bg_images/2x6_white.png').convert_alpha()
         self.light_mask = pygame.transform.scale(self.light_mask, (circle_size))
         self.light_rect = self.light_mask.get_rect()
         
@@ -72,7 +72,9 @@ class Camera(pygame.sprite.Group):
         # Apply screenshake effect if needed
         self.screenshake()
 
-        
+        # dark mode
+        if self.dark:
+            self.render_fog(screen, (0 - self.offset[0] * 0.1, 0 - self.offset[1] * 0.1))
 
         for layer in LAYERS.values():
             for sprite in self.zone.rendered_sprites:
@@ -80,6 +82,4 @@ class Camera(pygame.sprite.Group):
                     offset = sprite.rect.topleft - self.offset
                     screen.blit(sprite.image, offset)
 
-        # dark mode
-        if self.dark:
-            self.render_fog(screen, (target[0] - self.offset[0], target[1] - self.offset[1]))
+        

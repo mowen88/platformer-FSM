@@ -54,7 +54,7 @@ class Zone(State):
 		tmx_data = load_pygame(f'../zones/{self.game.current_zone}.tmx')
 
 		# key is the platform name in tmx, value is a list, containing the direction and amplitude
-		platforms = {'horizontal':[(0.3,0.0), 75], 'horizontal_2':[(0.3,0.0), 75], 'vertical':[(0.0,-0.2), 120], 'vertical_2':[(0.0, 0.3), 75], 'vertical_3':[(0.0,0.2), 90], 'vertical_4':[(0.0,0.3), 90]}
+		platforms = {'horizontal':[(0.3,0.0), 75], 'horizontal_2':[(-0.3,0.0), 75], 'vertical':[(0.0,-0.2), 120], 'vertical_2':[(0.0, 0.3), 75], 'vertical_3':[(0.0,0.2), 90], 'vertical_4':[(0.0,0.3), 90]}
 
 		for obj in tmx_data.get_layer_by_name('platforms'):
 			for key, value in platforms.items():
@@ -98,6 +98,10 @@ class Zone(State):
 		for x, y, surf in tmx_data.get_layer_by_name('blocks').tiles():
 			Tile(self.game, self, [self.block_sprites, self.rendered_sprites], (x * TILESIZE, y * TILESIZE), surf)
 
+		# add static image layers
+		for _, __, img_files in walk(f'../assets/bg_images'):
+			for img in img_files:
+				if img == '2x6_white.png': Tile(self.game, self, [self.rendered_sprites], (0, 0), pygame.image.load(f'../assets/bg_images/{img}').convert_alpha(), LAYERS['explosions'])
 		
 	def get_distance(self, point_1, point_2):
 		distance = (pygame.math.Vector2(point_2) - pygame.math.Vector2(point_1)).magnitude()

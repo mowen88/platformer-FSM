@@ -22,36 +22,34 @@ class Entity(pygame.sprite.Sprite):
 		self.pos = pygame.math.Vector2(self.rect.center)
 		self.old_pos = self.pos.copy()
 		self.vel = pygame.math.Vector2()
-		self.on_platform = False
 		self.platform_speed = pygame.math.Vector2()
+		self.prev_platform = None
 
 		# player collide type
 		self.on_ground = False
 		self.max_fall_speed = 7
 
-	def platforms(self, dt):
-		for platform in self.zone.platform_sprites:
+	def platforms(self, group, dt):
+		for platform in group:
 			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - platform.rect.height * 0.2, platform.rect.width, platform.rect.height)
 			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
 				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
-					self.on_platform = True	
-					self.pos.x += self.platform_speed.x
-
-			else:
-				self.on_platform = False
-
-		for platform in self.zone.platform_sprites:
-			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - platform.rect.height * 0.2, platform.rect.width, platform.rect.height)
-			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
-				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
-					self.on_platform = True
-					self.platform_speed.x = platform.pos.x - platform.old_pos.x
+					self.platform_vel = platform.pos - platform.old_pos
 					self.hitbox.bottom = platform.rect.top
 					self.on_ground = True
 					self.vel.y = 0
 
 					self.rect.centery = self.hitbox.centery
 					self.pos.y = self.hitbox.centery
+
+					if not hasattr(self, 'prev_platform'):
+						self.prev_platform = platform
+						self.platform_vel.x = 0
+					else:
+						self.platform_vel.x = platform.pos.x - platform.old_pos.x
+						self.prev_platform = platform
+
+					self.pos.x += self.platform_vel.x
 
 	def collisions(self, direction):
 
@@ -96,7 +94,8 @@ class Entity(pygame.sprite.Sprite):
 		self.rect.centerx = self.hitbox.centerx
 		
 		self.collisions('x')
-		self.platforms(dt)
+		self.platforms(self.zone.platform_sprites, dt)
+		self.platforms(self.zone.pushable_sprites, dt)
 
 	def physics_y(self, dt):
 
@@ -159,8 +158,8 @@ class NPC(pygame.sprite.Sprite):
 		self.acc = pygame.math.Vector2(0, 0)
 		self.pos = pygame.math.Vector2(self.rect.center)
 		self.vel = pygame.math.Vector2()
-		self.on_platform = False
 		self.platform_speed = pygame.math.Vector2()
+		self.prev_platform = None
 
 		# jumping
 		self.jump_height = 7
@@ -208,27 +207,27 @@ class NPC(pygame.sprite.Sprite):
 		else:
 			self.facing = 1
 
-	def platforms(self, dt):
-		for platform in self.zone.platform_sprites:
+	def platforms(self, group, dt):
+		for platform in group:
 			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - platform.rect.height * 0.2, platform.rect.width, platform.rect.height)
 			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
 				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
-					self.on_platform = True	
-			else:
-				self.on_platform = False
-
-		for platform in self.zone.platform_sprites:
-			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - platform.rect.height * 0.2, platform.rect.width, platform.rect.height)
-			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
-				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
-					self.on_platform = True
-					self.platform_speed.x = platform.dir.x
+					self.platform_vel = platform.pos - platform.old_pos
 					self.hitbox.bottom = platform.rect.top
 					self.on_ground = True
 					self.vel.y = 0
 
 					self.rect.centery = self.hitbox.centery
 					self.pos.y = self.hitbox.centery
+
+					if not hasattr(self, 'prev_platform'):
+						self.prev_platform = platform
+						self.platform_vel.x = 0
+					else:
+						self.platform_vel.x = platform.pos.x - platform.old_pos.x
+						self.prev_platform = platform
+
+					self.pos.x += self.platform_vel.x
 
 	def collisions(self, direction):
 
@@ -268,16 +267,13 @@ class NPC(pygame.sprite.Sprite):
 		self.acc.x += self.vel.x * self.fric
 		self.vel.x += self.acc.x * dt
 		
-		if self.on_platform:
-			self.pos.x += (self.vel.x + self.platform_speed.x) * dt + (0.5 * self.acc.x) * (dt**2)
-		else:
-			self.pos.x += self.vel.x * dt + (0.5 * self.acc.x) * (dt**2)
+		self.pos.x += self.vel.x * dt + (0.5 * self.acc.x) * (dt**2)
 
 		self.hitbox.centerx = round(self.pos.x)
 		self.rect.centerx = self.hitbox.centerx
 		
 		self.collisions('x')
-		self.platforms(dt)
+		self.platforms(self.zone.platform_sprites, dt)
 
 		# if player is going slow enough, make the player stand still
 		#if abs(self.vel.x) < 0.1: self.vel.x = 0
@@ -288,7 +284,7 @@ class NPC(pygame.sprite.Sprite):
 
 		self.pos.y += self.vel.y * dt + (0.5 * self.acc.y) * dt
 		self.hitbox.centery = round(self.pos.y)
-		self.collisions('y') 
+		self.collisions('y')
 		self.rect.centery = self.hitbox.centery
 
 		# limit max fall speed

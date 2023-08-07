@@ -37,8 +37,8 @@ class Player(pygame.sprite.Sprite):
 		self.acc = pygame.math.Vector2(0, 0)
 		self.pos = pygame.math.Vector2(self.rect.center)
 		self.vel = pygame.math.Vector2()
-		self.on_platform = False
-		self.platform_speed = pygame.math.Vector2()
+		self.platform_vel = pygame.math.Vector2()
+		self.prev_platform = None
 
 		# jumping
 		self.jump_height = 7
@@ -126,22 +126,13 @@ class Player(pygame.sprite.Sprite):
 			if self.zone.get_distance(sprite.hitbox.center, self.hitbox.center) <= distance:
 				self.alive = False
 
-	def platforms(self, dt):
-		for platform in self.platform_sprites:
-			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - platform.rect.height * 0.2, platform.rect.width, platform.rect.height)
-			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
-				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
-					self.on_platform = True	
-					self.pos.x += self.platform_speed.x
-			else:
-				self.on_platform = False
+	def platforms(self, group, dt):
 
-		for platform in self.zone.platform_sprites:
+		for platform in group:
 			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - platform.rect.height * 0.2, platform.rect.width, platform.rect.height)
 			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
 				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
-					self.on_platform = True
-					self.platform_speed = platform.pos - platform.old_pos
+					self.platform_vel = platform.pos - platform.old_pos
 					self.hitbox.bottom = platform.rect.top
 					self.on_ground = True
 					self.vel.y = 0
@@ -149,28 +140,14 @@ class Player(pygame.sprite.Sprite):
 					self.rect.centery = self.hitbox.centery
 					self.pos.y = self.hitbox.centery
 
-		for platform in self.zone.pushable_sprites:
-			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - platform.rect.height * 0.2, platform.rect.width, platform.rect.height)
-			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
-				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
-					self.on_platform = True	
-					self.pos.x += self.platform_speed.x
-			else:
-				self.on_platform = False
+					if not hasattr(self, 'prev_platform'):
+						self.prev_platform = platform
+						self.platform_vel.x = 0
+					else:
+						self.platform_vel.x = platform.pos.x - platform.old_pos.x
+						self.prev_platform = platform
 
-		for platform in self.zone.pushable_sprites:
-			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - platform.rect.height * 0.2, platform.rect.width, platform.rect.height)
-			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
-				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
-					self.on_platform = True
-					self.platform_speed = platform.pos - platform.old_pos
-					self.hitbox.bottom = platform.rect.top
-					self.on_ground = True
-					self.vel.y = 0
-
-					self.rect.centery = self.hitbox.centery
-					self.pos.y = self.hitbox.centery
-
+					self.pos.x += self.platform_vel.x
 
 	def collisions(self, direction):
 
@@ -249,8 +226,8 @@ class Player(pygame.sprite.Sprite):
 		self.rect.centerx = self.hitbox.centerx
 		self.pushable_collisions('x')
 		self.collisions('x')
-		
-		self.platforms(dt)
+		self.platforms(self.zone.platform_sprites, dt)
+		self.platforms(self.zone.pushable_sprites, dt)
 
 		# if player is going slow enough, make the player stand still
 		#if abs(self.vel.x) < 0.1: self.vel.x = 0
