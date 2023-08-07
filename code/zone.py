@@ -5,7 +5,7 @@ from pytmx.util_pygame import load_pygame
 from camera import Camera
 from state import State
 from cutscene import Cutscene0, Cutscene1
-from sprites import CutsceneCollider, Tile, AnimatedTile, DisappearingPlatform, EscalatorPlatform, MovingPlatform, SawBlade
+from sprites import CutsceneCollider, BG, Tile, AnimatedTile, DisappearingPlatform, EscalatorPlatform, MovingPlatform, SawBlade
 from player import Player
 from npc import Entity, NPC
 
@@ -101,7 +101,7 @@ class Zone(State):
 		# add static image layers
 		for _, __, img_files in walk(f'../assets/bg_images'):
 			for img in img_files:
-				if img == '2x6_white.png': Tile(self.game, self, [self.rendered_sprites], (0, 0), pygame.image.load(f'../assets/bg_images/{img}').convert_alpha(), LAYERS['explosions'])
+				if img == '2x6_white.png': BG(self.game, self, [self.updated_sprites, self.rendered_sprites], (0, 0), pygame.image.load(f'../assets/bg_images/{img}').convert_alpha(), LAYERS['blocks'])
 		
 	def get_distance(self, point_1, point_2):
 		distance = (pygame.math.Vector2(point_2) - pygame.math.Vector2(point_1)).magnitude()
