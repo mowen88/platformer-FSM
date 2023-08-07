@@ -29,9 +29,21 @@ class Dialogue(State):
 
         self.timer = 0
 
-    def opening_box(self, screen):
+    def text_update(self):
+        if not self.char_indices[-1] >= len(self.lines[-1]):
+            if self.timer > 2:
+                self.timer = 0
+
+                for line in range(len(self.lines)):
+                    self.char_indices[line] += 1
+                    if self.char_indices[line] > len(self.lines[line]):
+                        self.char_indices[line] = len(self.lines[line])
+                    else:
+                        break
+
+    def opening_box(self, dt):
         if not self.opening:
-            self.box_width -= (self.target_width - self.box_width) / 15
+            self.box_width -= (self.target_width - self.box_width) * 0.3 * dt
 
             if self.box_width <= 0:
                 self.box_width = 0
@@ -39,8 +51,11 @@ class Dialogue(State):
                 self.exit_state()
 
         elif self.box_width < self.target_width - 1:
-            self.box_width += (self.target_width - self.box_width) / 45
+            self.box_width += (self.target_width - self.box_width) * 0.2 * dt
 
+        self.center = (self.sprite.rect.centerx - self.offset.x, self.sprite.rect.top - 25 - self.offset.y)
+
+    def draw_box(self, screen):
         if self.timer > self.duration:
             self.opening = False
 
@@ -64,27 +79,12 @@ class Dialogue(State):
     def update(self, dt):
         self.timer += dt
 
-        if ACTIONS['return']:
-            self.exit_state()
-        self.game.reset_keys()
-
         self.prev_state.update(dt)
 
-        if not self.char_indices[-1] >= len(self.lines[-1]):
-            if self.timer > 1:
-                self.timer = 0
-
-                for i in range(len(self.lines)):
-                    self.char_indices[i] += 1
-                    if self.char_indices[i] > len(self.lines[i]):
-                        self.char_indices[i] = len(self.lines[i])
-                    else:
-                        break
-       
+        self.opening_box(dt)
+        self.text_update()
 
     def render(self, screen):
         self.prev_state.render(screen)
-
-        self.center = (self.sprite.rect.centerx - self.offset.x, self.sprite.rect.top - 25 - self.offset.y)
-        self.opening_box(screen)
+        self.draw_box(screen)
         self.draw_text()

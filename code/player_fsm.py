@@ -9,6 +9,9 @@ class Idle:
 
 	def state_logic(self, player):
 
+		if not player.alive:
+			return Death(player)
+
 		if not player.on_ground:
 			return Fall(player)
 
@@ -48,6 +51,9 @@ class Move:
 
 	def state_logic(self, player):
 
+		if not player.alive:
+			return Death(player)
+
 		if not player.on_ground:
 			return Fall(player)
 
@@ -82,6 +88,9 @@ class Landing:
 
 	def state_logic(self, player):
 
+		if not player.alive:
+			return Death(player)
+
 		if ACTIONS['left_click']:
 			ACTIONS['left_click'] = False
 			return Roll(player)
@@ -102,12 +111,51 @@ class Landing:
 
 		player.animate('land', 0.2 * dt)
 
+class Death:
+	def __init__(self, player):
+		
+		player.frame_index = 0
+		self.timer = 120
+
+	def state_logic(self, player):
+		if self.timer <= 0:
+			player.zone.restart_zone(player.game)
+
+	def update(self, player, dt):
+		self.timer -= dt
+
+		player.acc.x = 0
+		player.physics_x(dt)
+		player.physics_y(dt)
+
+		player.animate('death', 0.2 * dt, False)
+
+class WakeUp(Death):
+	def __init__(self, player):
+		self.timer = 60
+
+	def state_logic(self, player):
+		if self.timer <= 0:
+			return Idle(player)
+
+	def update(self, player, dt):
+		self.timer -= dt
+
+		player.acc.x = 0
+		player.physics_x(dt)
+		player.physics_y(dt)
+
+		player.animate('death', 0.2 * dt, False)
+
 class Fall:
 	def __init__(self, player):
 		
 		player.frame_index = 0
 
 	def state_logic(self, player):
+
+		if not player.alive:
+			return Death(player)
 
 		if ACTIONS['left_click']:
 			ACTIONS['left_click'] = False
@@ -130,7 +178,6 @@ class Fall:
 				return Landing(player)
 
 	def update(self, player, dt):
-
 		player.acc.x = 0
 		player.move_logic()
 		player.physics_x(dt)
@@ -145,6 +192,9 @@ class Jumping:
 		player.jump(player.jump_height)
 
 	def state_logic(self, player):
+
+		if not player.alive:
+			return Death(player)
 
 		if player.vel.y > 0:
 			return Fall(player)
@@ -175,6 +225,9 @@ class DoubleJumping:
 
 	def state_logic(self, player):
 
+		if not player.alive:
+			return Death(player)
+
 		if player.vel.y > 0:
 			return Fall(player)
 
@@ -196,7 +249,7 @@ class Roll:
 		
 		player.frame_index = 0
 
-		self.speed = 16 * self.velection(player)
+		self.speed = 16 * self.direction(player)
 		player.vel.x = self.speed
 
 	def direction(self, player):
@@ -206,6 +259,9 @@ class Roll:
 			return -1
 
 	def state_logic(self, player):
+
+		if not player.alive:
+			return Death(player)
 
 		if abs(player.vel.x) <= 12 and (ACTIONS['left'] or ACTIONS['right']):
 			return Move(player)
@@ -227,6 +283,9 @@ class Roll:
 class AirDash(Roll):
 
 	def state_logic(self, player):
+
+		if not player.alive:
+			return Death(player)
 
 		if abs(player.vel.x) <= 12 and (ACTIONS['left'] or ACTIONS['right']):
 			return Fall(player)

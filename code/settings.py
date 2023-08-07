@@ -2,7 +2,7 @@ import pygame
 
 FPS = 60
 TILESIZE = 20
-RES = WIDTH, HEIGHT = pygame.math.Vector2(480, 270)#(640, 360)#(960, 540)
+RES = WIDTH, HEIGHT = pygame.math.Vector2(400, 225)#(640, 360)#(960, 540)
 HALF_WIDTH, HALF_HEIGHT = RES/2
 
 # FONT = '../fonts/Pokemon Classic.ttf'
@@ -22,6 +22,8 @@ LAYERS = {
 	'explosions': 9,
 	'foreground': 10
 }
+
+PLAYER_DATA = {'current_zone': 'start', 'entry_pos': '0', 'keys': ['blue_door'], 'gun_index': 0, 'max_health': 4, 'max_juice': 99, 'heal_cost': 11, 'partial_healths': 0}
 
 CUTSCENES = {0: True, 1: True}
 

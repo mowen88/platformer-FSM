@@ -14,23 +14,26 @@ class Zone(State):
 		State.__init__(self, game)
 
 		self.game = game
-		self.target = None
-
 		self.size = self.get_zone_size()
 
 		# sprite groups
-		self.rendered_sprites = Camera(self.game, self)
 		self.updated_sprites = pygame.sprite.Group()
+		self.rendered_sprites = Camera(self.game, self)
+		
 		self.cutscene_sprites = pygame.sprite.Group()
 		self.block_sprites = pygame.sprite.Group()
 		self.pushable_sprites = pygame.sprite.Group()
 		self.platform_sprites = pygame.sprite.Group()
 		self.hazard_sprites = pygame.sprite.Group()
+		self.sawblade_sprites = pygame.sprite.Group()
 
 		self.create_map()
 
 		self.cutscenes = self.get_cutscenes()
 		self.cutscene_running = False
+
+	def restart_zone(self, zone):
+		Zone(self.game).enter_state()
 
 	def get_cutscenes(self):
 		cutscenes = {Cutscene0(self.game, self, 0):True, Cutscene1(self.game, self, 1):True}
@@ -62,10 +65,11 @@ class Zone(State):
 			# if obj.name == 'vertical_3': MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,0.2), amplitude=90)
 			# if obj.name == 'vertical_4': MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,0.3), amplitude=90)
 
+		
 		for obj in tmx_data.get_layer_by_name('hazards'):
-			if obj.name == 'horizontal': SawBlade(self.game, self, [self.hazard_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.5,0.0), amplitude=60)
-			if obj.name == 'horizontal_2': SawBlade(self.game, self, [self.hazard_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(-0.5,0.0), amplitude=60)
-			if obj.name == 'vertical': SawBlade(self.game, self, [self.hazard_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,0.5), amplitude=60)
+			if obj.name == 'horizontal': SawBlade(self.game, self, [self.sawblade_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.5,0.0), amplitude=60)
+			if obj.name == 'horizontal_2': SawBlade(self.game, self, [self.sawblade_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(-0.5,0.0), amplitude=60)
+			if obj.name == 'vertical': SawBlade(self.game, self, [self.sawblade_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,0.5), amplitude=60)
 			# escalator platforms
 			if obj.name == 'escalator_right': EscalatorPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=f'../assets/hazards/escalator_platform/', direction=(1.0,0.0), amplitude=75)
 			if obj.name == 'escalator_left': EscalatorPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=f'../assets/hazards/escalator_platform/', direction=(-1.0,0.0), amplitude=75)
@@ -81,20 +85,21 @@ class Zone(State):
 		# Object(self.game, self, [self.rendered_sprites, Z_LAYERS[1]], (0,0), pygame.image.load('../assets/bg.png').convert_alpha())
 		# Object(self.game, self, [self.rendered_sprites, Z_LAYERS[2]], (0,TILESIZE), pygame.image.load('../zones/0.png').convert_alpha())
 
-		for x, y, surf in tmx_data.get_layer_by_name('blocks').tiles():
-			Tile(self.game, self, [self.block_sprites, self.updated_sprites, self.rendered_sprites], (x * TILESIZE, y * TILESIZE), surf)
-
 		# add the player
 		for obj in tmx_data.get_layer_by_name('entities'):
-			if obj.name == 'player': self.player = Player(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites, self.pushable_sprites)
-			self.target = self.player
+			if obj.name == 'player':
+				self.player = Player(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
+				self.target = self.player
 
 			if obj.name == 'guard': self.npc = NPC(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites)
 			if obj.name == 'block': Entity(self.game, self, obj.name, [self.pushable_sprites, self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites)
 
+		for x, y, surf in tmx_data.get_layer_by_name('blocks').tiles():
+			Tile(self.game, self, [self.block_sprites, self.rendered_sprites], (x * TILESIZE, y * TILESIZE), surf)
 
+		
 	def get_distance(self, point_1, point_2):
-		distance = (pygame.math.Vector2(point_2) - pygame.math.Vector2(point_1))
+		distance = (pygame.math.Vector2(point_2) - pygame.math.Vector2(point_1)).magnitude()
 		return distance
 
 	def start_cutscene(self):
@@ -103,16 +108,19 @@ class Zone(State):
 				if list(self.cutscenes.values())[sprite.number]:
 					self.cutscene_running = True
 					list(self.cutscenes.keys())[sprite.number].enter_state()
-
 					# set movement to false when entering cutscene to stop the player momentum
 					self.target.move.update({key: False for key in self.target.move})
 					# set cutscene to false when entering cutscene to stop it activating again
 					self.cutscenes.update({list(self.cutscenes.keys())[sprite.number]: False})
-
+					CUTSCENES.update({list(CUTSCENES.keys())[sprite.number]: False})
+					return
 
 	def update(self, dt):
+		
+		self.start_cutscene()
+
 		if ACTIONS['return']: 
-			pass
+			self.exit_state()
 			self.game.reset_keys()
 		
 		if not self.cutscene_running:
@@ -121,11 +129,9 @@ class Zone(State):
 		self.updated_sprites.update(dt)
 		self.rendered_sprites.screenshake_update(dt)
 
-		self.start_cutscene()
-
 	def render(self, screen):
-		screen.fill(LIGHT_GREY)
+		screen.fill(BLACK)
 		self.rendered_sprites.offset_draw(screen, self.target.rect.center)
 		self.game.render_text(str(round(self.game.clock.get_fps(), 2)), WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
 		#self.game.render_text(self.player.state, WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
-		self.game.render_text(self.player.on_platform, WHITE, self.game.small_font, RES/2)
+		self.game.render_text(self.player.move, WHITE, self.game.small_font, RES/2)

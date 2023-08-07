@@ -17,7 +17,7 @@ class Camera(pygame.sprite.Group):
         self.BG2 = pygame.image.load(f'../assets/bg_images/bg2.png').convert_alpha()
 
         # fog variables
-        self.dark = False
+        self.dark = True
         self.main_fog = self.get_fog_image(MAGENTA, (300,300), RES)
 
     def get_fog_image(self, colour, circle_size, canvas_size):

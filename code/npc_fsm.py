@@ -86,10 +86,8 @@ class Fall:
 			return Landing(player)
 
 	def update(self, player, dt):
-
 		player.acc.x = 0
 		player.move_logic()
 		player.physics_x(dt)
 		player.physics_y(dt)
-
 		player.animate('fall', 0.2 * dt, False)

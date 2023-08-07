@@ -19,15 +19,16 @@ class Entity(pygame.sprite.Sprite):
 
 		self.gravity = 0.3
 		self.fric = -0.2
-		self.acc = pygame.math.Vector2(0, self.gravity)
+		self.acc = pygame.math.Vector2(0, 0)
 		self.pos = pygame.math.Vector2(self.rect.center)
+		self.old_pos = self.pos.copy()
 		self.vel = pygame.math.Vector2()
 		self.on_platform = False
 		self.platform_speed = pygame.math.Vector2()
 
 		# player collide type
 		self.on_ground = False
-		self.max_fall_speed = 12
+		self.max_fall_speed = 7
 
 	def platforms(self, dt):
 		for platform in self.zone.platform_sprites:
@@ -36,6 +37,7 @@ class Entity(pygame.sprite.Sprite):
 				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
 					self.on_platform = True	
 					self.pos.x += self.platform_speed.x
+
 			else:
 				self.on_platform = False
 
@@ -74,7 +76,7 @@ class Entity(pygame.sprite.Sprite):
 						self.hitbox.bottom = sprite.hitbox.top
 						self.on_ground = True
 						self.vel.y = 0
-			
+
 					elif self.hitbox.top <= sprite.hitbox.bottom and self.old_hitbox.top >= sprite.old_hitbox.bottom:
 						self.hitbox.top = sprite.hitbox.bottom
 						self.vel.y = 0
@@ -84,6 +86,7 @@ class Entity(pygame.sprite.Sprite):
 
 	def physics_x(self, dt):
 		self.old_hitbox = self.hitbox.copy()
+		self.old_pos = self.pos.copy()
 
 		self.acc.x += self.vel.x * self.fric
 		self.vel.x += self.acc.x * dt
@@ -113,10 +116,15 @@ class Entity(pygame.sprite.Sprite):
 		if abs(self.vel.y) >= 0.5: 
 			self.on_ground = False
 
+		# apply gravity always
+		self.acc.y = self.gravity
+
 	def update(self, dt):
+		
 		self.acc.x = 0
 		self.physics_x(dt)
 		self.physics_y(dt)
+		
 
 class NPC(pygame.sprite.Sprite):
 	def __init__(self, game, zone, name, groups, pos, z, block_sprites):
@@ -150,7 +158,7 @@ class NPC(pygame.sprite.Sprite):
 		self.target_angle = 0
 		self.gravity = 0.3
 		self.fric = -0.2
-		self.acc = pygame.math.Vector2(0, self.gravity)
+		self.acc = pygame.math.Vector2(0, 0)
 		self.pos = pygame.math.Vector2(self.rect.center)
 		self.vel = pygame.math.Vector2()
 		self.on_platform = False
@@ -158,7 +166,7 @@ class NPC(pygame.sprite.Sprite):
 
 		# jumping
 		self.jump_height = 7
-		self.max_fall_speed = 12
+		self.max_fall_speed = 7
 
 		# player collide type
 		self.on_ground = False
@@ -292,6 +300,9 @@ class NPC(pygame.sprite.Sprite):
 		# Make the player off ground if moving in y direction
 		if abs(self.vel.y) >= 0.5: 
 			self.on_ground = False
+
+		# apply gravity always
+		self.acc.y = self.gravity
 
 	def state_logic(self):
 		new_state = self.state.state_logic(self)

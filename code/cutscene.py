@@ -21,18 +21,16 @@ class Cutscene0(State):
 		self.timer = 0
 		self.int_time = 0
 
-
 	def create_dialogue(self, target_sprite, dialogue_index, duration):
 		Dialogue(self.game, self.zone, self.number, target_sprite, dialogue_index, duration).enter_state()
 
-	def move_camera(self):
-		self.target.x += (self.new_pos.x - self.target.x)/200
-		self.target.y += (self.new_pos.y - self.target.y)/200
+	def move_camera(self, dt):
+		self.target.x += (self.new_pos.x - self.target.x) * 0.05 * dt
+		self.target.y += (self.new_pos.y - self.target.y) * 0.05 * dt
 		
-	def blackbars(self, screen):
-		
+	def blackbar_logic(self, dt):
 		if not self.opening:
-		    self.bar_height -= (self.target_height - self.bar_height) / 60
+		    self.bar_height -= (self.target_height - self.bar_height) * 0.1 * dt
 
 		    if self.bar_height <= 0:
 		        self.bar_height = 0
@@ -41,8 +39,9 @@ class Cutscene0(State):
 		        self.exit_state()
 
 		elif self.bar_height < self.target_height - 1:  
-		    self.bar_height += (self.target_height - self.bar_height) / 60
+		    self.bar_height += (self.target_height - self.bar_height) * 0.1 * dt
 
+	def draw_blackbars(self, screen):
 		pygame.draw.rect(screen, BLACK, (0, 0, WIDTH, self.bar_height))
 		pygame.draw.rect(screen, BLACK, (0, HEIGHT - self.bar_height, WIDTH, self.target_height))
 
@@ -68,7 +67,7 @@ class Cutscene0(State):
 		elif self.int_time < 540:
 			self.new_pos = pygame.math.Vector2(self.zone.target.rect.center)
 
-		elif self.int_time > 600:
+		elif self.int_time > 660:
 			self.opening = False
 			
 
@@ -78,15 +77,16 @@ class Cutscene0(State):
 		self.int_time = int(self.timer)
 		self.prev_state.update(dt)
 
+		self.move_camera(dt)
+		self.blackbar_logic(dt)
 
 	def render(self, screen):
-		self.move_camera()
+		
 		self.sequence()
 		self.prev_state.rendered_sprites.offset_draw(screen, self.target)
 
-		self.blackbars(screen)
-
-		self.game.render_text(self.zone.npc.move, WHITE, self.game.small_font, RES/2)
+		self.draw_blackbars(screen)
+		self.game.render_text(CUTSCENES, WHITE, self.game.small_font, RES/2)
 
 
 class Cutscene1(Cutscene0):
@@ -115,9 +115,13 @@ class Cutscene1(Cutscene0):
 		self.int_time = int(self.timer)
 		self.prev_state.update(dt)
 
-	def render(self, screen):
+		self.move_camera(dt)
+		self.blackbar_logic(dt)
 
-		self.move_camera()
+	def render(self, screen):
+		
 		self.sequence()
 		self.prev_state.rendered_sprites.offset_draw(screen, self.target)
-		self.blackbars(screen)
+		self.draw_blackbars(screen)
+
+
