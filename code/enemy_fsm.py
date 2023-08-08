@@ -10,7 +10,7 @@ class Idle:
 	def state_logic(self, enemy):
 
 		if self.timer > 240:
-			enemy.move['right'] = True
+			enemy.move['left'] = True
 
 		if not enemy.on_ground:
 			return Fall(enemy)

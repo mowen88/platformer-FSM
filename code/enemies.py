@@ -9,9 +9,8 @@ class Crab(NPC):
 
 		self.hitbox = self.rect.copy().inflate(-self.rect.width * 0.5, -self.rect.height * 0.4)
 		self.state = Fall(self)
-		self.fric = -0.2
+		self.fric = -0.1
 		self.acc_rate = 0.3
-
 
 	def state_logic(self):
 		new_state = self.state.state_logic(self)

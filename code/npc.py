@@ -211,6 +211,12 @@ class NPC(pygame.sprite.Sprite):
 		else:
 			self.facing = 1
 
+	def switch_direction(self):
+		if self.move['right']:
+			self.move['right'], self.move['left'] = False, True
+		else:
+			self.move['left'], self.move['right'] = False, True
+
 	def platforms(self, group, dt):
 		for platform in group:
 			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - platform.rect.height * 0.2, platform.rect.width, platform.rect.height)
@@ -248,10 +254,7 @@ class NPC(pygame.sprite.Sprite):
 					self.rect.centerx = self.hitbox.centerx
 					self.pos.x = self.hitbox.centerx
 
-					if self.move['right']:
-						self.move['right'], self.move['left'] = False, True
-					else:
-						self.move['left'], self.move['right'] = False, True
+					self.switch_direction()
 
 				if direction == 'y':
 					if self.hitbox.bottom >= sprite.hitbox.top and self.old_hitbox.bottom <= sprite.old_hitbox.top:
