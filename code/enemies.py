@@ -4,13 +4,13 @@ from npc import NPC
 from enemy_fsm import Fall
 
 class Crab(NPC):
-	def __init__(self, game, zone, name, groups, pos, z, block_sprites):
-		super().__init__(game, zone, name, groups, pos, z, block_sprites)
+	def __init__(self, game, zone, name, groups, pos, z):
+		super().__init__(game, zone, name, groups, pos, z)
 
 		self.hitbox = self.rect.copy().inflate(-self.rect.width * 0.5, -self.rect.height * 0.4)
 		self.state = Fall(self)
 		self.fric = -0.1
-		self.acc_rate = 0.3
+		self.acc_rate = 0.2
 
 	def state_logic(self):
 		new_state = self.state.state_logic(self)

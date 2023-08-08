@@ -7,7 +7,7 @@ from state import State
 from cutscene import Cutscene0, Cutscene1
 from sprites import CutsceneCollider, BG, Tile, AnimatedTile, DisappearingPlatform, EscalatorPlatform, MovingPlatform, SawBlade
 from player import Player
-from npc import Entity, NPC
+from npc import Entity, Box, NPC
 from enemies import Crab
 
 class Zone(State):
@@ -95,9 +95,9 @@ class Zone(State):
 				self.player = Player(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
 				self.target = self.player
 
-			if obj.name == 'guard': self.npc = NPC(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites)
-			if obj.name == 'crab': self.crab = Crab(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites)
-			if obj.name == 'block': Entity(self.game, self, obj.name, [self.pushable_sprites, self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites)
+			if obj.name == 'guard': self.npc = NPC(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
+			if obj.name == 'crab': self.crab = Crab(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
+			if obj.name == 'block': Box(self.game, self, obj.name, [self.pushable_sprites, self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
 
 		for x, y, surf in tmx_data.get_layer_by_name('blocks').tiles():
 			Tile(self.game, self, [self.block_sprites, self.rendered_sprites], (x * TILESIZE, y * TILESIZE), surf)

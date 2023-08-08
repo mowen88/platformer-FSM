@@ -3,20 +3,20 @@ from settings import *
 from npc_fsm import Fall
 
 class Entity(pygame.sprite.Sprite):
-	def __init__(self, game, zone, name, groups, pos, z, block_sprites):
+	def __init__(self, game, zone, name, groups, pos, z):
 		super().__init__(groups)
 
 		self.game = game
 		self.zone = zone
 		self.z = z
-		self.block_sprites = block_sprites
+		self.block_sprites = self.zone.block_sprites
 		self.name = name
 
-		self.image = pygame.image.load(f'../assets/hazards/{self.name}.png').convert_alpha()
+		self.image = pygame.Surface((20,20))
+		#self.image = pygame.image.load(f'../assets/hazards/{self.name}.png').convert_alpha()
 		self.rect = self.image.get_rect(topleft = pos)
 		self.hitbox = self.rect.copy().inflate(0, 0)
 		self.old_hitbox = self.hitbox.copy()
-		self.raycast_box = pygame.Rect(self.rect.x, self.rect.y - 4, self.rect.width, self.rect.height)
 
 		self.fric = -0.2
 		self.acc = pygame.math.Vector2(0, 0)
@@ -119,22 +119,24 @@ class Entity(pygame.sprite.Sprite):
 		self.acc.y = self.zone.gravity
 
 	def update(self, dt):
-		
 		self.acc.x = 0
 		self.physics_x(dt)
 		self.physics_y(dt)
-		self.raycast_box.center = self.rect.center
+
+class Box(Entity):
+	def __init__(self, game, zone, name, groups, pos, z):
+		super().__init__(game, zone, name, groups, pos, z)
+		self.image = pygame.image.load(f'../assets/hazards/{self.name}.png').convert_alpha()
+
+	def update(self, dt):
+		self.acc.x = 0
+		self.physics_x(dt)
+		self.physics_y(dt)
+
+class NPC(Entity):
+	def __init__(self, game, zone, name, groups, pos, z):
+		super().__init__(game, zone, name, groups, pos, z)
 		
-
-class NPC(pygame.sprite.Sprite):
-	def __init__(self, game, zone, name, groups, pos, z, block_sprites):
-		super().__init__(groups)
-
-		self.game = game
-		self.zone = zone
-		self.z = z
-		self.block_sprites = block_sprites
-
 		# animation
 		self.name = name
 		self.animations = {'attack':[], 'idle':[], 'run':[], 'skid':[], 'land':[], 'jump':[], 'double_jump':[], 'fall':[]}
