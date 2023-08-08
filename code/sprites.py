@@ -22,11 +22,12 @@ class Tile(pygame.sprite.Sprite):
 		self.pos = pygame.math.Vector2(self.rect.topleft)
 
 class BG(Tile):
-	def __init__(self, game, zone, groups, pos, surf, z = LAYERS['BG0']):
+	def __init__(self, game, zone, groups, pos, surf, parralax_value, z = LAYERS['BG0']):
 		super().__init__(game, zone, groups, pos, surf, z)
 
 		self.zone = zone
 		self.image = surf
+		self.parralax_value = pygame.math.Vector2(parralax_value)
 		self.offset = self.zone.rendered_sprites.offset
 		self.rect = self.image.get_rect(topleft = pos)	
 		self.z = z
@@ -35,7 +36,7 @@ class BG(Tile):
 		self.pos = pygame.math.Vector2(self.rect.topleft)
 
 	def update(self, dt):
-		self.rect.topleft = (0 - self.offset[0] * 0.1, 0 - self.offset[1] * 0.1)
+		self.rect.topleft = (0 - self.offset[0] * self.parralax_value.x, 0 - self.offset[1] * self.parralax_value.y)
 
 class AnimatedTile(pygame.sprite.Sprite):
 	def __init__(self, game, zone, groups, pos, surf, z = LAYERS['blocks']):
@@ -132,7 +133,7 @@ class EscalatorPlatform(AnimatedTile):
 	def update(self, dt):
 		self.old_pos = self.pos.copy()
 		self.pos.x += self.direction.x * dt
-		self.animate(int(self.direction.x) * 0.25 * dt)
+		self.animate(int(self.direction.x) * 0.2 * dt)
 		self.hitbox.center = self.rect.center
 
 class MovingPlatform(Tile):

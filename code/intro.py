@@ -8,7 +8,7 @@ class Intro(State):
 
 	def update(self, dt):
 		if ACTIONS['return']: 
-			Zone(self.game).enter_state()
+			Zone(self.game, '0', (320, 160)).enter_state()
 		self.game.reset_keys()
 
 	def render(self, screen):

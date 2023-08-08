@@ -19,6 +19,7 @@ class Game:
         self.small_font = pygame.font.Font(FONT, int(TILESIZE*0.5))#round(HEIGHT * 0.03))
 
         # states
+        
         self.stack = []
         self.screenshaking = False
         self.current_zone = 0

@@ -11,11 +11,6 @@ class Camera(pygame.sprite.Group):
         self.acc = pygame.math.Vector2()
         self.screenshake_timer = 0
 
-        # bg images
-        self.BG0 = pygame.image.load(f'../assets/bg_images/bg0.png').convert_alpha()
-        self.BG1 = pygame.image.load(f'../assets/bg_images/bg1.png').convert_alpha()
-        self.BG2 = pygame.image.load(f'../assets/bg_images/bg2.png').convert_alpha()
-
         # fog variables
         self.dark = True
         self.main_fog = self.get_fog_image(PINK, (self.zone.size), self.zone.size)
@@ -23,7 +18,7 @@ class Camera(pygame.sprite.Group):
     def get_fog_image(self, colour, circle_size, canvas_size):
         self.fog_colour = colour
         self.fog_surf = pygame.Surface((canvas_size))
-        self.light_mask = pygame.image.load(f'../assets/bg_images/2x6_white.png').convert_alpha()
+        self.light_mask = pygame.image.load(f'../zones/{self.zone.name}/bg_images/2x6_white.png').convert_alpha()
         self.light_mask = pygame.transform.scale(self.light_mask, (circle_size))
         self.light_rect = self.light_mask.get_rect()
         
@@ -51,24 +46,15 @@ class Camera(pygame.sprite.Group):
         if self.offset[1] <= 0: self.offset[1] = 0
         elif self.offset[1] >= self.zone.size[1] - HEIGHT: self.offset[1] = self.zone.size[1] - HEIGHT
 
-    def backgrounds(self, screen):
-        screen.fill(LIGHT_GREY)
-        screen.blit(self.BG1, (0 - self.offset[0] * 0.01, 0 - self.offset[1] * 0.01))
-        screen.blit(self.BG2, (0 - self.offset[0] * 0.02, 0 - self.offset[1] * 0.005))
-        screen.blit(self.BG0, (0 - self.offset[0] * 0.1, 0 - self.offset[1] * 0.03))
-
     def offset_draw(self, screen, target):
-
-        self.backgrounds(screen)
+        screen.fill(LIGHT_GREY)  
 
         #mouse_dist = self.zone.get_distance(pygame.mouse.get_pos(), target.rect.center) / 10
 
         self.offset += (target - RES/2 - self.offset)
 
-
         # limit offset to stop at edges
         self.zone_limits()
-
         # Apply screenshake effect if needed
         self.screenshake()
 

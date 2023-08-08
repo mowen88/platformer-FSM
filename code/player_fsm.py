@@ -111,32 +111,31 @@ class Landing:
 
 		player.animate('land', 0.2 * dt)
 
-class Death:
+class WakeUp:
 	def __init__(self, player):
-		
+
 		player.frame_index = 0
-		self.timer = 120
 
 	def state_logic(self, player):
-		if self.timer <= 0:
-			player.zone.restart_zone(player.game)
+		if player.frame_index > len(player.animations['death'])-1:
+			return Idle(player)
 
 	def update(self, player, dt):
-		self.timer -= dt
 
 		player.acc.x = 0
 		player.physics_x(dt)
 		player.physics_y(dt)
 
-		player.animate('death', 0.2 * dt, False)
+		player.animate('death', 0.2 * dt)
 
-class WakeUp(Death):
+class Death(WakeUp):
 	def __init__(self, player):
-		self.timer = 60
+		
+		self.timer = 120
 
 	def state_logic(self, player):
 		if self.timer <= 0:
-			return Idle(player)
+			player.zone.restart_zone(player.zone.name)
 
 	def update(self, player, dt):
 		self.timer -= dt

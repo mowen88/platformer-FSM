@@ -129,9 +129,10 @@ class Player(pygame.sprite.Sprite):
 	def platforms(self, group, dt):
 
 		for platform in group:
-			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - platform.rect.height * 0.2, platform.rect.width, platform.rect.height)
+			ray_height = 4
+			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - ray_height, platform.rect.width, platform.rect.height)
 			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
-				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
+				if self.hitbox.bottom <= platform.rect.top + ray_height and self.vel.y >= 0:
 					self.platform_vel = platform.pos - platform.old_pos
 					self.hitbox.bottom = platform.rect.top
 					self.on_ground = True

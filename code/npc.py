@@ -16,6 +16,7 @@ class Entity(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect(topleft = pos)
 		self.hitbox = self.rect.copy().inflate(0, 0)
 		self.old_hitbox = self.hitbox.copy()
+		self.raycast_box = pygame.Rect(self.rect.x, self.rect.y - 4, self.rect.width, self.rect.height)
 
 		self.fric = -0.2
 		self.acc = pygame.math.Vector2(0, 0)
@@ -122,6 +123,7 @@ class Entity(pygame.sprite.Sprite):
 		self.acc.x = 0
 		self.physics_x(dt)
 		self.physics_y(dt)
+		self.raycast_box.center = self.rect.center
 		
 
 class NPC(pygame.sprite.Sprite):

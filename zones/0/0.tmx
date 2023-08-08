@@ -8,10 +8,10 @@
  <tileset firstgid="16" source="platforms.tsx"/>
  <tileset firstgid="25" source="bg_decoration.tsx"/>
  <imagelayer id="6" name="bg0" visible="0">
-  <image source="0/bg_images/bg0.png" width="1280" height="720"/>
+  <image source="../assets/bg_images/bg0.png" width="1280" height="720"/>
  </imagelayer>
  <imagelayer id="9" name="bg1">
-  <image source="0/bg_images/bg1.png" width="1280" height="720"/>
+  <image source="../assets/bg_images/bg1.png" width="1280" height="720"/>
  </imagelayer>
  <layer id="10" name="bg2" width="64" height="36">
   <data encoding="csv">
@@ -54,7 +54,7 @@
 </data>
  </layer>
  <imagelayer id="11" name="bg2">
-  <image source="0/bg_images/bg2.png" width="1280" height="720"/>
+  <image source="../assets/bg_images/bg2.png" width="1280" height="720"/>
  </imagelayer>
  <layer id="7" name="bg0" width="64" height="36">
   <data encoding="csv">

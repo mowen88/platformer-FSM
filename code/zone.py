@@ -10,10 +10,12 @@ from player import Player
 from npc import Entity, NPC
 
 class Zone(State):
-	def __init__(self, game):
+	def __init__(self, game, name, entry_point):
 		State.__init__(self, game)
 
 		self.game = game
+		self.name = name
+		self.entry_point = entry_point
 		self.gravity = 0.3
 		self.size = self.get_zone_size()
 
@@ -34,7 +36,7 @@ class Zone(State):
 		self.cutscene_running = False
 
 	def restart_zone(self, zone):
-		Zone(self.game).enter_state()
+		Zone(self.game, zone, self.entry_point).enter_state()
 
 	def get_cutscenes(self):
 		cutscenes = {Cutscene0(self.game, self, 0):True, Cutscene1(self.game, self, 1):True}
@@ -99,9 +101,12 @@ class Zone(State):
 			Tile(self.game, self, [self.block_sprites, self.rendered_sprites], (x * TILESIZE, y * TILESIZE), surf)
 
 		# add static image layers
-		for _, __, img_files in walk(f'../assets/bg_images'):
+		for _, __, img_files in walk(f'../zones/{self.name}/bg_images'):
 			for img in img_files:
-				if img == '2x6_white.png': BG(self.game, self, [self.updated_sprites, self.rendered_sprites], (0, 0), pygame.image.load(f'../assets/bg_images/{img}').convert_alpha(), LAYERS['blocks'])
+				#if img == '2x6_white.png': BG(self.game, self, [self.updated_sprites, self.rendered_sprites], (0, 0), pygame.image.load(f'../zones/{self.name}/bg_images/{img}').convert_alpha(), (0.1, 0.1), LAYERS['blocks'])
+				if img == 'bg1.png': BG(self.game, self, [self.updated_sprites, self.rendered_sprites], (0, 0), pygame.image.load(f'../zones/{self.name}/bg_images/{img}').convert_alpha(), (0.01, 0.01), LAYERS['BG1'])
+				if img == 'bg2.png': BG(self.game, self, [self.updated_sprites, self.rendered_sprites], (0, 0), pygame.image.load(f'../zones/{self.name}/bg_images/{img}').convert_alpha(), (0.02, 0.05), LAYERS['BG2'])
+				if img == 'bg0.png': BG(self.game, self, [self.updated_sprites, self.rendered_sprites], (0, 0), pygame.image.load(f'../zones/{self.name}/bg_images/{img}').convert_alpha(), (0.1, 0.03), LAYERS['BG0'])
 		
 	def get_distance(self, point_1, point_2):
 		distance = (pygame.math.Vector2(point_2) - pygame.math.Vector2(point_1)).magnitude()
