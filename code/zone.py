@@ -8,6 +8,7 @@ from cutscene import Cutscene0, Cutscene1
 from sprites import CutsceneCollider, BG, Tile, AnimatedTile, DisappearingPlatform, EscalatorPlatform, MovingPlatform, SawBlade
 from player import Player
 from npc import Entity, NPC
+from enemies import Crab
 
 class Zone(State):
 	def __init__(self, game, name, entry_point):
@@ -95,6 +96,7 @@ class Zone(State):
 				self.target = self.player
 
 			if obj.name == 'guard': self.npc = NPC(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites)
+			if obj.name == 'crab': self.crab = Crab(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites)
 			if obj.name == 'block': Entity(self.game, self, obj.name, [self.pushable_sprites, self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'], self.block_sprites)
 
 		for x, y, surf in tmx_data.get_layer_by_name('blocks').tiles():
@@ -144,4 +146,4 @@ class Zone(State):
 		self.rendered_sprites.offset_draw(screen, self.target.rect.center)
 		self.game.render_text(str(round(self.game.clock.get_fps(), 2)), WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
 		#self.game.render_text(self.player.state, WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
-		self.game.render_text(self.player.move, WHITE, self.game.small_font, RES/2)
+		self.game.render_text(self.crab.state, WHITE, self.game.small_font, RES/2)

@@ -137,7 +137,7 @@ class NPC(pygame.sprite.Sprite):
 
 		# animation
 		self.name = name
-		self.animations = {'idle':[], 'run':[], 'skid':[], 'land':[], 'jump':[], 'double_jump':[], 'fall':[]}
+		self.animations = {'attack':[], 'idle':[], 'run':[], 'skid':[], 'land':[], 'jump':[], 'double_jump':[], 'fall':[]}
 		self.animation_type = ''
 		self.import_images(self.animations)
 		self.state = Fall(self)
@@ -156,12 +156,14 @@ class NPC(pygame.sprite.Sprite):
 		self.move = {'right':False, 'left':False}
 		self.angle = 0
 		self.target_angle = 0
+		self.acc_rate = 0.5
 		self.fric = -0.2
 		self.acc = pygame.math.Vector2(0, 0)
 		self.pos = pygame.math.Vector2(self.rect.center)
 		self.vel = pygame.math.Vector2()
 		self.platform_speed = pygame.math.Vector2()
 		self.prev_platform = None
+
 
 		# jumping
 		self.jump_height = 7
@@ -194,11 +196,11 @@ class NPC(pygame.sprite.Sprite):
 	def move_logic(self):
 		if self.move['right']:
 			self.move['left'] = False
-			self.acc.x += 0.5
+			self.acc.x += self.acc_rate
 			self.target_angle = 10
 		elif self.move['left']:
 			self.move['right'] = False
-			self.acc.x -= 0.5
+			self.acc.x -= self.acc_rate
 			self.target_angle = -10
 		else:
 			self.move['right'], self.move['left'] = False, False 
@@ -245,6 +247,11 @@ class NPC(pygame.sprite.Sprite):
 								
 					self.rect.centerx = self.hitbox.centerx
 					self.pos.x = self.hitbox.centerx
+
+					if self.move['right']:
+						self.move['right'], self.move['left'] = False, True
+					else:
+						self.move['left'], self.move['right'] = False, True
 
 				if direction == 'y':
 					if self.hitbox.bottom >= sprite.hitbox.top and self.old_hitbox.bottom <= sprite.old_hitbox.top:

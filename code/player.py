@@ -33,6 +33,7 @@ class Player(pygame.sprite.Sprite):
 		self.old_hitbox = self.hitbox.copy()
 
 		# physics
+		self.acc_rate = 0.5
 		self.fric = -0.2
 		self.acc = pygame.math.Vector2(0, 0)
 		self.pos = pygame.math.Vector2(self.rect.center)
@@ -82,11 +83,11 @@ class Player(pygame.sprite.Sprite):
 	def move_logic(self):
 		if self.move['right']:
 			self.move['left'] = False
-			self.acc.x += 0.5
+			self.acc.x += self.acc_rate
 			self.target_angle = 10
 		elif self.move['left']:
 			self.move['right'] = False
-			self.acc.x -= 0.5
+			self.acc.x -= self.acc_rate
 			self.target_angle = -10
 		else:
 			self.move['right'], self.move['left'] = False, False 
