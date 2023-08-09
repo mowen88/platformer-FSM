@@ -96,7 +96,7 @@ class Zone(State):
 				self.player = Player(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
 				self.target = self.player
 
-			if obj.name == 'guard': self.guard = Guard(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
+			if obj.name == 'guard': self.npc = Guard(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
 			if obj.name == 'crab': self.crab = Crab(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
 			if obj.name == 'block': Box(self.game, self, obj.name, [self.pushable_sprites, self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
 
@@ -150,4 +150,4 @@ class Zone(State):
 		self.rendered_sprites.offset_draw(screen, self.target.rect.center)
 		self.game.render_text(str(round(self.game.clock.get_fps(), 2)), WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
 		#self.game.render_text(self.player.state, WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
-		self.game.render_text(self.guard.move, WHITE, self.game.small_font, RES/2)
+		self.game.render_text(self.npc.move, WHITE, self.game.small_font, RES/2)

@@ -37,7 +37,7 @@ class Guard(NPC):
 		self.fric = -0.1
 		self.acc_rate = 0.15
 		self.state = Fall(self)
-		self.vision_rect = pygame.Rect(0,0, 5 * TILESIZE, self.rect.height)
+		self.vision_rect = pygame.Rect(0,0, 7 * TILESIZE, self.rect.height)
 		
 	def vision_box(self):
 		if self.facing == 0:

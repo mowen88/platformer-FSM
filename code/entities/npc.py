@@ -140,7 +140,7 @@ class NPC(Entity):
 		
 		# animation
 		self.name = name
-		self.animations = {'attack':[], 'idle':[], 'run':[], 'skid':[], 'land':[], 'jump':[], 'double_jump':[], 'fall':[]}
+		self.animations = {'lunge':[], 'shoot':[], 'telegraph':[],'attack':[], 'idle':[], 'run':[], 'skid':[], 'land':[], 'jump':[], 'double_jump':[], 'fall':[]}
 		self.animation_type = ''
 		self.import_images(self.animations)
 		self.state = Fall(self)

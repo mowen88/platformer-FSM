@@ -27,6 +27,11 @@ class Idle:
 				enemy.move.update({key: False for key in enemy.move})
 	def state_logic(self, enemy):
 
+		# hit player if close
+		if enemy.zone.get_distance(enemy.hitbox.center, enemy.zone.target.hitbox.center) <= 40\
+		and enemy.name == 'guard':
+			return Lunge(enemy)
+
 		# if see player, go into into telegraph, then attack
 		if enemy.zone.target.hitbox.colliderect(enemy.vision_rect):
 			return Telegraph(enemy)
@@ -58,6 +63,11 @@ class Idle:
 class Move(Idle):
 
 	def state_logic(self, enemy):
+
+		# hit player if close
+		if enemy.zone.get_distance(enemy.hitbox.center, enemy.zone.target.hitbox.center) <= 40\
+		and enemy.name == 'guard':
+			return Lunge(enemy)
 
 		if enemy.zone.target.hitbox.colliderect(enemy.vision_rect):
 			return Telegraph(enemy)
@@ -118,20 +128,25 @@ class Fall:
 		enemy.physics_y(dt)
 		enemy.animate('fall', 0.2 * dt, False)
 
-class Telegraph(Fall):
+class Telegraph:
+	def __init__(self, enemy):
+		
+		enemy.frame_index = 0
 
 	def state_logic(self, enemy):
 
-		if enemy.frame_index > len(enemy.animations['attack'])-1:
-			return Attack(enemy)
+		if enemy.frame_index > len(enemy.animations['telegraph'])-1:
+			if enemy.name == 'crab':
+				return Attack(enemy)
+			else:
+				return Shoot(enemy)
 
 	def update(self, enemy, dt):
 
 		enemy.acc.x = 0
 		enemy.physics_x(dt)
 		enemy.physics_y(dt)
-		enemy.animate('attack', 0.2 * dt)
-
+		enemy.animate('telegraph', 0.2 * dt)
 
 class Attack(Fall):
 	def __init__(self, enemy):
@@ -152,7 +167,7 @@ class Attack(Fall):
 		if not enemy.alive:
 			return Death(enemy)
 
-		if abs(enemy.vel.x) <= 0.1:
+		if abs(enemy.vel.x) <= 0.2:
 			return Idle(enemy)
 
 	def update(self, enemy, dt):
@@ -166,3 +181,38 @@ class Attack(Fall):
 		enemy.physics_y(dt)
 
 		enemy.animate('attack', 0.2 * dt)
+
+class Lunge(Attack):
+	def __init__(self, enemy):
+		
+		if enemy.zone.target.rect.centerx < enemy.rect.centerx:
+			enemy.facing =1
+		else:
+			enemy.facing = 0
+		self.speed = 3 * self.direction(enemy)
+		enemy.vel.x = self.speed
+
+	def update(self, enemy, dt):
+
+		enemy.acc.x = 0
+		enemy.vel.x = self.speed
+		self.speed -= self.direction(enemy) * dt * 0.3
+		enemy.physics_x(dt)
+
+		enemy.animate('lunge', 0.2 * dt)
+
+class Shoot(Attack):
+	def __init__(self, enemy):
+		
+		self.speed = -4 * self.direction(enemy)
+		enemy.vel.x = self.speed
+
+	def update(self, enemy, dt):
+
+		enemy.acc.x = 0
+		enemy.vel.x = self.speed
+		self.speed += self.direction(enemy) * dt * 0.4
+		enemy.physics_x(dt)
+		# add y physics to apply gravity to the jump
+
+		enemy.animate('shoot', 0.2 * dt)
