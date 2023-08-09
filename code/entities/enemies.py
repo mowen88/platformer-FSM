@@ -1,7 +1,7 @@
 import pygame
 from settings import *
-from npc import NPC
-from enemy_fsm import Fall
+from entities.npc import NPC
+from entities.enemy_fsm import Fall
 
 class Crab(NPC):
 	def __init__(self, game, zone, name, groups, pos, z):

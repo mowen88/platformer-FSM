@@ -1,6 +1,6 @@
-import pygame
+
 from settings import *
-from npc_fsm import Fall
+from entities.npc_fsm import Fall
 
 class Entity(pygame.sprite.Sprite):
 	def __init__(self, game, zone, name, groups, pos, z):

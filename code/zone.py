@@ -6,9 +6,9 @@ from camera import Camera
 from state import State
 from cutscene import Cutscene0, Cutscene1
 from sprites import CutsceneCollider, BG, Tile, AnimatedTile, DisappearingPlatform, EscalatorPlatform, MovingPlatform, SawBlade
-from player import Player
-from npc import Entity, Box, NPC
-from enemies import Crab
+from entities.player import Player
+from entities.npc import Entity, Box, NPC
+from entities.enemies import Crab
 
 class Zone(State):
 	def __init__(self, game, name, entry_point):

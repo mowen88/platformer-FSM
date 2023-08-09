@@ -1,6 +1,6 @@
 import pygame
 from settings import *
-from player_fsm import WakeUp
+from entities.player_fsm import WakeUp
 
 class Player(pygame.sprite.Sprite):
 	def __init__(self, game, zone, name, groups, pos, z):
