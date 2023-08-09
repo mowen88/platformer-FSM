@@ -1,13 +1,19 @@
 import pygame, math
 from settings import *
 
-class CutsceneCollider(pygame.sprite.Sprite):
-	def __init__(self, groups, rect, number):
+class Collider(pygame.sprite.Sprite):
+	def __init__(self, groups, rect):
 		super().__init__(groups)
 
-		self.number = int(number)
 		#self.image = pygame.Surface((size))
 		self.rect = pygame.Rect(rect)
+
+class CutsceneCollider(Collider):
+	def __init__(self, groups, rect, number):
+		super().__init__(groups, rect)
+
+		self.number = int(number)
+		
 
 class Tile(pygame.sprite.Sprite):
 	def __init__(self, game, zone, groups, pos, surf, z = LAYERS['blocks']):
@@ -133,7 +139,7 @@ class EscalatorPlatform(AnimatedTile):
 	def update(self, dt):
 		self.old_pos = self.pos.copy()
 		self.pos.x += self.direction.x * dt
-		self.animate(int(self.direction.x) * 0.2 * dt)
+		self.animate(1 * self.direction.x * 0.2 * dt)
 		self.hitbox.center = self.rect.center
 
 class MovingPlatform(Tile):

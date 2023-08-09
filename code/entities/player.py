@@ -127,6 +127,13 @@ class Player(pygame.sprite.Sprite):
 			if self.zone.get_distance(sprite.hitbox.center, self.hitbox.center) <= distance:
 				self.alive = False
 
+	def collide_edges(self):
+		for sprite in self.zone.collision_sprites:
+			if self.hitbox.colliderect(sprite.rect):
+				if (self.facing == 0 and self.hitbox.centerx > sprite.rect.left) or\
+				(self.facing == 1 and self.hitbox.centerx < sprite.rect.right):
+					return True
+		
 	def platforms(self, group, dt):
 
 		for platform in group:
@@ -287,6 +294,7 @@ class Player(pygame.sprite.Sprite):
 		self.state_logic()
 		self.state.update(self, dt)
 		self.handle_jumping(dt)
+
 
 
 

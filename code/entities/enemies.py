@@ -7,7 +7,7 @@ class Crab(NPC):
 	def __init__(self, game, zone, name, groups, pos, z):
 		super().__init__(game, zone, name, groups, pos, z)
 
-		self.hitbox = self.rect.copy().inflate(-self.rect.width * 0.5, -self.rect.height * 0.4)
+		self.hitbox = self.rect.copy().inflate(-self.rect.width * 0.4, -self.rect.height * 0.4)
 		self.state = Fall(self)
 		self.fric = -0.1
 		self.acc_rate = 0.2
@@ -18,6 +18,11 @@ class Crab(NPC):
 			self.vision_rect.midleft = self.rect.center# - self.offset
 		else:
 			self.vision_rect.midright = self.rect.center# - self.offset
+
+	def collide_edges(self):
+		for sprite in self.zone.collision_sprites:
+			if self.hitbox.colliderect(sprite.rect):
+				self.switch_direction()
 
 	def state_logic(self):
 		new_state = self.state.state_logic(self)

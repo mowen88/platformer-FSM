@@ -5,7 +5,7 @@ from pytmx.util_pygame import load_pygame
 from camera import Camera
 from state import State
 from cutscene import Cutscene0, Cutscene1
-from sprites import CutsceneCollider, BG, Tile, AnimatedTile, DisappearingPlatform, EscalatorPlatform, MovingPlatform, SawBlade
+from sprites import Collider, CutsceneCollider, BG, Tile, AnimatedTile, DisappearingPlatform, EscalatorPlatform, MovingPlatform, SawBlade
 from entities.player import Player
 from entities.npc import Entity, Box, NPC
 from entities.enemies import Crab
@@ -25,6 +25,7 @@ class Zone(State):
 		self.rendered_sprites = Camera(self.game, self)
 		
 		self.cutscene_sprites = pygame.sprite.Group()
+		self.collision_sprites = pygame.sprite.Group()
 		self.block_sprites = pygame.sprite.Group()
 		self.pushable_sprites = pygame.sprite.Group()
 		self.platform_sprites = pygame.sprite.Group()
@@ -88,7 +89,8 @@ class Zone(State):
 		# # add backgrounds
 		# Object(self.game, self, [self.rendered_sprites, Z_LAYERS[1]], (0,0), pygame.image.load('../assets/bg.png').convert_alpha())
 		# Object(self.game, self, [self.rendered_sprites, Z_LAYERS[2]], (0,TILESIZE), pygame.image.load('../zones/0.png').convert_alpha())
-
+		for obj in tmx_data.get_layer_by_name('edge_colliders'):
+			Collider([self.collision_sprites], (obj.x, obj.y, obj.width, obj.height))
 		# add the player
 		for obj in tmx_data.get_layer_by_name('entities'):
 			if obj.name == 'player':
@@ -146,5 +148,5 @@ class Zone(State):
 		self.rendered_sprites.offset_draw(screen, self.target.rect.center)
 		self.game.render_text(str(round(self.game.clock.get_fps(), 2)), WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
 		#self.game.render_text(self.player.state, WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
-		self.game.render_text(self.crab.state, WHITE, self.game.small_font, RES/2)
+		self.game.render_text(self.player.jump_buffer, WHITE, self.game.small_font, RES/2)
 		pygame.draw.rect(screen, WHITE, self.crab.vision_rect, 2)

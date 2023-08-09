@@ -78,9 +78,15 @@ class Idle(Fall):
 		player.move_logic()
 		player.physics_x(dt)
 		player.physics_y(dt)
-		player.animate('idle', 0.2 * dt)
+		if player.collide_edges():
+			player.animate('skid', 0.2 * dt)
+		else:
+			player.animate('idle', 0.2 * dt)
 
 class Move(Fall):
+	def __init__(self, player):
+		
+		player.jump_counter = 1
 
 	def state_logic(self, player):
 
@@ -114,6 +120,9 @@ class Move(Fall):
 			player.animate('run', 0.2 * dt)
 
 class Landing(Fall):
+	def __init__(self, player):
+
+		player.jump_counter = 1
 
 	def state_logic(self, player):
 

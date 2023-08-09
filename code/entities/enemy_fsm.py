@@ -6,7 +6,7 @@ class Idle:
 		
 		self.timer = 0
 		# get a random time between 0 and 300
-		self.time = self.random_wait(300)
+		self.time = self.random_wait(100)
 
 	def random_wait(self, multiple):
 		return random.random() * multiple
@@ -16,14 +16,15 @@ class Idle:
 		if self.timer > self.time:
 			self.timer = 0
 			if abs(enemy.vel.x) < 0.1:
+				# set vel x to 0 to stop them sliding against wall
 				enemy.vel.x = 0
 				if enemy.facing == 1:
 					enemy.move['left'] = True
 				else:
 					enemy.move['right'] = True
 			else:
-				enemy.move['left'], enemy.move['right'] = False, False
-
+				#reset moving left and right to false
+				enemy.move.update({key: False for key in enemy.move})
 	def state_logic(self, enemy):
 
 		# if see player, go into into telegraph, then attack
@@ -49,7 +50,6 @@ class Idle:
 
 	def update(self, enemy, dt):
 		self.timer += dt
-		print(self.timer)
 		enemy.acc.x = 0
 		enemy.physics_x(dt)
 		enemy.physics_y(dt)
@@ -72,10 +72,10 @@ class Move(Idle):
 
 	def update(self, enemy, dt):
 		self.timer += dt
-		print(self.timer)
 		enemy.acc.x = 0
 		enemy.move_logic()
 		enemy.physics_x(dt)
+		enemy.collide_edges()
 		enemy.physics_y(dt)
 
 		if (enemy.vel.x > 0 and not enemy.move['right']) or (enemy.vel.x < 0 and not enemy.move['left']):
@@ -154,12 +154,8 @@ class Attack(Fall):
 		if not enemy.alive:
 			return Death(enemy)
 
-		if abs(enemy.vel.x) <= 5:
-			return Move(enemy)
-
-		if abs(enemy.vel.x) <= 0.5:
+		if abs(enemy.vel.x) <= 0.1:
 			return Idle(enemy)
-
 
 	def update(self, enemy, dt):
 
@@ -168,6 +164,7 @@ class Attack(Fall):
 		enemy.vel.x = self.speed
 		self.speed -= self.direction(enemy) * dt * 0.4
 		enemy.physics_x(dt)
+		enemy.collide_edges()
 		# add y physics to apply gravity to the jump
 		enemy.physics_y(dt)
 
