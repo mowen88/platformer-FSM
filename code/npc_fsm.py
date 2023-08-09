@@ -30,16 +30,12 @@ class Idle:
 		player.physics_y(dt)
 		player.animate('idle', 0.2 * dt)
 
-class Move:
-	def __init__(self, player):
-		
-		player.frame_index = 0
+class Move(Idle):
 
 	def state_logic(self, player):
 
 		if not player.on_ground:
 			return Fall(player)
-
 
 		if not (player.move['right'] or player.move['left']) and abs(player.vel.x) <= 0.1:
 			return Idle(player)
@@ -56,10 +52,7 @@ class Move:
 		else:
 			player.animate('run', 0.2 * dt)
 
-class Landing:
-	def __init__(self, player):
-		
-		player.frame_index = 0
+class Landing(Idle):
 
 	def state_logic(self, player):
 
@@ -75,10 +68,7 @@ class Landing:
 
 		player.animate('land', 0.2 * dt)
 
-class Fall:
-	def __init__(self, player):
-		
-		player.frame_index = 0
+class Fall(Idle):
 
 	def state_logic(self, player):
 

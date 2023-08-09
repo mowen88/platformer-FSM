@@ -147,3 +147,4 @@ class Zone(State):
 		self.game.render_text(str(round(self.game.clock.get_fps(), 2)), WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
 		#self.game.render_text(self.player.state, WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
 		self.game.render_text(self.crab.state, WHITE, self.game.small_font, RES/2)
+		pygame.draw.rect(screen, WHITE, self.crab.vision_rect, 2)

@@ -11,6 +11,13 @@ class Crab(NPC):
 		self.state = Fall(self)
 		self.fric = -0.1
 		self.acc_rate = 0.2
+		self.vision_rect = pygame.Rect(0,0, 5 * TILESIZE, self.rect.height)
+		
+	def vision_box(self):
+		if self.facing == 0:
+			self.vision_rect.midleft = self.rect.center# - self.offset
+		else:
+			self.vision_rect.midright = self.rect.center# - self.offset
 
 	def state_logic(self):
 		new_state = self.state.state_logic(self)
@@ -18,6 +25,12 @@ class Crab(NPC):
 		else: self.state
 
 	def update(self, dt):
+		self.vision_box()
 		self.state_logic()
 		self.state.update(self, dt)
+
+	def render(self,screen):
+		pygame.draw.rect(screen, WHITE, self.vision_rect, 2)
+
+
 

@@ -214,6 +214,7 @@ class NPC(Entity):
 			self.facing = 1
 
 	def switch_direction(self):
+		self.vel.x = 0
 		if self.move['right']:
 			self.move['right'], self.move['left'] = False, True
 		else:
