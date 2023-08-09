@@ -8,7 +8,7 @@ from cutscene import Cutscene0, Cutscene1
 from sprites import Collider, CutsceneCollider, BG, Tile, AnimatedTile, DisappearingPlatform, EscalatorPlatform, MovingPlatform, SawBlade
 from entities.player import Player
 from entities.npc import Entity, Box, NPC
-from entities.enemies import Crab
+from entities.enemies import Crab, Guard
 
 class Zone(State):
 	def __init__(self, game, name, entry_point):
@@ -89,18 +89,20 @@ class Zone(State):
 		# # add backgrounds
 		# Object(self.game, self, [self.rendered_sprites, Z_LAYERS[1]], (0,0), pygame.image.load('../assets/bg.png').convert_alpha())
 		# Object(self.game, self, [self.rendered_sprites, Z_LAYERS[2]], (0,TILESIZE), pygame.image.load('../zones/0.png').convert_alpha())
-		for obj in tmx_data.get_layer_by_name('edge_colliders'):
-			Collider([self.collision_sprites], (obj.x, obj.y, obj.width, obj.height))
+		
 		# add the player
 		for obj in tmx_data.get_layer_by_name('entities'):
 			if obj.name == 'player':
 				self.player = Player(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
 				self.target = self.player
 
-			if obj.name == 'guard': self.npc = NPC(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
+			if obj.name == 'guard': self.guard = Guard(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
 			if obj.name == 'crab': self.crab = Crab(self.game, self, obj.name, [self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
 			if obj.name == 'block': Box(self.game, self, obj.name, [self.pushable_sprites, self.updated_sprites, self.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
 
+		for obj in tmx_data.get_layer_by_name('edge_colliders'):
+			Collider([self.collision_sprites], (obj.x, obj.y, obj.width, obj.height))
+			
 		for x, y, surf in tmx_data.get_layer_by_name('blocks').tiles():
 			Tile(self.game, self, [self.block_sprites, self.rendered_sprites], (x * TILESIZE, y * TILESIZE), surf)
 
@@ -148,5 +150,4 @@ class Zone(State):
 		self.rendered_sprites.offset_draw(screen, self.target.rect.center)
 		self.game.render_text(str(round(self.game.clock.get_fps(), 2)), WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
 		#self.game.render_text(self.player.state, WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
-		self.game.render_text(self.player.jump_buffer, WHITE, self.game.small_font, RES/2)
-		pygame.draw.rect(screen, WHITE, self.crab.vision_rect, 2)
+		self.game.render_text(self.guard.move, WHITE, self.game.small_font, RES/2)

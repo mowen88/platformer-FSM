@@ -84,11 +84,11 @@ class Player(pygame.sprite.Sprite):
 		if self.move['right']:
 			self.move['left'] = False
 			self.acc.x += self.acc_rate
-			self.target_angle = 10
+			self.target_angle = self.vel.x * 10
 		elif self.move['left']:
 			self.move['right'] = False
 			self.acc.x -= self.acc_rate
-			self.target_angle = -10
+			self.target_angle = self.vel.x * 10
 		else:
 			self.move['right'], self.move['left'] = False, False 
 			self.target_angle = 0

@@ -6,7 +6,7 @@ class Idle:
 		
 		self.timer = 0
 		# get a random time between 0 and 300
-		self.time = self.random_wait(100)
+		self.time = self.random_wait(300)
 
 	def random_wait(self, multiple):
 		return random.random() * multiple
@@ -75,7 +75,6 @@ class Move(Idle):
 		enemy.acc.x = 0
 		enemy.move_logic()
 		enemy.physics_x(dt)
-		enemy.collide_edges()
 		enemy.physics_y(dt)
 
 		if (enemy.vel.x > 0 and not enemy.move['right']) or (enemy.vel.x < 0 and not enemy.move['left']):
@@ -131,14 +130,13 @@ class Telegraph(Fall):
 		enemy.acc.x = 0
 		enemy.physics_x(dt)
 		enemy.physics_y(dt)
-
 		enemy.animate('attack', 0.2 * dt)
 
 
 class Attack(Fall):
 	def __init__(self, enemy):
 		
-		self.speed = 10 * self.direction(enemy)
+		self.speed = 8 * self.direction(enemy)
 		enemy.vel.x = self.speed
 		# jump slightly when attacking
 		enemy.vel.y = -4
@@ -164,7 +162,6 @@ class Attack(Fall):
 		enemy.vel.x = self.speed
 		self.speed -= self.direction(enemy) * dt * 0.4
 		enemy.physics_x(dt)
-		enemy.collide_edges()
 		# add y physics to apply gravity to the jump
 		enemy.physics_y(dt)
 

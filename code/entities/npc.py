@@ -52,36 +52,6 @@ class Entity(pygame.sprite.Sprite):
 
 					self.pos.x += self.platform_vel.x
 
-	def collisions(self, direction):
-
-		for sprite in self.block_sprites:
-			if sprite.hitbox.colliderect(self.hitbox):
-
-				if direction == 'x':
-					if self.hitbox.right >= sprite.hitbox.left and self.old_hitbox.right <= sprite.old_hitbox.left:
-						self.hitbox.right = sprite.hitbox.left
-						self.vel.x *= -1
-					
-					elif self.hitbox.left <= sprite.hitbox.right and self.old_hitbox.left >= sprite.old_hitbox.right:
-						self.hitbox.left = sprite.hitbox.right
-						self.vel.x *= -1
-
-					self.rect.centerx = self.hitbox.centerx
-					self.pos.x = self.hitbox.centerx
-
-				if direction == 'y':
-					if self.hitbox.bottom >= sprite.hitbox.top and self.old_hitbox.bottom <= sprite.old_hitbox.top:
-						self.hitbox.bottom = sprite.hitbox.top
-						self.on_ground = True
-						self.vel.y = 0
-
-					elif self.hitbox.top <= sprite.hitbox.bottom and self.old_hitbox.top >= sprite.old_hitbox.bottom:
-						self.hitbox.top = sprite.hitbox.bottom
-						self.vel.y = 0
-
-					self.rect.centery = self.hitbox.centery
-					self.pos.y = self.hitbox.centery
-
 	def physics_x(self, dt):
 		self.old_hitbox = self.hitbox.copy()
 		self.old_pos = self.pos.copy()
@@ -126,7 +96,38 @@ class Entity(pygame.sprite.Sprite):
 class Box(Entity):
 	def __init__(self, game, zone, name, groups, pos, z):
 		super().__init__(game, zone, name, groups, pos, z)
+
 		self.image = pygame.image.load(f'../assets/hazards/{self.name}.png').convert_alpha()
+
+	def collisions(self, direction):
+
+		for sprite in self.block_sprites:
+			if sprite.hitbox.colliderect(self.hitbox):
+
+				if direction == 'x':
+					if self.hitbox.right >= sprite.hitbox.left and self.old_hitbox.right <= sprite.old_hitbox.left:
+						self.hitbox.right = sprite.hitbox.left
+						self.vel.x *= -1
+					
+					elif self.hitbox.left <= sprite.hitbox.right and self.old_hitbox.left >= sprite.old_hitbox.right:
+						self.hitbox.left = sprite.hitbox.right
+						self.vel.x *= -1
+
+					self.rect.centerx = self.hitbox.centerx
+					self.pos.x = self.hitbox.centerx
+
+				if direction == 'y':
+					if self.hitbox.bottom >= sprite.hitbox.top and self.old_hitbox.bottom <= sprite.old_hitbox.top:
+						self.hitbox.bottom = sprite.hitbox.top
+						self.on_ground = True
+						self.vel.y = 0
+
+					elif self.hitbox.top <= sprite.hitbox.bottom and self.old_hitbox.top >= sprite.old_hitbox.bottom:
+						self.hitbox.top = sprite.hitbox.bottom
+						self.vel.y = 0
+
+					self.rect.centery = self.hitbox.centery
+					self.pos.y = self.hitbox.centery
 
 	def update(self, dt):
 		self.acc.x = 0
@@ -166,7 +167,6 @@ class NPC(Entity):
 		self.platform_speed = pygame.math.Vector2()
 		self.prev_platform = None
 
-
 		# jumping
 		self.jump_height = 7
 		self.max_fall_speed = 7
@@ -199,11 +199,11 @@ class NPC(Entity):
 		if self.move['right']:
 			self.move['left'] = False
 			self.acc.x += self.acc_rate
-			self.target_angle = 10
+			self.target_angle = self.vel.x * 10
 		elif self.move['left']:
 			self.move['right'] = False
 			self.acc.x -= self.acc_rate
-			self.target_angle = -10
+			self.target_angle = self.vel.x * 10
 		else:
 			self.move['right'], self.move['left'] = False, False 
 			self.target_angle = 0

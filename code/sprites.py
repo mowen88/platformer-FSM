@@ -7,6 +7,9 @@ class Collider(pygame.sprite.Sprite):
 
 		#self.image = pygame.Surface((size))
 		self.rect = pygame.Rect(rect)
+		
+		self.hitbox = self.rect.copy().inflate(0,0)	
+		self.old_hitbox = self.hitbox.copy()
 
 class CutsceneCollider(Collider):
 	def __init__(self, groups, rect, number):
@@ -139,7 +142,7 @@ class EscalatorPlatform(AnimatedTile):
 	def update(self, dt):
 		self.old_pos = self.pos.copy()
 		self.pos.x += self.direction.x * dt
-		self.animate(1 * self.direction.x * 0.2 * dt)
+		self.animate((self.pos.x - self.old_pos.x) * dt)
 		self.hitbox.center = self.rect.center
 
 class MovingPlatform(Tile):
