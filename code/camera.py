@@ -58,9 +58,9 @@ class Camera(pygame.sprite.Group):
         # Apply screenshake effect if needed
         self.screenshake()
 
-        # # dark mode
-        # if self.dark:
-        #     self.render_fog(screen, (0 - self.offset[0] * 0.1, 0 - self.offset[1] * 0.1))
+        # dark mode
+        if self.dark:
+            self.render_fog(screen, (0 - self.offset[0] * 0.1, 0 - self.offset[1] * 0.1))
 
         for layer in LAYERS.values():
             for sprite in self.zone.rendered_sprites:

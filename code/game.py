@@ -1,6 +1,6 @@
-import pygame, sys
-from settings import *
+import pygame
 from os import walk
+from settings import *
 from intro import Intro
 
 class Game:
