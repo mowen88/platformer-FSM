@@ -2,19 +2,19 @@
 <map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="64" height="36" tilewidth="20" tileheight="20" infinite="0" nextlayerid="18" nextobjectid="125">
  <editorsettings>
   <chunksize width="20" height="20"/>
-  <export target="0/0.csv" format="csv"/>
+  <export target="1.csv" format="csv"/>
  </editorsettings>
- <tileset firstgid="1" source="0.tsx"/>
- <tileset firstgid="16" source="platforms.tsx"/>
- <tileset firstgid="25" source="bg_decoration.tsx"/>
+ <tileset firstgid="1" source="../0.tsx"/>
+ <tileset firstgid="16" source="../platforms.tsx"/>
+ <tileset firstgid="25" source="../bg_decoration.tsx"/>
  <imagelayer id="15" name="bg0">
-  <image source="0/bg_images/bg0.png" width="1280" height="720"/>
+  <image source="bg_images/bg0.png" width="1280" height="720"/>
  </imagelayer>
  <imagelayer id="16" name="bg2">
-  <image source="0/bg_images/bg2.png" width="1280" height="720"/>
+  <image source="bg_images/bg2.png" width="1280" height="720"/>
  </imagelayer>
  <imagelayer id="17" name="bg1">
-  <image source="0/bg_images/bg1.png" width="1280" height="720"/>
+  <image source="bg_images/bg1.png" width="1280" height="720"/>
  </imagelayer>
  <layer id="1" name="blocks" width="64" height="36">
   <data encoding="csv">

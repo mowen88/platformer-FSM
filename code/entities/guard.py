@@ -1,5 +1,32 @@
 import pygame, random
 from settings import *
+from entities.npc import NPC
+
+class Guard(NPC):
+	def __init__(self, game, zone, name, groups, pos, z):
+		super().__init__(game, zone, name, groups, pos, z)
+
+		self.hitbox = self.rect.copy().inflate(-self.rect.width * 0.2, -self.rect.height * 0.1)
+		self.fric = -0.1
+		self.acc_rate = 0.15
+		self.state = Fall(self)
+		self.vision_rect = pygame.Rect(0,0, 7 * TILESIZE, self.rect.height)
+		
+	def vision_box(self):
+		if self.facing == 0:
+			self.vision_rect.midleft = self.rect.center
+		else:
+			self.vision_rect.midright = self.rect.center
+
+	def state_logic(self):
+		new_state = self.state.state_logic(self)
+		if new_state: self.state = new_state
+		else: self.state
+
+	def update(self, dt):
+		self.vision_box()
+		self.state_logic()
+		self.state.update(self, dt)
 
 class Idle:
 	def __init__(self, enemy):
@@ -148,13 +175,15 @@ class Telegraph:
 		enemy.physics_y(dt)
 		enemy.animate('telegraph', 0.2 * dt)
 
-class Attack(Fall):
+class Lunge(Fall):
 	def __init__(self, enemy):
 		
-		self.speed = 8 * self.direction(enemy)
+		if enemy.zone.target.rect.centerx < enemy.rect.centerx:
+			enemy.facing =1
+		else:
+			enemy.facing = 0
+		self.speed = 3 * self.direction(enemy)
 		enemy.vel.x = self.speed
-		# jump slightly when attacking
-		enemy.vel.y = -4
 
 	def direction(self, enemy):
 		if enemy.facing == 0:
@@ -173,35 +202,13 @@ class Attack(Fall):
 	def update(self, enemy, dt):
 
 		enemy.acc.x = 0
-
-		enemy.vel.x = self.speed
-		self.speed -= self.direction(enemy) * dt * 0.4
-		enemy.physics_x(dt)
-		# add y physics to apply gravity to the jump
-		enemy.physics_y(dt)
-
-		enemy.animate('attack', 0.2 * dt)
-
-class Lunge(Attack):
-	def __init__(self, enemy):
-		
-		if enemy.zone.target.rect.centerx < enemy.rect.centerx:
-			enemy.facing =1
-		else:
-			enemy.facing = 0
-		self.speed = 3 * self.direction(enemy)
-		enemy.vel.x = self.speed
-
-	def update(self, enemy, dt):
-
-		enemy.acc.x = 0
 		enemy.vel.x = self.speed
 		self.speed -= self.direction(enemy) * dt * 0.3
 		enemy.physics_x(dt)
 
 		enemy.animate('lunge', 0.2 * dt)
 
-class Shoot(Attack):
+class Shoot(Lunge):
 	def __init__(self, enemy):
 		
 		self.speed = -4 * self.direction(enemy)

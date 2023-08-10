@@ -7,8 +7,10 @@ from state import State
 from cutscene import Cutscene0, Cutscene1
 from sprites import Collider, CutsceneCollider, BG, Tile, AnimatedTile, DisappearingPlatform, EscalatorPlatform, MovingPlatform, SawBlade
 from entities.player import Player
-from entities.npc import Entity, Box, NPC
-from entities.enemies import Crab, Guard
+from entities.physics_object import Entity, Box
+from entities.npc import NPC
+from entities.crab import Crab
+from entities.guard import Guard
 
 class Zone(State):
 	def __init__(self, game, name, entry_point):
@@ -55,7 +57,7 @@ class Zone(State):
 		return (cols * TILESIZE, rows * TILESIZE)
 
 	def create_map(self):
-		tmx_data = load_pygame(f'../zones/{self.game.current_zone}.tmx')
+		tmx_data = load_pygame(f'../zones/{self.game.current_zone}/{self.game.current_zone}.tmx')
 
 		# key is the platform name in tmx, value is a list, containing the direction and amplitude
 		platforms = {'horizontal':[(0.3,0.0), 75], 'horizontal_2':[(-0.3,0.0), 75], 'vertical':[(0.0,-0.2), 120], 'vertical_2':[(0.0, 0.3), 75], 'vertical_3':[(0.0,0.2), 90], 'vertical_4':[(0.0,0.3), 90]}
@@ -70,7 +72,6 @@ class Zone(State):
 			# if obj.name == 'vertical_3': MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,0.2), amplitude=90)
 			# if obj.name == 'vertical_4': MovingPlatform(self.game, self, [self.platform_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.0,0.3), amplitude=90)
 
-		
 		for obj in tmx_data.get_layer_by_name('hazards'):
 			if obj.name == 'horizontal': SawBlade(self.game, self, [self.sawblade_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.5,0.0), amplitude=60)
 			if obj.name == 'horizontal_2': SawBlade(self.game, self, [self.sawblade_sprites, self.updated_sprites, self.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(-0.5,0.0), amplitude=60)

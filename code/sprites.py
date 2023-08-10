@@ -17,7 +17,6 @@ class CutsceneCollider(Collider):
 
 		self.number = int(number)
 		
-
 class Tile(pygame.sprite.Sprite):
 	def __init__(self, game, zone, groups, pos, surf, z = LAYERS['blocks']):
 		super().__init__(groups)
