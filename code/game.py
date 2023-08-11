@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys
 from os import walk
 from settings import *
 from intro import Intro
@@ -14,9 +14,9 @@ class Game:
         self.keys = pygame.key.get_pressed()
 
         #font
-        self.big_font = pygame.font.Font(FONT, int(TILESIZE * 1.5))#round(HEIGHT * 0.1))
-        self.medium_font = pygame.font.Font(FONT, int(TILESIZE)) #round(HEIGHT * 0.05))
-        self.small_font = pygame.font.Font(FONT, int(TILESIZE*0.5))#round(HEIGHT * 0.03))
+        self.big_font = pygame.font.Font(FONT, int(TILESIZE * 1.5))
+        self.medium_font = pygame.font.Font(FONT, int(TILESIZE)) 
+        self.small_font = pygame.font.Font(FONT, int(TILESIZE*0.5))
 
         # states
         self.stack = []

@@ -33,6 +33,17 @@ class CreateZone:
 			for key, value in platforms.items():
 				if obj.name == key: MovingPlatform(self.game, self.zone, [self.zone.platform_sprites, self.zone.updated_sprites, self.zone.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=value[0], amplitude=value[1])
 
+		# add the player
+		for obj in tmx_data.get_layer_by_name('entities'):
+			if obj.name == 'player':
+				self.zone.player = Player(self.game, self.zone, obj.name, [self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
+				self.zone.target = self.zone.player
+
+			if obj.name == 'crab': self.zone.crab = Crab(self.game, self.zone, obj.name, [self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
+			if obj.name == 'guard': self.zone.npc = Guard(self.game, self.zone, obj.name, [self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
+			if obj.name == 'block': Box(self.game, self.zone, obj.name, [self.zone.pushable_sprites, self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
+
+
 		for obj in tmx_data.get_layer_by_name('hazards'):
 			if obj.name == 'horizontal': SawBlade(self.game, self.zone, [self.zone.sawblade_sprites, self.zone.updated_sprites, self.zone.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.5,0.0), amplitude=60)
 			# if obj.name == 'horizontal_2': SawBlade(self.game, self.zone, [self.zone.sawblade_sprites, self.zone.updated_sprites, self.zone.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(-0.5,0.0), amplitude=60)
@@ -50,15 +61,6 @@ class CreateZone:
 			if obj.name == '0': CutsceneCollider([self.zone.cutscene_sprites, self.zone.updated_sprites], (obj.x, obj.y, obj.width, obj.height), obj.name)
 			if obj.name == '1': CutsceneCollider([self.zone.cutscene_sprites, self.zone.updated_sprites], (obj.x, obj.y, obj.width, obj.height), obj.name)
 
-		# add the player
-		for obj in tmx_data.get_layer_by_name('entities'):
-			if obj.name == 'player':
-				self.zone.player = Player(self.game, self.zone, obj.name, [self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
-				self.zone.target = self.zone.player
-
-			if obj.name == 'guard': self.zone.npc = Guard(self.game, self.zone, obj.name, [self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
-			if obj.name == 'crab': self.zone.crab = Crab(self.game, self.zone, obj.name, [self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
-			if obj.name == 'block': Box(self.game, self.zone, obj.name, [self.zone.pushable_sprites, self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
 
 		for obj in tmx_data.get_layer_by_name('edge_colliders'):
 			Collider([self.zone.collision_sprites], (obj.x, obj.y, obj.width, obj.height))
@@ -66,7 +68,7 @@ class CreateZone:
 				# add static image layers
 		for _, __, img_files in walk(f'../zones/{self.game.current_zone}/bg_images'):
 			for img in img_files:
-				#if img == '2x6_white.png': BG(self.game, self, [self.updated_sprites, self.rendered_sprites], (0, 0), pygame.image.load(f'../zones/{self.name}/bg_images/{img}').convert_alpha(), (0.1, 0.1), LAYERS['blocks'])
+				if img == '2x6_white.png': BG(self.game, self.zone, [self.zone.updated_sprites, self.zone.rendered_sprites], (0, 0), pygame.image.load(f'../zones/{self.game.current_zone}/bg_images/{img}').convert_alpha(), (0.1, 0.1), LAYERS['blocks'])
 				if img == 'bg1.png': BG(self.game, self.zone, [self.zone.updated_sprites, self.zone.rendered_sprites], (0, 0), pygame.image.load(f'../zones/{self.game.current_zone}/bg_images/{img}').convert_alpha(), (0.01, 0.01), LAYERS['BG1'])
 				if img == 'bg2.png': BG(self.game, self.zone, [self.zone.updated_sprites, self.zone.rendered_sprites], (0, 0), pygame.image.load(f'../zones/{self.game.current_zone}/bg_images/{img}').convert_alpha(), (0.02, 0.05), LAYERS['BG2'])
 				if img == 'bg0.png': BG(self.game, self.zone, [self.zone.updated_sprites, self.zone.rendered_sprites], (0, 0), pygame.image.load(f'../zones/{self.game.current_zone}/bg_images/{img}').convert_alpha(), (0.1, 0.03), LAYERS['BG0'])

@@ -1,10 +1,11 @@
 import pygame
 from settings import *
+from entities.physics_object import Entity
 from entities.player_fsm import WakeUp
 
-class Player(pygame.sprite.Sprite):
+class Player(Entity):
 	def __init__(self, game, zone, name, groups, pos, z):
-		super().__init__(groups)
+		super().__init__(game, zone, name, groups, pos, z)
 
 		self.game = game
 		self.zone = zone
@@ -39,11 +40,10 @@ class Player(pygame.sprite.Sprite):
 		self.pos = pygame.math.Vector2(self.rect.center)
 		self.vel = pygame.math.Vector2()
 		self.platform_vel = pygame.math.Vector2()
-		self.prev_platform = None
 
 		# jumping
-		self.jump_height = 7
-		self.max_fall_speed = 7
+		self.jump_height = 6
+		self.max_fall_speed = 6
 		self.jump_counter = 0
 		self.cyote_timer = 0
 		self.cyote_timer_threshold = 6
@@ -136,7 +136,7 @@ class Player(pygame.sprite.Sprite):
 		
 	def platforms(self, group, dt):
 
-		for platform in group:
+		for platform in group.copy():
 			ray_height = 4
 			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - ray_height, platform.rect.width, platform.rect.height)
 			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
@@ -149,75 +149,74 @@ class Player(pygame.sprite.Sprite):
 					self.rect.centery = self.hitbox.centery
 					self.pos.y = self.hitbox.centery
 
-					if not hasattr(self, 'prev_platform'):
-						self.prev_platform = platform
-						self.platform_vel.x = 0
-					else:
-						self.platform_vel.x = platform.pos.x - platform.old_pos.x
-						self.prev_platform = platform
+					# if not hasattr(self, 'prev_platform'):
+					# 	self.prev_platform = platform
+					# 	self.platform_vel.x = 0
+					# else:
+					# 	self.platform_vel.x = platform.pos.x - platform.old_pos.x
+					# 	self.prev_platform = platform
 
 					self.pos.x += self.platform_vel.x
 
 	def collisions(self, direction):
 
-		hitlist = self.get_collide_list(self.block_sprites)
-		for sprite in hitlist:
+		for sprite in self.zone.block_sprites:
+			if self.hitbox.colliderect(sprite.hitbox): 
 
-			if direction == 'x':
-				if self.hitbox.right >= sprite.hitbox.left and self.old_hitbox.right <= sprite.old_hitbox.left:
-					self.hitbox.right = sprite.hitbox.left
-				
-				elif self.hitbox.left <= sprite.hitbox.right and self.old_hitbox.left >= sprite.old_hitbox.right:
-					self.hitbox.left = sprite.hitbox.right
+				if direction == 'x':
+					if self.hitbox.right >= sprite.hitbox.left and self.old_hitbox.right <= sprite.old_hitbox.left:
+						self.hitbox.right = sprite.hitbox.left
+					
+					elif self.hitbox.left <= sprite.hitbox.right and self.old_hitbox.left >= sprite.old_hitbox.right:
+						self.hitbox.left = sprite.hitbox.right
 
-				self.rect.centerx = self.hitbox.centerx
-				self.pos.x = self.hitbox.centerx
+					self.rect.centerx = self.hitbox.centerx
+					self.pos.x = self.hitbox.centerx
 
-			if direction == 'y':
-				if self.hitbox.bottom >= sprite.hitbox.top and self.old_hitbox.bottom <= sprite.old_hitbox.top:
-					self.hitbox.bottom = sprite.hitbox.top
-					self.on_ground = True
-					self.vel.y = 0
-		
-				elif self.hitbox.top <= sprite.hitbox.bottom and self.old_hitbox.top >= sprite.old_hitbox.bottom:
-					self.hitbox.top = sprite.hitbox.bottom
-					self.vel.y = 0
+				if direction == 'y':
+					if self.hitbox.bottom >= sprite.hitbox.top and self.old_hitbox.bottom <= sprite.old_hitbox.top:
+						self.hitbox.bottom = sprite.hitbox.top
+						self.on_ground = True
+						self.vel.y = 0
+			
+					elif self.hitbox.top <= sprite.hitbox.bottom and self.old_hitbox.top >= sprite.old_hitbox.bottom:
+						self.hitbox.top = sprite.hitbox.bottom
+						self.vel.y = 0
 
-				self.rect.centery = self.hitbox.centery
-				self.pos.y = self.hitbox.centery
+					self.rect.centery = self.hitbox.centery
+					self.pos.y = self.hitbox.centery
 
 	def pushable_collisions(self, direction):
 
-		hitlist = self.get_collide_list(self.pushable_sprites)
-		for sprite in hitlist:
+		for sprite in self.zone.pushable_sprites:
+			if self.hitbox.colliderect(sprite.hitbox): 
+				if direction == 'x':
+					if self.hitbox.right >= sprite.hitbox.left and self.old_hitbox.right <= sprite.old_hitbox.left:
+						sprite.hitbox.left = self.hitbox.right
+						sprite.vel.x = self.vel.x * 2
 
-			if direction == 'x':
-				if self.hitbox.right >= sprite.hitbox.left and self.old_hitbox.right <= sprite.old_hitbox.left:
-					sprite.hitbox.left = self.hitbox.right
-					sprite.vel.x = self.vel.x * 2
+					elif self.hitbox.left <= sprite.hitbox.right and self.old_hitbox.left >= sprite.old_hitbox.right:
+						sprite.hitbox.right = self.hitbox.left
+						sprite.vel.x = self.vel.x * 2
 
-				elif self.hitbox.left <= sprite.hitbox.right and self.old_hitbox.left >= sprite.old_hitbox.right:
-					sprite.hitbox.right = self.hitbox.left
-					sprite.vel.x = self.vel.x * 2
+					self.rect.centerx = self.hitbox.centerx
+					self.pos.x = self.hitbox.centerx
+					# makes sure the pushable sprite does not go through the blocks
+					sprite.collisions('x')
 
-				self.rect.centerx = self.hitbox.centerx
-				self.pos.x = self.hitbox.centerx
-				# makes sure the pushable sprite does not go through the blocks
-				sprite.collisions('x')
+				if direction == 'y':
+					
+					if self.hitbox.bottom >= sprite.hitbox.top and self.old_hitbox.bottom <= sprite.old_hitbox.top:
+						self.hitbox.bottom = sprite.hitbox.top
+						self.vel.y = 0
+						self.on_ground = True
+			
+					elif self.hitbox.top <= sprite.hitbox.bottom and self.old_hitbox.top >= sprite.old_hitbox.bottom:
+						self.hitbox.top = sprite.hitbox.bottom
+						sprite.vel.y = self.vel.y
 
-			if direction == 'y':
-				
-				if self.hitbox.bottom >= sprite.hitbox.top and self.old_hitbox.bottom <= sprite.old_hitbox.top:
-					self.hitbox.bottom = sprite.hitbox.top
-					self.vel.y = 0
-					self.on_ground = True
-		
-				elif self.hitbox.top <= sprite.hitbox.bottom and self.old_hitbox.top >= sprite.old_hitbox.bottom:
-					self.hitbox.top = sprite.hitbox.bottom
-					sprite.vel.y = self.vel.y
-
-				self.rect.centery = self.hitbox.centery
-				self.pos.y = self.hitbox.centery
+					self.rect.centery = self.hitbox.centery
+					self.pos.y = self.hitbox.centery
 
 	def jump(self, height):
 		self.vel.y = -height

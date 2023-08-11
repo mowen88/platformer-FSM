@@ -7,10 +7,10 @@ class Crab(NPC):
 		super().__init__(game, zone, name, groups, pos, z)
 
 		self.hitbox = self.rect.copy().inflate(-self.rect.width * 0.4, -self.rect.height * 0.4)
-		self.state = Fall(self)
 		self.fric = -0.1
 		self.acc_rate = 0.2
 		self.vision_rect = pygame.Rect(0,0, 5 * TILESIZE, self.rect.height)
+		self.state = Fall(self)
 		
 	def vision_box(self):
 		if self.facing == 0:
@@ -20,10 +20,8 @@ class Crab(NPC):
 
 	def state_logic(self):
 		new_state = self.state.state_logic(self)
-		if new_state: 
-			self.state = new_state
-		else: 
-			self.state
+		if new_state: self.state = new_state
+		else: self.state
 
 	def update(self, dt):
 		self.vision_box()
@@ -54,12 +52,8 @@ class Idle:
 			else:
 				#reset moving left and right to false
 				enemy.move.update({key: False for key in enemy.move})
-	def state_logic(self, enemy):
 
-		# hit player if close
-		if enemy.zone.get_distance(enemy.hitbox.center, enemy.zone.target.hitbox.center) <= 40\
-		and enemy.name == 'guard':
-			return Lunge(enemy)
+	def state_logic(self, enemy):
 
 		# if see player, go into into telegraph, then attack
 		if enemy.zone.target.hitbox.colliderect(enemy.vision_rect):
@@ -92,11 +86,6 @@ class Idle:
 class Move(Idle):
 
 	def state_logic(self, enemy):
-
-		# hit player if close
-		if enemy.zone.get_distance(enemy.hitbox.center, enemy.zone.target.hitbox.center) <= 40\
-		and enemy.name == 'guard':
-			return Lunge(enemy)
 
 		if enemy.zone.target.hitbox.colliderect(enemy.vision_rect):
 			return Telegraph(enemy)
@@ -165,10 +154,7 @@ class Telegraph:
 	def state_logic(self, enemy):
 
 		if enemy.frame_index > len(enemy.animations['telegraph'])-1:
-			if enemy.name == 'crab':
-				return Attack(enemy)
-			else:
-				return Shoot(enemy)
+			return Attack(enemy)
 
 	def update(self, enemy, dt):
 

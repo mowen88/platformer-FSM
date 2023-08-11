@@ -47,7 +47,7 @@ class Camera(pygame.sprite.Group):
         elif self.offset[1] >= self.zone.size[1] - HEIGHT: self.offset[1] = self.zone.size[1] - HEIGHT
 
     def offset_draw(self, screen, target):
-        screen.fill(LIGHT_GREY)  
+        screen.fill(LIGHT_GREEN)  
 
         #mouse_dist = self.zone.get_distance(pygame.mouse.get_pos(), target.rect.center) / 10
 
@@ -67,5 +67,6 @@ class Camera(pygame.sprite.Group):
                 if sprite.z == layer:
                     offset = sprite.rect.topleft - self.offset
                     screen.blit(sprite.image, offset)
+
 
         

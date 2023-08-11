@@ -42,7 +42,6 @@ class Zone(State):
 		        cols = len(row)
 		return (cols * TILESIZE, rows * TILESIZE)
 
-
 	def get_distance(self, point_1, point_2):
 		distance = (pygame.math.Vector2(point_2) - pygame.math.Vector2(point_1)).magnitude()
 		return distance
@@ -79,4 +78,4 @@ class Zone(State):
 		self.rendered_sprites.offset_draw(screen, self.target.rect.center)
 		self.game.render_text(str(round(self.game.clock.get_fps(), 2)), WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
 		#self.game.render_text(self.player.state, WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
-		self.game.render_text(self.npc.move, WHITE, self.game.small_font, RES/2)
+		self.game.render_text(self.npc.facing, WHITE, self.game.small_font, RES/2)

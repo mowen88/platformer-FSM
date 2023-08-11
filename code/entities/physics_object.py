@@ -65,7 +65,6 @@ class Entity(pygame.sprite.Sprite):
 		
 		self.collisions('x')
 		self.platforms(self.zone.platform_sprites, dt)
-		self.platforms(self.zone.pushable_sprites, dt)
 
 	def physics_y(self, dt):
 

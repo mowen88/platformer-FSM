@@ -10,7 +10,6 @@ class NPC(Entity):
 		self.animations = {'lunge':[], 'shoot':[], 'telegraph':[],'attack':[], 'idle':[], 'run':[], 'skid':[], 'land':[], 'jump':[], 'double_jump':[], 'fall':[]}
 		self.animation_type = ''
 		self.import_images(self.animations)
-		self.state = Fall(self)
 		self.frame_index = 0
 		self.original_image = self.animations['idle'][self.frame_index]
 		self.image = self.original_image
@@ -32,14 +31,15 @@ class NPC(Entity):
 		self.pos = pygame.math.Vector2(self.rect.center)
 		self.vel = pygame.math.Vector2()
 		self.platform_speed = pygame.math.Vector2()
-		self.prev_platform = None
-
+		
 		# jumping
 		self.jump_height = 7
 		self.max_fall_speed = 7
 
-		# npc collide type
+		# state specific
 		self.on_ground = False
+		self.state = Fall(self)
+		
 
 	def import_images(self, animation_states):
 
@@ -88,8 +88,9 @@ class NPC(Entity):
 			self.move['left'], self.move['right'] = False, True
 
 	def platforms(self, group, dt):
-		for platform in group:
-			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - platform.rect.height * 0.2, platform.rect.width, platform.rect.height)
+
+		for platform in group.copy():
+			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - 4, platform.rect.width, platform.rect.height)
 			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
 				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
 					self.platform_vel = platform.pos - platform.old_pos
@@ -100,32 +101,26 @@ class NPC(Entity):
 					self.rect.centery = self.hitbox.centery
 					self.pos.y = self.hitbox.centery
 
-					if not hasattr(self, 'prev_platform'):
-						self.prev_platform = platform
-						self.platform_vel.x = 0
-					else:
-						self.platform_vel.x = platform.pos.x - platform.old_pos.x
-						self.prev_platform = platform
-
 					self.pos.x += self.platform_vel.x
+
 
 	def collisions(self, direction):
 
-		for sprite in self.block_sprites:
-			if sprite.rect.colliderect(self.hitbox):
-
+		for sprite in self.zone.block_sprites:
+			if self.hitbox.colliderect(sprite.hitbox): 
 				if direction == 'x':
 					if self.hitbox.right >= sprite.hitbox.left and self.old_hitbox.right <= sprite.old_hitbox.left:
 						self.hitbox.right = sprite.hitbox.left
 					
 					elif self.hitbox.left <= sprite.hitbox.right and self.old_hitbox.left >= sprite.old_hitbox.right:
 						self.hitbox.left = sprite.hitbox.right
+
 								
 					self.rect.centerx = self.hitbox.centerx
 					self.pos.x = self.hitbox.centerx
 
 					self.switch_direction()
-
+					
 				if direction == 'y':
 					if self.hitbox.bottom >= sprite.hitbox.top and self.old_hitbox.bottom <= sprite.old_hitbox.top:
 						self.hitbox.bottom = sprite.hitbox.top
@@ -241,6 +236,8 @@ class Move(Idle):
 			npc.animate('run', 0.2 * dt)
 
 class Landing(Idle):
+
+
 
 	def state_logic(self, npc):
 
