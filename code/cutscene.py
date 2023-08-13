@@ -3,7 +3,7 @@ from state import State
 from settings import *
 from dialogue import Dialogue
 
-class Cutscene0(State):
+class Cutscene(State):
 	def __init__(self, game, zone, number):
 		State.__init__(self, game)
 
@@ -46,30 +46,68 @@ class Cutscene0(State):
 		pygame.draw.rect(screen, BLACK, (0, HEIGHT - self.bar_height, WIDTH, self.target_height))
 
 	def sequence(self):
+		if self.number == 0:
 
-		if self.int_time < 60:
-			self.target = pygame.math.Vector2(self.zone.target.rect.center)
+			if self.int_time < 60:
+				self.target = pygame.math.Vector2(self.zone.target.rect.center)
 
-		# move the camera new position after short cooldown above
-		elif self.int_time == 65:
-			self.zone.target.jump(6)
-			self.zone.npc.move['left'] = True
-			self.zone.target.move['left'] = True
-		elif self.int_time == 75:
-			self.zone.npc.move['left'] = False
-		elif self.int_time == 105:
-			self.zone.target.move['left'] = False
-			self.create_dialogue(self.zone.npc, 0, 60)
-		elif self.int_time < 300:
-			self.new_pos = pygame.math.Vector2(self.zone.npc.rect.midtop)
-		elif self.int_time == 420:
-		 	self.create_dialogue(self.zone.target, 1, 100)
-		elif self.int_time < 540:
-			self.new_pos = pygame.math.Vector2(self.zone.target.rect.center)
+			# move the camera new position after short cooldown above
+			elif self.int_time == 65:
+				self.zone.target.jump(6)
+				self.zone.npc.move['left'] = True
+				self.zone.target.move['left'] = True
+			elif self.int_time == 75:
+				self.zone.npc.move['left'] = False
+			elif self.int_time == 105:
+				self.zone.target.move['left'] = False
+				self.create_dialogue(self.zone.npc, 0, 60)
+			elif self.int_time < 300:
+				self.zone.npc.move['left'] = True
+				self.new_pos = pygame.math.Vector2(self.zone.npc.rect.midtop)
+			elif self.int_time < 360:
+				self.zone.npc.move['left'] = False
+			elif self.int_time == 420:
+				self.create_dialogue(self.zone.target, 1, 100)
+			elif self.int_time < 540:
+				self.new_pos = pygame.math.Vector2(self.zone.target.rect.center)
 
-		elif self.int_time > 660:
-			self.opening = False
+			elif self.int_time > 660:
+				self.opening = False
+
+		elif self.number == 1:
+			if self.int_time < 60:
+				self.target = pygame.math.Vector2(self.zone.target.rect.center)
+
+			# move the camera new position after short cooldown above
+			elif self.int_time == 105:
+				self.create_dialogue(self.zone.npc, 0, 60)
+			elif self.int_time < 300:
+				self.new_pos = pygame.math.Vector2(self.zone.npc.rect.midtop)
+			elif self.int_time == 420:
+				self.create_dialogue(self.zone.target, 1, 100)
+			elif self.int_time < 540:
+				self.new_pos = pygame.math.Vector2(self.zone.target.rect.center)
+
+			elif self.int_time > 600:
+				self.opening = False
+
+		elif self.number == 2:
+			if self.int_time < 600:
+				self.target = pygame.math.Vector2(self.zone.target.rect.center)
+			if self.int_time == 130:
+				self.create_dialogue(self.zone.target, 0, 100)
+			if self.int_time == 400:
+				self.create_dialogue(self.zone.target, 1, 100)
 			
+			if 600 < self.int_time < 700:
+				#self.new_pos = pygame.math.Vector2(self.zone.target.rect.center)
+				self.zone.target.move['right'] = True
+			if self.int_time < 750:
+				self.new_pos = pygame.math.Vector2(self.zone.target.rect.center)
+
+			if self.int_time > 900:
+				self.opening = False
+				
 
 	def update(self, dt):
 		self.game.reset_keys()
@@ -80,48 +118,14 @@ class Cutscene0(State):
 		self.move_camera(dt)
 		self.blackbar_logic(dt)
 
+		print(self.opening)
+
 	def render(self, screen):
 		
 		self.sequence()
 		self.prev_state.rendered_sprites.offset_draw(screen, self.target)
 
 		self.draw_blackbars(screen)
-		self.game.render_text(CUTSCENES, WHITE, self.game.small_font, RES/2)
-
-
-class Cutscene1(Cutscene0):
-
-	def sequence(self):
-
-		if self.int_time < 60:
-			self.target = pygame.math.Vector2(self.zone.target.rect.center)
-
-		# move the camera new position after short cooldown above
-		elif self.int_time == 105:
-			self.create_dialogue(self.zone.npc, 0, 60)
-		elif self.int_time < 300:
-			self.new_pos = pygame.math.Vector2(self.zone.npc.rect.midtop)
-		elif self.int_time == 420:
-			self.create_dialogue(self.zone.target, 1, 100)
-		elif self.int_time < 540:
-			self.new_pos = pygame.math.Vector2(self.zone.target.rect.center)
-
-		elif self.int_time > 600:
-			self.opening = False
-
-	def update(self, dt):
-		self.game.reset_keys()
-		self.timer += dt
-		self.int_time = int(self.timer)
-		self.prev_state.update(dt)
-
-		self.move_camera(dt)
-		self.blackbar_logic(dt)
-
-	def render(self, screen):
-		
-		self.sequence()
-		self.prev_state.rendered_sprites.offset_draw(screen, self.target)
-		self.draw_blackbars(screen)
+		self.game.render_text(COMPLETED_DATA['cutscenes'], WHITE, self.game.small_font, RES/2)
 
 

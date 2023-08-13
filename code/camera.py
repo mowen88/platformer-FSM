@@ -51,7 +51,7 @@ class Camera(pygame.sprite.Group):
 
         #mouse_dist = self.zone.get_distance(pygame.mouse.get_pos(), target.rect.center) / 10
 
-        self.offset += (target - RES/2 - self.offset)
+        self.offset += (target - RES//2 - self.offset)
 
         # limit offset to stop at edges
         self.zone_limits()

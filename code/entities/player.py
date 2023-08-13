@@ -1,7 +1,7 @@
 import pygame
 from settings import *
 from entities.physics_object import Entity
-from entities.player_fsm import WakeUp
+from entities.player_fsm import WakeUp, OnBikeIdling
 
 class Player(Entity):
 	def __init__(self, game, zone, name, groups, pos, z):
@@ -18,7 +18,7 @@ class Player(Entity):
 
 		# animation
 		self.name = 'player'
-		self.animations = {'death':[], 'idle':[], 'run':[], 'skid':[], 'land':[], 'jump':[], 'double_jump':[], 'fall':[]}
+		self.animations = {'on_bike_idle':[], 'on_bike':[], 'death':[], 'idle':[], 'run':[], 'skid':[], 'land':[], 'jump':[], 'double_jump':[], 'fall':[]}
 		self.animation_type = ''
 		self.import_images(self.animations)
 		
@@ -42,7 +42,7 @@ class Player(Entity):
 		self.platform_vel = pygame.math.Vector2()
 
 		# jumping
-		self.jump_height = 6
+		self.jump_height = 7
 		self.max_fall_speed = 6
 		self.jump_counter = 0
 		self.cyote_timer = 0
@@ -57,7 +57,10 @@ class Player(Entity):
 		self.target_angle = 0
 		self.on_ground = False
 		self.alive = True
-		self.state = WakeUp(self)
+		if not self.zone.name == 'start':
+			self.state = WakeUp(self)
+		else:
+			self.state = OnBikeIdling(self)
 
 	def import_images(self, animation_states):
 
@@ -128,7 +131,7 @@ class Player(Entity):
 				self.alive = False
 
 	def collide_edges(self):
-		for sprite in self.zone.collision_sprites:
+		for sprite in self.collision_sprites:
 			if self.hitbox.colliderect(sprite.rect):
 				if (self.facing == 0 and self.hitbox.centerx > sprite.rect.left) or\
 				(self.facing == 1 and self.hitbox.centerx < sprite.rect.right):
@@ -160,14 +163,14 @@ class Player(Entity):
 
 	def collisions(self, direction):
 
-		for sprite in self.zone.block_sprites:
+		for sprite in self.block_sprites:
 			if self.hitbox.colliderect(sprite.hitbox): 
 
 				if direction == 'x':
 					if self.hitbox.right >= sprite.hitbox.left and self.old_hitbox.right <= sprite.old_hitbox.left:
 						self.hitbox.right = sprite.hitbox.left
 					
-					elif self.hitbox.left <= sprite.hitbox.right and self.old_hitbox.left >= sprite.old_hitbox.right:
+					if self.hitbox.left <= sprite.hitbox.right and self.old_hitbox.left >= sprite.old_hitbox.right:
 						self.hitbox.left = sprite.hitbox.right
 
 					self.rect.centerx = self.hitbox.centerx
@@ -179,12 +182,14 @@ class Player(Entity):
 						self.on_ground = True
 						self.vel.y = 0
 			
-					elif self.hitbox.top <= sprite.hitbox.bottom and self.old_hitbox.top >= sprite.old_hitbox.bottom:
+					if self.hitbox.top <= sprite.hitbox.bottom and self.old_hitbox.top >= sprite.old_hitbox.bottom:
 						self.hitbox.top = sprite.hitbox.bottom
 						self.vel.y = 0
 
 					self.rect.centery = self.hitbox.centery
 					self.pos.y = self.hitbox.centery
+
+
 
 	def pushable_collisions(self, direction):
 
@@ -208,7 +213,6 @@ class Player(Entity):
 					
 					if self.hitbox.bottom >= sprite.hitbox.top and self.old_hitbox.bottom <= sprite.old_hitbox.top:
 						self.hitbox.bottom = sprite.hitbox.top
-						self.vel.y = 0
 						self.on_ground = True
 			
 					elif self.hitbox.top <= sprite.hitbox.bottom and self.old_hitbox.top >= sprite.old_hitbox.bottom:
@@ -248,11 +252,12 @@ class Player(Entity):
 		else:
 			self.vel.y += self.acc.y * dt
 
-		self.pos.y += self.vel.y * dt + (0.5 * self.acc.y) * dt
+		self.pos.y += self.vel.y * dt + (0.5 * self.acc.y) * (dt**2)
+		
 		self.hitbox.centery = round(self.pos.y)
-		self.pushable_collisions('y')
-		self.collisions('y') 
 		self.rect.centery = self.hitbox.centery
+		self.collisions('y') 
+		self.pushable_collisions('y')
 
 		# limit max fall speed
 		if self.vel.y >= self.max_fall_speed: 
@@ -271,7 +276,6 @@ class Player(Entity):
 			self.cyote_timer += dt
 		else: 
 			self.cyote_timer = 0
-
 		# # if falling, this gives the player one jump if they have double jump
 		# if self.jump_counter == 0 and self.cyote_timer < self.cyote_timer_threshold:
 		# 	self.jump_counter = 1
@@ -289,9 +293,9 @@ class Player(Entity):
 		else: self.state
 
 	def update(self, dt):
-		self.collide_hazards()
 		self.state_logic()
 		self.state.update(self, dt)
+		self.collide_hazards()
 		self.handle_jumping(dt)
 
 

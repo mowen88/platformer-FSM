@@ -18,7 +18,7 @@ class NPC(Entity):
 		# self.image = pygame.Surface((TILESIZE * 2, TILESIZE * 3))
 		# self.image.fill(RED)
 		self.rect = self.image.get_rect(topleft = pos)
-		self.hitbox = self.rect.copy().inflate(-self.rect.width * 0.5, -self.rect.height * 0.2)
+		self.hitbox = self.rect.copy().inflate(-self.rect.width * 0.5, -self.rect.height * 0.3)
 		self.old_hitbox = self.hitbox.copy()
 
 		# physics

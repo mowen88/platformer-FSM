@@ -1,0 +1,373 @@
+<mxfile host="app.diagrams.net" modified="2023-08-12T17:31:03.989Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.203" etag="8xs0SRKqlhptiP3Dcs0r" version="21.6.5" type="device">
+  <diagram name="Page-1" id="COZsLiTFWlAw7Cb328M1">
+    <mxGraphModel dx="788" dy="1532" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-166" value="Some baddies to get past before and after Vertus" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="600" y="360" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-156" value="Vertus in here, set him free" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="520" y="440" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-154" value="Hub room - can climb&lt;br&gt;back up here to get &lt;br&gt;over to the right side again.&lt;br&gt;&lt;br&gt;Can only get the key coming out from the long room on the right." style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="520" y="280" width="80" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-115" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="-120" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-99" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="-80" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-94" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="-160" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-58" value="Guards above you where you cannot reach. But you can see the key. You cannot&amp;nbsp; get up here yet, but you will need to&amp;nbsp; get this for the later stages, where you need anther 4&amp;nbsp; keys." style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="760" y="120" width="160" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-2" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;Drops down with disappearing platforms&amp;nbsp; and teaches you to jump. Can&#39;t go right until you have smashed crates with crowbar&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="360" y="120" width="80" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-3" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;Entry point on motorbike, NPC welcomes you to the facility&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="120" y="120" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-7" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;Lab with 2 NPCs, tells you how to save game&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="280" y="240" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-8" value="NPC2 says that &#39;this is where we created the android&#39;, and NPC1 says &#39;don&#39;t be silly, its for cloning humans not androids" style="shape=callout;whiteSpace=wrap;html=1;perimeter=calloutPerimeter;position2=0.75;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="250" y="190" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-9" value="NPC says &#39;hi thanks for coming, I hope you can help us catch the rogue android&#39;" style="shape=callout;whiteSpace=wrap;html=1;perimeter=calloutPerimeter;position2=0.33;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=6;base=10;direction=north;size=35;position=0.33;" vertex="1" parent="1">
+          <mxGeometry x="250" y="110" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-10" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;Find the crowbar...&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="120" y="240" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-13" value="" style="sketch=0;html=1;aspect=fixed;strokeColor=none;shadow=0;fillColor=#f13b3b;verticalAlign=top;labelPosition=center;verticalLabelPosition=bottom;shape=mxgraph.gcp2.maps_api" vertex="1" parent="1">
+          <mxGeometry x="140" y="230" width="18.3" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-17" value="" style="sketch=0;html=1;aspect=fixed;strokeColor=none;shadow=0;fillColor=#f13b3b;verticalAlign=top;labelPosition=center;verticalLabelPosition=bottom;shape=mxgraph.gcp2.maps_api" vertex="1" parent="1">
+          <mxGeometry x="30" y="-70" width="18.3" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-18" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/unicons-line-vol-5/24/save-128.png;imageBackground=none;" vertex="1" parent="1">
+          <mxGeometry x="24.15" y="-30" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-26" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/unicons-line-vol-5/24/save-128.png;imageBackground=none;" vertex="1" parent="1">
+          <mxGeometry x="305" y="241.25" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-35" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;Small hazard section with spikes and moving platforms, then go up and see tech guy for tracker. Grab a key card from some crates.&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="440" y="200" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-37" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="520" y="120" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-38" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="350" y="130" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-39" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="430" y="250" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-41" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="350" y="250" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-43" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="270" y="250" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-45" value="Right ledge at top not accessible but shows yuo need to go here.Introduces crabs in warehouse. A sign tells you to avoid experimental crabs, leave them alone. They will lunge if you&#39;re too close. &lt;b&gt;Achievement for not hurting crabs!&lt;/b&gt;&lt;br&gt;&lt;br&gt;Avoid a crab whilst also moving a block onto the lowering platform, need to get up to a higher ledge below.&lt;br&gt;&lt;br&gt;Drop into warehouse floor. Cannot get back up for now. left or right available." style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="600" y="200" width="160" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-47" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="590" y="205" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-48" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="750" y="290" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-50" value="Some hazards to clear in a locked room&lt;br&gt;&amp;nbsp;before you can get back out." style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="360" y="280" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-49" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="590" y="290" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-51" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/unicons-line-vol-5/24/save-128.png;imageBackground=none;" vertex="1" parent="1">
+          <mxGeometry x="560" y="130" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-52" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="600" y="320" width="320" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-44" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/unicons-line-vol-5/24/save-128.png;imageBackground=none;" vertex="1" parent="1">
+          <mxGeometry x="563.8" y="205" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-61" value="Cannot get back up &lt;br&gt;here (elevator shaft) &lt;br&gt;without double jump" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="920" y="160" width="80" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-56" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="910" y="290" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-65" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="-240" width="40" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-66" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="-200" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-68" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/Key.svg;" vertex="1" parent="1">
+          <mxGeometry x="630" y="-195" width="6.2" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-69" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="-200" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-71" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="-160" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-72" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="-200" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-73" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="-200" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-75" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/Key.svg;" vertex="1" parent="1">
+          <mxGeometry x="375" y="-200" width="6.2" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-76" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="-160" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-79" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="390" y="-175" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-80" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="510" y="-175" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-81" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="550" y="-175" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-70" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/unicons-line-vol-5/24/save-128.png;imageBackground=none;" vertex="1" parent="1">
+          <mxGeometry x="560" y="-180" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-82" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="375.59999999999997" y="-165" width="8.8" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-74" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/unicons-line-vol-5/24/save-128.png;imageBackground=none;" vertex="1" parent="1">
+          <mxGeometry x="380" y="-180" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-83" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="590" y="-185" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-84" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="550" y="-230" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-85" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="590" y="-175" width="10" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-87" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="-160" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-86" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="590" y="-155" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-89" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="-120" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-88" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="620" y="-130" width="10" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-90" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="590" y="-115" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-91" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/Key.svg;" vertex="1" parent="1">
+          <mxGeometry x="563.8" y="-155" width="6.2" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-92" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="-200" width="40" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-77" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="350" y="-140" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-93" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="390" y="-140" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-95" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="543.8" y="-155" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-96" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="-120" width="40" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-97" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="350" y="-100" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-98" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="390" y="-60" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-100" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/unicons-line-vol-5/24/save-128.png;imageBackground=none;" vertex="1" parent="1">
+          <mxGeometry x="400" y="-80" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-101" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="580" y="-92.5" width="10" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-102" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/unicons-line-vol-5/24/save-128.png;imageBackground=none;" vertex="1" parent="1">
+          <mxGeometry x="565" y="-105" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-103" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="-40" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-104" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="543.8" y="-50" width="10" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-105" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="-40" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-106" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="550" y="-15" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-107" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn4.iconfinder.com/data/icons/essentials-72/24/008_-_Lock-128.png" vertex="1" parent="1">
+          <mxGeometry x="620" y="-40" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-108" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="-40" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-109" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/unicons-line-vol-5/24/save-128.png;imageBackground=none;" vertex="1" parent="1">
+          <mxGeometry x="450" y="-25" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-110" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="430" y="-25" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-111" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="510" y="-15" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-114" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="-120" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-116" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="510" y="-95" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-117" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="470" y="-95" width="20" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-118" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/Key.svg;" vertex="1" parent="1">
+          <mxGeometry x="456.9" y="-95" width="6.2" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-125" value="" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#7FBA42;" vertex="1" parent="1">
+          <mxGeometry x="830" y="260" width="10" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-126" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/unicons-line-vol-5/24/save-128.png;imageBackground=none;" vertex="1" parent="1">
+          <mxGeometry x="810" y="290" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-130" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="350" y="370" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-132" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="667.5" y="-175" width="122.5" height="175" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-137" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="760" y="360" width="160" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-127" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="680" y="440" width="80" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-131" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="647.5" y="430" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-134" value="" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#7FBA42;" vertex="1" parent="1">
+          <mxGeometry x="723.75" y="490" width="10" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-138" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="750" y="370" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-145" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="910" y="410" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-146" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="930" y="310" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-147" value="Just a view of the outdoors!" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="160" width="160" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-148" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="990" y="280" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-149" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="990" y="221.25" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-150" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="910" y="330" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-151" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="910" y="241.25" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-153" value="" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#7FBA42;" vertex="1" parent="1">
+          <mxGeometry x="375.6" y="330" width="10" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-155" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="510" y="330" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-157" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="590" y="330" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-136" value="" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#7FBA42;" vertex="1" parent="1">
+          <mxGeometry x="585" y="330" width="10" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-161" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/unicons-line-vol-5/24/save-128.png;imageBackground=none;" vertex="1" parent="1">
+          <mxGeometry x="870" y="410" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-162" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="750" y="450" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-163" value="" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.security.key_permissions;fillColor=#7FBA42;" vertex="1" parent="1">
+          <mxGeometry x="533.8" y="450" width="10" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-167" value="Vertus chat" style="shape=callout;whiteSpace=wrap;html=1;perimeter=calloutPerimeter;position2=0.56;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=6;direction=east;" vertex="1" parent="1">
+          <mxGeometry x="525" y="410" width="90" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-169" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;Head back to the start area on right after completing the first boss.&amp;nbsp;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="440" y="120" width="320" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-170" value="Pre-boss room" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="760" y="520" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-172" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="920" y="520" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-173" value="Double jump out of here and back to save point" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="520" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-174" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/unicons-line-vol-5/24/save-128.png;imageBackground=none;" vertex="1" parent="1">
+          <mxGeometry x="880" y="525" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-176" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="750" y="530" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-177" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="910" y="530" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-178" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="990" y="570" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-128" value="2 guards talking - NPCs. Tells you the BS suit is locked well away. 4 USB keys are needed to access the BS room." style="shape=callout;whiteSpace=wrap;html=1;perimeter=calloutPerimeter;position2=0.56;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=6;direction=west;" vertex="1" parent="1">
+          <mxGeometry x="690" y="520" width="90" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-183" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#f00000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.settings;" vertex="1" parent="1">
+          <mxGeometry x="1025" y="570" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-59" value="Avoid crabs flashing sign" style="shape=callout;whiteSpace=wrap;html=1;perimeter=calloutPerimeter;position2=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=6;direction=east;align=center;" vertex="1" parent="1">
+          <mxGeometry x="580" y="178.75" width="87.5" height="42.5" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-184" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="750" y="160" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-185" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="430" y="140" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-36" value="NPC tells you how the tracker will show you map and checkpoints. &#39;Update bio-data at checkpoint&#39;" style="shape=callout;whiteSpace=wrap;html=1;perimeter=calloutPerimeter;position2=0.21;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="445" y="170" width="120" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-186" value="Locked down datacentre. Some lasers or electron&lt;br&gt;beam or something. Cannot pass to the left yet, but looks lucrative!" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=6;" vertex="1" parent="1">
+          <mxGeometry x="520" y="520" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-187" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/unicons-line-vol-5/24/save-128.png;imageBackground=none;" vertex="1" parent="1">
+          <mxGeometry x="585" y="125" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="f0apDLEI2_ZGEqgrLke3-188" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn4.iconfinder.com/data/icons/essentials-72/24/008_-_Lock-128.png" vertex="1" parent="1">
+          <mxGeometry x="500" y="540" width="40" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

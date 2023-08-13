@@ -1,7 +1,7 @@
 import pygame, sys
 from os import walk
 from settings import *
-from intro import Intro
+from menus.main_menu import MainMenu
 
 class Game:
     def __init__(self):
@@ -18,10 +18,10 @@ class Game:
         self.medium_font = pygame.font.Font(FONT, int(TILESIZE)) 
         self.small_font = pygame.font.Font(FONT, int(TILESIZE*0.5))
 
-        # states
+        # states`
         self.stack = []
         self.screenshaking = False
-        self.current_zone = 1
+        self.current_zone = 'medium'
         self.load_states()
 
     def get_events(self):
@@ -101,8 +101,8 @@ class Game:
             ACTIONS[action] = False
 
     def load_states(self):
-        self.intro = Intro(self)
-        self.stack.append(self.intro)
+        self.main_menu = MainMenu(self)
+        self.stack.append(self.main_menu)
 
     def get_folder_images(self, path):
         surf_list = []

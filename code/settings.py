@@ -23,15 +23,23 @@ LAYERS = {
 	'foreground': 10
 }
 
-PLAYER_DATA = {'current_zone': 'start', 'entry_pos': '0', 'keys': ['blue_door'], 'gun_index': 0, 'max_health': 4, 'max_juice': 99, 'heal_cost': 11, 'partial_healths': 0}
+PLAYER_DATA = {'current_zone': 'medium', 'entry_pos': '0', 'keys': ['blue_door'], 'gun_index': 0, 'max_health': 4, 'max_juice': 99, 'heal_cost': 11, 'partial_healths': 0}
+COMPLETED_DATA = {'visited_zones': [], 'cutscenes': []}
 
-CUTSCENES = {0: True, 1: True}
+ZONE_DATA = {
+	'start':{'0': 'medium'},
+	'small':{'1': 'medium'},
+	'medium':{'0': 'small'}
+	}
 
 DIALOGUE = {
 			0: [['Dude, where the hell are','you going ?'],
 				['Sorry pal, gotta go!','Places to go....','People to see....']], 
 			1: [['This is more dialogue for','a second cutscene.','Tell me if it worked ?'], 
-				['How do you expect me to','hear you from up there ?']]
+				['How do you expect me to','hear you from up there ?']],
+			2: [['I am on my bike and loving it!', 'Whatcha think?'], 
+				['Anyway. . . '],
+				["It's time to get outta here!"]]
 			}
 
 

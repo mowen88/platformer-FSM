@@ -1,6 +1,39 @@
 import pygame
 from settings import *
 
+class OnBikeIdling:
+	def __init__(self, player):
+		
+		player.frame_index = 0
+		player.facing = 0
+
+	def state_logic(self, player):
+		if player.move['right']:
+			player.acc.x += 0.5
+			player.facing = 0
+			return OnBikeMoving(player)
+
+	def update(self, player, dt):
+
+		player.acc.x = 0
+		player.physics_x(dt)
+		player.physics_y(dt)
+
+		player.animate('on_bike_idle', 0.2 * dt)
+
+class OnBikeMoving(OnBikeIdling):
+
+	def update(self, player, dt):
+		player.fric = -0.1
+		player.angle = player.vel.x * 2
+		player.acc.x = 0
+		player.move_logic()
+		player.physics_x(dt)
+		player.physics_y(dt)
+
+		player.animate('on_bike', 0.4 * dt)
+
+
 class Fall:
 	def __init__(self, player):
 		
@@ -74,10 +107,15 @@ class Idle(Fall):
 
 	def update(self, player, dt):
 	
-		player.acc.x = 0
+		
 		player.move_logic()
 		player.physics_x(dt)
+		# if player.on_ground:
+		# 	player.acc.y = 0
+		# else:
+		# 	player.physics_y(dt)
 		player.physics_y(dt)
+		player.acc.x = 0
 		player.animate('idle', 0.2 * dt)
 
 class Move(Fall):

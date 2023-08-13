@@ -1,6 +1,34 @@
 import pygame, math
 from settings import *
 
+class FadeSurf(pygame.sprite.Sprite):
+	def __init__(self, zone, groups, pos, alpha = 255, z = LAYERS['foreground']):
+		super().__init__(groups)
+
+		self.zone = zone
+		self.image = pygame.Surface((self.zone.size))
+		self.alpha = alpha
+		self.z = z
+		self.rect = self.image.get_rect(topleft = pos)
+
+	def update(self, dt):
+		if self.zone.exiting:
+			self.alpha += 5 * dt
+			if self.alpha >= 255: 
+				self.alpha = 255
+				self.zone.exit_state()
+				self.zone.restart_zone(self.zone.new_zone)
+			
+		elif self.zone.entering:
+			self.alpha -= 5 * dt
+			if self.alpha <= 0:
+				self.alpha = 0
+				self.zone.entering = False
+
+	def draw(self, screen):
+		self.image.set_alpha(self.alpha)
+		screen.blit(self.image, (0,0))
+
 class Collider(pygame.sprite.Sprite):
 	def __init__(self, groups, rect):
 		super().__init__(groups)
@@ -84,11 +112,6 @@ class DisappearingPlatform(AnimatedTile):
 		self.timer = 0
 		# frame in folder on which the platform stays on before touched
 		self.stable_frame = 6
-
-		# get white mask to flash platform when it returns
-		self.mask = pygame.mask.from_surface(self.frames[0])
-		self.mask_image = self.mask.to_surface()
-		self.mask_image.set_colorkey((0, 0, 0))
 
 	def get_player_on_platform(self, dt):
 		# taken from character class, where we need to set the timer and platform to this specific platform
