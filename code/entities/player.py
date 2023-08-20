@@ -3,9 +3,9 @@ from settings import *
 from entities.physics_object import Entity
 from entities.player_fsm import WakeUp, OnBikeIdling
 
-class Player(Entity):
+class Player(pygame.sprite.Sprite):
 	def __init__(self, game, zone, name, groups, pos, z):
-		super().__init__(game, zone, name, groups, pos, z)
+		super().__init__(groups)
 
 		self.game = game
 		self.zone = zone
@@ -25,25 +25,25 @@ class Player(Entity):
 		self.frame_index = 0
 		self.original_image = self.animations['idle'][self.frame_index]
 		self.image = self.original_image
-		self.facing = 1
+		self.facing = 0
 
 		# self.image = pygame.Surface((TILESIZE * 2, TILESIZE * 3))
 		# self.image.fill(RED)
 		self.rect = self.image.get_rect(topleft = pos)
-		self.hitbox = self.rect.copy().inflate(-self.rect.width * 0.5, -self.rect.height * 0.2)
+		self.hitbox = self.rect.copy().inflate(-self.rect.width * 0.5, -self.rect.height * 0.25)
 		self.old_hitbox = self.hitbox.copy()
 
 		# physics
 		self.acc_rate = 0.5
 		self.fric = -0.2
-		self.acc = pygame.math.Vector2(0, 0)
+		self.acc = pygame.math.Vector2(0, self.zone.gravity)
 		self.pos = pygame.math.Vector2(self.rect.center)
 		self.vel = pygame.math.Vector2()
 		self.platform_vel = pygame.math.Vector2()
 
 		# jumping
-		self.jump_height = 7
-		self.max_fall_speed = 6
+		self.jump_height = 2.5
+		self.max_fall_speed = 2
 		self.jump_counter = 0
 		self.cyote_timer = 0
 		self.cyote_timer_threshold = 6
@@ -54,7 +54,6 @@ class Player(Entity):
 		# player states
 		self.move = {'right':True, 'left':False}
 		self.angle = 0
-		self.target_angle = 0
 		self.on_ground = False
 		self.alive = True
 		if not self.zone.name == 'start':
@@ -87,14 +86,12 @@ class Player(Entity):
 		if self.move['right']:
 			self.move['left'] = False
 			self.acc.x += self.acc_rate
-			self.target_angle = self.vel.x * 10
+
 		elif self.move['left']:
 			self.move['right'] = False
 			self.acc.x -= self.acc_rate
-			self.target_angle = self.vel.x * 10
 		else:
 			self.move['right'], self.move['left'] = False, False 
-			self.target_angle = 0
 
 		if self.vel.x > 0:
 			self.facing = 0
@@ -164,13 +161,13 @@ class Player(Entity):
 	def collisions(self, direction):
 
 		for sprite in self.block_sprites:
-			if self.hitbox.colliderect(sprite.hitbox): 
+			if sprite.hitbox.colliderect(self.hitbox): 
 
 				if direction == 'x':
 					if self.hitbox.right >= sprite.hitbox.left and self.old_hitbox.right <= sprite.old_hitbox.left:
 						self.hitbox.right = sprite.hitbox.left
 					
-					if self.hitbox.left <= sprite.hitbox.right and self.old_hitbox.left >= sprite.old_hitbox.right:
+					elif self.hitbox.left <= sprite.hitbox.right and self.old_hitbox.left >= sprite.old_hitbox.right:
 						self.hitbox.left = sprite.hitbox.right
 
 					self.rect.centerx = self.hitbox.centerx
@@ -182,13 +179,12 @@ class Player(Entity):
 						self.on_ground = True
 						self.vel.y = 0
 			
-					if self.hitbox.top <= sprite.hitbox.bottom and self.old_hitbox.top >= sprite.old_hitbox.bottom:
+					elif self.hitbox.top <= sprite.hitbox.bottom and self.old_hitbox.top >= sprite.old_hitbox.bottom:
 						self.hitbox.top = sprite.hitbox.bottom
 						self.vel.y = 0
 
 					self.rect.centery = self.hitbox.centery
 					self.pos.y = self.hitbox.centery
-
 
 
 	def pushable_collisions(self, direction):
@@ -228,10 +224,11 @@ class Player(Entity):
 	def physics_x(self, dt):
 
 		self.old_hitbox = self.hitbox.copy()
-
+		
 		self.acc.x += self.vel.x * self.fric
 		self.vel.x += self.acc.x * dt
 		
+		#self.pos.x += self.vel.x
 		self.pos.x += self.vel.x * dt + (0.5 * self.acc.x) * (dt**2)
 
 		self.hitbox.centerx = round(self.pos.x)
@@ -245,6 +242,8 @@ class Player(Entity):
 		#if abs(self.vel.x) < 0.1: self.vel.x = 0
 
 	def physics_y(self, dt):
+
+		self.old_hitbox = self.hitbox.copy()
 		
 		# Double the gravity if not holding jump key to allow variale jump height
 		if not (pygame.key.get_pressed()[pygame.K_UP]) and self.vel.y < 0 and not self.zone.cutscene_running: 
@@ -252,13 +251,13 @@ class Player(Entity):
 		else:
 			self.vel.y += self.acc.y * dt
 
-		self.pos.y += self.vel.y * dt + (0.5 * self.acc.y) * (dt**2)
+		self.pos.y += self.vel.y
 		
 		self.hitbox.centery = round(self.pos.y)
-		self.rect.centery = self.hitbox.centery
 		self.collisions('y') 
 		self.pushable_collisions('y')
-
+		self.rect.centery = self.hitbox.centery
+		
 		# limit max fall speed
 		if self.vel.y >= self.max_fall_speed: 
 			self.vel.y = self.max_fall_speed
@@ -266,9 +265,6 @@ class Player(Entity):
 		# Make the player off ground if moving in y direction
 		if abs(self.vel.y) >= 0.5: 
 			self.on_ground = False
-
-		# apply gravity always
-		self.acc.y = self.zone.gravity
 
 	def handle_jumping(self, dt):
 		# incrememnt cyote timer when not on ground
@@ -297,6 +293,7 @@ class Player(Entity):
 		self.state.update(self, dt)
 		self.collide_hazards()
 		self.handle_jumping(dt)
+
 
 
 

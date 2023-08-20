@@ -27,14 +27,14 @@ class NPC(Entity):
 		self.target_angle = 0
 		self.acc_rate = 0.5
 		self.fric = -0.2
-		self.acc = pygame.math.Vector2(0, 0)
+		self.acc = pygame.math.Vector2(0, self.zone.gravity)
 		self.pos = pygame.math.Vector2(self.rect.center)
 		self.vel = pygame.math.Vector2()
 		self.platform_speed = pygame.math.Vector2()
 		
 		# jumping
-		self.jump_height = 7
-		self.max_fall_speed = 7
+		self.jump_height = 2.5
+		self.max_fall_speed = 2
 
 		# state specific
 		self.on_ground = False
@@ -157,9 +157,12 @@ class NPC(Entity):
 
 	def physics_y(self, dt):
 
+		self.old_hitbox = self.hitbox.copy()
+
 		self.vel.y += self.acc.y * dt
 
-		self.pos.y += self.vel.y * dt + (0.5 * self.acc.y) * dt
+		self.pos.y += self.vel.y
+
 		self.hitbox.centery = round(self.pos.y)
 		self.collisions('y')
 		self.rect.centery = self.hitbox.centery
@@ -171,9 +174,6 @@ class NPC(Entity):
 		# Make the npc off ground if moving in y direction
 		if abs(self.vel.y) >= 0.5: 
 			self.on_ground = False
-
-		# apply gravity always
-		self.acc.y = self.zone.gravity
 
 	def state_logic(self):
 		new_state = self.state.state_logic(self)

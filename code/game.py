@@ -18,7 +18,7 @@ class Game:
         self.medium_font = pygame.font.Font(FONT, int(TILESIZE)) 
         self.small_font = pygame.font.Font(FONT, int(TILESIZE*0.5))
 
-        # states`
+        # states
         self.stack = []
         self.screenshaking = False
         self.current_zone = 'medium'

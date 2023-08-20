@@ -22,22 +22,22 @@ class CreateZone:
 		# key is the platform name in tmx, value is a list, containing the direction and amplitude
 		platforms = {'horizontal':[(0.3,0.0), 75], 'horizontal_2':[(-0.3,0.0), 75], 'vertical':[(0.0,-0.2), 120], 'vertical_2':[(0.0, 0.3), 75], 'vertical_3':[(0.0,0.2), 90], 'vertical_4':[(0.0,0.3), 90]}
 
-
 		for obj in tmx_data.get_layer_by_name('platforms'):
 			for key, value in platforms.items():
 				if obj.name == key: MovingPlatform(self.game, self.zone, [self.zone.platform_sprites, self.zone.updated_sprites, self.zone.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=value[0], amplitude=value[1])
 
+		for obj in tmx_data.get_layer_by_name('entities'):
+			if obj.name == 'block': Box(self.game, self.zone, obj.name, [self.zone.pushable_sprites, self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
+			if obj.name == 'crab': self.zone.crab = Crab(self.game, self.zone, obj.name, [self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
+			if obj.name == 'warrior': self.zone.npc = NPC(self.game, self.zone, obj.name, [self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
+			if obj.name == 'guard': self.zone.guard = Guard(self.game, self.zone, obj.name, [self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
+			
 		# add the player
 		for obj in tmx_data.get_layer_by_name('entries'):
 			if obj.name == self.zone.entry_point:
 				self.zone.player = Player(self.game, self.zone, obj.name, [self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
 				self.zone.target = self.zone.player
 
-		for obj in tmx_data.get_layer_by_name('entities'):
-			if obj.name == 'crab': self.zone.crab = Crab(self.game, self.zone, obj.name, [self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
-			if obj.name == 'warrior': self.zone.npc = NPC(self.game, self.zone, obj.name, [self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
-			if obj.name == 'guard': self.zone.guard = Guard(self.game, self.zone, obj.name, [self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
-			if obj.name == 'block': Box(self.game, self.zone, obj.name, [self.zone.pushable_sprites, self.zone.updated_sprites, self.zone.rendered_sprites], (obj.x, obj.y), LAYERS['player'])
 
 		for obj in tmx_data.get_layer_by_name('hazards'):
 			if obj.name == 'horizontal': SawBlade(self.game, self.zone, [self.zone.sawblade_sprites, self.zone.updated_sprites, self.zone.rendered_sprites], pos=(obj.x, obj.y), surf=obj.image, direction=(0.5,0.0), amplitude=60)

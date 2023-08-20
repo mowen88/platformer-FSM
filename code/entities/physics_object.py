@@ -30,7 +30,7 @@ class Entity(pygame.sprite.Sprite):
 		self.max_fall_speed = 7
 
 	def platforms(self, group, dt):
-		for platform in group:
+		for platform in group.copy():
 			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - platform.rect.height * 0.2, platform.rect.width, platform.rect.height)
 			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
 				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
@@ -42,12 +42,12 @@ class Entity(pygame.sprite.Sprite):
 					self.rect.centery = self.hitbox.centery
 					self.pos.y = self.hitbox.centery
 
-					if not hasattr(self, 'prev_platform'):
-						self.prev_platform = platform
-						self.platform_vel.x = 0
-					else:
-						self.platform_vel.x = platform.pos.x - platform.old_pos.x
-						self.prev_platform = platform
+					# if not hasattr(self, 'prev_platform'):
+					# 	self.prev_platform = platform
+					# 	self.platform_vel.x = 0
+					# else:
+					# 	self.platform_vel.x = platform.pos.x - platform.old_pos.x
+					# 	self.prev_platform = platform
 
 					self.pos.x += self.platform_vel.x
 
@@ -57,8 +57,7 @@ class Entity(pygame.sprite.Sprite):
 
 		self.acc.x += self.vel.x * self.fric
 		self.vel.x += self.acc.x * dt
-		
-		self.pos.x += self.vel.x * dt + (0.5 * self.acc.x) * (dt**2)
+		self.pos.x += (self.vel.x * dt) + (0.5 * self.acc.x) * (dt**2)
 
 		self.hitbox.centerx = round(self.pos.x)
 		self.rect.centerx = self.hitbox.centerx
@@ -69,8 +68,8 @@ class Entity(pygame.sprite.Sprite):
 	def physics_y(self, dt):
 
 		self.vel.y += self.acc.y * dt
+		self.pos.y += (self.vel.y * dt) + (0.5 * self.acc.y) * dt
 
-		self.pos.y += self.vel.y * dt + (0.5 * self.acc.y) * dt
 		self.hitbox.centery = round(self.pos.y)
 		self.collisions('y') 
 		self.rect.centery = self.hitbox.centery
@@ -96,6 +95,7 @@ class Box(Entity):
 		super().__init__(game, zone, name, groups, pos, z)
 
 		self.image = pygame.image.load(f'../assets/hazards/{self.name}.png').convert_alpha()
+		self.gravity = 0.3
 
 	def collisions(self, direction):
 

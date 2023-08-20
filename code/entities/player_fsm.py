@@ -72,10 +72,11 @@ class Fall:
 
 		player.animate('fall', 0.2 * dt, False)
 
-class Idle(Fall):
+class Idle:
 	def __init__(self, player):
 		
 		player.jump_counter = 1
+		player.frame_index = 0
 
 	def state_logic(self, player):
 
@@ -96,32 +97,26 @@ class Idle(Fall):
 		if player.move['right']:
 			player.acc.x += 0.5
 			player.facing = 0
-			player.target_angle = -10
 			return Move(player)
 
 		elif player.move['left']:
 			player.acc.x -= 0.5
 			player.facing = 1
-			player.target_angle = 10
 			return Move(player)
 
 	def update(self, player, dt):
-	
-		
+
+		player.acc.x = 0
 		player.move_logic()
 		player.physics_x(dt)
-		# if player.on_ground:
-		# 	player.acc.y = 0
-		# else:
-		# 	player.physics_y(dt)
 		player.physics_y(dt)
-		player.acc.x = 0
 		player.animate('idle', 0.2 * dt)
 
-class Move(Fall):
+class Move:
 	def __init__(self, player):
 		
 		player.jump_counter = 1
+		player.frame_index = 0
 
 	def state_logic(self, player):
 
@@ -154,10 +149,11 @@ class Move(Fall):
 		else:
 			player.animate('run', 0.2 * dt)
 
-class Landing(Fall):
+class Landing:
 	def __init__(self, player):
 
 		player.jump_counter = 1
+		player.frame_index = 0
 
 	def state_logic(self, player):
 
@@ -184,7 +180,11 @@ class Landing(Fall):
 
 		player.animate('land', 0.2 * dt)
 
-class WakeUp(Fall):
+class WakeUp:
+	def __init__(self, player):
+
+		player.jump_counter = 1
+		player.frame_index = 0
 
 	def state_logic(self, player):
 		if player.frame_index > len(player.animations['death'])-1:

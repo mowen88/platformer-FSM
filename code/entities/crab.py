@@ -170,7 +170,7 @@ class Attack(Fall):
 		self.speed = 8 * self.direction(enemy)
 		enemy.vel.x = self.speed
 		# jump slightly when attacking
-		enemy.vel.y = -4
+		enemy.vel.y = -1
 
 	def direction(self, enemy):
 		if enemy.facing == 0:

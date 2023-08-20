@@ -12,20 +12,21 @@ class Zone(State):
 		self.game = game
 		self.name = name
 		self.entry_point = entry_point
-		self.gravity = 0.3
+		self.gravity = 0.15
 		self.size = self.get_zone_size()
 
 		PLAYER_DATA.update({'current_zone': self.name, 'entry_pos': self.entry_point})
 		COMPLETED_DATA['visited_zones'].append(self.name)
 
 		# sprite groups
-		self.updated_sprites = pygame.sprite.Group()
+		
 		self.rendered_sprites = Camera(self.game, self)
+		self.updated_sprites = pygame.sprite.Group()
 
+		self.block_sprites = pygame.sprite.Group()
 		self.exit_sprites = pygame.sprite.Group()
 		self.cutscene_sprites = pygame.sprite.Group()
 		self.collision_sprites = pygame.sprite.Group()
-		self.block_sprites = pygame.sprite.Group()
 		self.pushable_sprites = pygame.sprite.Group()
 		self.platform_sprites = pygame.sprite.Group()
 		self.hazard_sprites = pygame.sprite.Group()
@@ -38,6 +39,7 @@ class Zone(State):
 		self.entering = True
 		self.exiting = False
 		self.new_zone = None
+
 
 	def restart_zone(self, zone):
 		Zone(self.game, zone, self.entry_point).enter_state()
