@@ -90,8 +90,8 @@ class NPC(Entity):
 	def platforms(self, group, dt):
 
 		for platform in group.copy():
-			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - 4, platform.rect.width, platform.rect.height)
-			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
+			
+			if self.hitbox.colliderect(platform.rect): 
 				if self.hitbox.bottom <= platform.rect.top + 4 and self.vel.y >= 0:
 					self.platform_vel = platform.pos - platform.old_pos
 					self.hitbox.bottom = platform.rect.top

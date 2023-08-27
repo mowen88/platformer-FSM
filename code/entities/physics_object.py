@@ -18,7 +18,7 @@ class Entity(pygame.sprite.Sprite):
 		self.old_hitbox = self.hitbox.copy()
 
 		self.fric = -0.2
-		self.acc = pygame.math.Vector2(0, 0)
+		self.acc = pygame.math.Vector2(0, self.zone.gravity)
 		self.pos = pygame.math.Vector2(self.rect.center)
 		self.old_pos = self.pos.copy()
 		self.vel = pygame.math.Vector2()
@@ -68,11 +68,12 @@ class Entity(pygame.sprite.Sprite):
 	def physics_y(self, dt):
 
 		self.vel.y += self.acc.y * dt
-		self.pos.y += (self.vel.y * dt) + (0.5 * self.acc.y) * dt
+		self.pos.y += self.vel.y
 
 		self.hitbox.centery = round(self.pos.y)
-		self.collisions('y') 
 		self.rect.centery = self.hitbox.centery
+
+		self.collisions('y') 
 
 		# limit max fall speed
 		if self.vel.y >= self.max_fall_speed: 
@@ -81,9 +82,6 @@ class Entity(pygame.sprite.Sprite):
 		# Make the player off ground if moving in y direction
 		if abs(self.vel.y) >= 0.5: 
 			self.on_ground = False
-
-		# apply gravity always
-		self.acc.y = self.zone.gravity
 
 	def update(self, dt):
 		self.acc.x = 0

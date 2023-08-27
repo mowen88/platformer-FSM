@@ -3,9 +3,9 @@ from settings import *
 from entities.physics_object import Entity
 from entities.player_fsm import WakeUp, OnBikeIdling
 
-class Player(pygame.sprite.Sprite):
+class Player(Entity):
 	def __init__(self, game, zone, name, groups, pos, z):
-		super().__init__(groups)
+		super().__init__(game, zone, name, groups, pos, z)
 
 		self.game = game
 		self.zone = zone
@@ -42,8 +42,8 @@ class Player(pygame.sprite.Sprite):
 		self.platform_vel = pygame.math.Vector2()
 
 		# jumping
-		self.jump_height = 2.5
-		self.max_fall_speed = 2
+		self.jump_height = 6
+		self.max_fall_speed = 6
 		self.jump_counter = 0
 		self.cyote_timer = 0
 		self.cyote_timer_threshold = 6
@@ -140,7 +140,7 @@ class Player(pygame.sprite.Sprite):
 			ray_height = 4
 			platform_raycast = pygame.Rect(platform.rect.x, platform.rect.y - ray_height, platform.rect.width, platform.rect.height)
 			if self.hitbox.colliderect(platform.rect) or self.hitbox.colliderect(platform_raycast): 
-				if self.hitbox.bottom <= platform.rect.top + ray_height and self.vel.y >= 0:
+				if self.hitbox.bottom <= platform.rect.top + ray_height and self.vel.y > 0:
 					self.platform_vel = platform.pos - platform.old_pos
 					self.hitbox.bottom = platform.rect.top
 					self.on_ground = True
@@ -233,6 +233,7 @@ class Player(pygame.sprite.Sprite):
 
 		self.hitbox.centerx = round(self.pos.x)
 		self.rect.centerx = self.hitbox.centerx
+
 		self.pushable_collisions('x')
 		self.collisions('x')
 		self.platforms(self.zone.platform_sprites, dt)
@@ -243,7 +244,7 @@ class Player(pygame.sprite.Sprite):
 
 	def physics_y(self, dt):
 
-		self.old_hitbox = self.hitbox.copy()
+		
 		
 		# Double the gravity if not holding jump key to allow variale jump height
 		if not (pygame.key.get_pressed()[pygame.K_UP]) and self.vel.y < 0 and not self.zone.cutscene_running: 
@@ -251,12 +252,14 @@ class Player(pygame.sprite.Sprite):
 		else:
 			self.vel.y += self.acc.y * dt
 
-		self.pos.y += self.vel.y
+		#self.pos.y += self.vel.y
+		self.pos.y += self.vel.y * dt + (0.5 * self.acc.x) * (dt**2)
 		
 		self.hitbox.centery = round(self.pos.y)
+		self.rect.centery = self.hitbox.centery
+
 		self.collisions('y') 
 		self.pushable_collisions('y')
-		self.rect.centery = self.hitbox.centery
 		
 		# limit max fall speed
 		if self.vel.y >= self.max_fall_speed: 
@@ -265,6 +268,9 @@ class Player(pygame.sprite.Sprite):
 		# Make the player off ground if moving in y direction
 		if abs(self.vel.y) >= 0.5: 
 			self.on_ground = False
+
+		self.old_hitbox = self.hitbox.copy()
+
 
 	def handle_jumping(self, dt):
 		# incrememnt cyote timer when not on ground

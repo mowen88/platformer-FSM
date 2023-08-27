@@ -128,7 +128,7 @@ class Game:
         pygame.display.flip()
 
     def main_loop(self):
-        dt = (self.clock.tick()/1000) * FPS
+        dt = self.clock.tick(60) * 0.001 * 120
         self.get_events()
         self.update(dt)
         self.render(self.screen)

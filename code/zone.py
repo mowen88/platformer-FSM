@@ -12,7 +12,7 @@ class Zone(State):
 		self.game = game
 		self.name = name
 		self.entry_point = entry_point
-		self.gravity = 0.15
+		self.gravity = 0.25
 		self.size = self.get_zone_size()
 
 		PLAYER_DATA.update({'current_zone': self.name, 'entry_pos': self.entry_point})
@@ -98,4 +98,4 @@ class Zone(State):
 		self.fade_surf.draw(screen)
 		self.game.render_text(str(round(self.game.clock.get_fps(), 2)), WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
 		#self.game.render_text(self.cutscene_running, WHITE, self.game.small_font, (HALF_WIDTH, TILESIZE))
-		self.game.render_text(self.target.vel.y, WHITE, self.game.small_font, RES/2)
+		self.game.render_text(self.target.on_ground, WHITE, self.game.small_font, RES/2)
